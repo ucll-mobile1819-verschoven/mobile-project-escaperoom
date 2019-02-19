@@ -3,9 +3,10 @@
 import React from 'react';
 import { View, Text, Animated, Easing } from 'react-native';
 import { FlingGestureHandler, Directions, State} from 'react-native-gesture-handler';
+import {window } from "../constants/Layout";
 
 const colorMap = ['#000000', '#ff0000'];
-const squareSize = 60;
+const squareSize = window.width/6;
 
 export default class GameScreen extends React.Component<void, void> {
     x : Animated.Value;
@@ -24,11 +25,14 @@ export default class GameScreen extends React.Component<void, void> {
         this.y_co = Animated.multiply(this.y, squareSize);
         this.moving = false;
         this.grid = [
-            [0, 0, 1, 0, 0],
-            [0, 0, 0, 1, 0],
-            [0, 1, 0, 0, 0],
-            [0, 0, 1, 0, 0],
-            [0, 0, 0, 0, 0]
+            [0, 0, 1, 0, 0 ,0],
+            [0, 0, 0, 1, 0 ,0],
+            [0, 1, 0, 0, 0 ,0],
+            [0, 0, 1, 0, 0 ,0],
+            [0, 0, 1, 0, 0 ,0],
+            [0, 0, 0, 0, 1 ,0],
+            [0, 0, 1, 0, 0 ,0],
+            [0, 0, 0, 0, 0 ,0]
         ];
     }
 
