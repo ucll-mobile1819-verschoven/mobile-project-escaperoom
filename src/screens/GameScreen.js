@@ -1,12 +1,13 @@
 // @flow
 
 import React from 'react';
-import { View, Text, Animated, Easing } from 'react-native';
+import { View, Text, Animated, Easing , TouchableOpacity} from 'react-native';
 import { FlingGestureHandler, Directions, State} from 'react-native-gesture-handler';
 import {window } from "../constants/Layout";
 
-const colorMap = ['#000000', '#ff0000'];
-const squareSize = window.width/6;
+const colorMap = ['#000000', '#ff0000' , '#00f'];
+const gridsize = 15;
+const squareSize = window.width/gridsize;
 
 export default class GameScreen extends React.Component<void, void> {
     x : Animated.Value;
@@ -18,22 +19,27 @@ export default class GameScreen extends React.Component<void, void> {
 
     constructor(){
         super();
-
         this.x = new Animated.Value(0);
         this.y = new Animated.Value(0);
         this.x_co = Animated.multiply(this.x, squareSize);
         this.y_co = Animated.multiply(this.y, squareSize);
         this.moving = false;
-        this.grid = [
-            [0, 0, 1, 0, 0 ,0],
-            [0, 0, 0, 1, 0 ,0],
-            [0, 1, 0, 0, 0 ,0],
-            [0, 0, 1, 0, 0 ,0],
-            [0, 0, 1, 0, 0 ,0],
-            [0, 0, 0, 0, 1 ,0],
-            [0, 0, 1, 0, 0 ,0],
-            [0, 0, 0, 0, 0 ,0]
-        ];
+       /* this.grid = [
+            [0, 0, 1, 0, 0 ,0, 1, 0, 0 ,0],
+            [0, 0, 0, 1, 0 ,0, 0, 0, 0 ,0],
+            [0, 1, 0, 0, 0 ,0, 0, 0, 0 ,0],
+            [0, 0, 0, 0, 1 ,0, 0, 0, 0 ,0],
+            [0, 0, 1, 0, 0 ,2, 1, 0, 0 ,0],
+            [0, 0, 0, 1, 1 ,0, 0, 0, 0 ,0],
+            [0, 0, 1, 0, 0 ,0, 0, 0, 0 ,0],
+            [1, 0, 0, 0, 0 ,0, 0, 0, 0 ,0],
+            [0, 0, 1, 0, 0 ,2, 0, 0, 0 ,0],
+            [0, 0, 0, 1, 1 ,0, 0, 0, 0 ,0],
+            [0, 0, 1, 0, 0 ,0, 0, 0, 0 ,0],
+            [1, 0, 0, 0, 0 ,0, 0, 0, 0 ,0]
+        ];*/
+
+        this._generate();
     }
 
     static navigationOptions = {
@@ -47,24 +53,31 @@ export default class GameScreen extends React.Component<void, void> {
             let y = this.y._value;
 
             if(dir_y !== 0){
-                while(y + dir_y >= 0 && y + dir_y < this.grid.length && this.grid[y + dir_y][x] === 0){
+                while(y + dir_y >= 0 && y + dir_y < this.grid.length && this.grid[y + dir_y][x] !== 1){
                     y += dir_y;
                 }
 
-                Animated.timing(this.y, { toValue: y, duration: 100 * Math.abs(this.y._value - y), easing: Easing.out(Easing.linear) }).start(() => { this.moving = false; });
+                Animated.timing(this.y, { toValue: y, duration: 100 * Math.abs(this.y._value - y), easing: Easing.out(Easing.linear) }).start(()=>this._animationEnded());
             } else if(dir_x !== 0) {
-                while(x + dir_x >= 0 && x + dir_x < this.grid[y].length && this.grid[y][x + dir_x] === 0){
+                while(x + dir_x >= 0 && x + dir_x < this.grid[y].length && this.grid[y][x + dir_x] !== 1){
                     x += dir_x;
                 }
 
-                Animated.timing(this.x, { toValue: x, duration: 100 * Math.abs(this.x._value - x), easing: Easing.out(Easing.linear) }).start(() => { this.moving = false; });
+                Animated.timing(this.x, { toValue: x, duration: 100 * Math.abs(this.x._value - x), easing: Easing.out(Easing.linear) }).start(()=>this._animationEnded());
             }
+
         }
     }
 
+    _animationEnded(){
+        this.moving = false;
+        if(this.grid[this.y._value][this.x._value] === 2){
+            alert("you won congrats")
+        }
+    }
     render() {
         let id = 0;
-
+        //alert("er word opnieuw gerendert")
         return (
             <FlingGestureHandler direction={Directions.RIGHT} onHandlerStateChange={ev => this._moveSquare(ev, 1, 0)}>
             <FlingGestureHandler direction={Directions.LEFT} onHandlerStateChange={ev => this._moveSquare(ev, -1, 0)}>
@@ -82,11 +95,27 @@ export default class GameScreen extends React.Component<void, void> {
                             { transform: [ { translateX: this.x_co }, { translateY: this.y_co } ] }
                         ]}
                     />
+                    <TouchableOpacity onPress={this._generate}>
+                        <Text>render new field</Text>
+                    </TouchableOpacity>
                 </View>
             </FlingGestureHandler>
             </FlingGestureHandler>
             </FlingGestureHandler>
             </FlingGestureHandler>
         );
+    }
+
+    _generate(){
+        alert("het veld word opnieuw gegenereert")
+        this.grid = Array(Math.floor(gridsize*1.2)).fill().map(
+            () => Array(gridsize).fill().map(
+                () => Math.random() < 0.2 ? 1 : 0
+            )
+        );
+
+        this.grid[Math.ceil(Math.random() *10)][Math.ceil(Math.random()*10)] = 2;
+
+        this.setState({});
     }
 }

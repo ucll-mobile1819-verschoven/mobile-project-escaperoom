@@ -1,7 +1,7 @@
 // @flow
 
 import React from 'react';
-import { View, Text, TouchableOpacity } from 'react-native';
+import { View, Text, TouchableOpacity , ImageBackground} from 'react-native';
 import { Accelerometer } from 'expo';
 
 import { window } from '../constants/Layout'
@@ -62,6 +62,7 @@ export default class HomeScreen extends React.Component<void, HomeScreenState> {
 
         return (
           <View style={styles.container}>
+
             <View style={styles.controls}>
               <Text>Accelerometer:</Text>
               <Text>x: {round(x)} y: {round(y)} z: {round(z)}</Text>
