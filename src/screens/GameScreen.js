@@ -116,7 +116,7 @@ export default class GameScreen extends React.Component<void, void> {
         this.grid = this.levels[this.levelindex];
         this.levelindex++;
 
-        if(this.levelindex > 4){
+        if(this.levelindex > this.levels.length ){
             this.levelindex = 0;
         }
 
