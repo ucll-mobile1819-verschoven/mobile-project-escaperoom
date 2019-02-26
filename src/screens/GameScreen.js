@@ -6,7 +6,7 @@ import { FlingGestureHandler, Directions, State} from 'react-native-gesture-hand
 import {window } from "../constants/Layout";
 
 const colorMap = ['#000000', '#ff0000' , '#00f'];
-const gridsize = 15;
+const gridsize = 10;
 const squareSize = window.width/gridsize;
 
 export default class GameScreen extends React.Component<void, void> {
@@ -24,7 +24,7 @@ export default class GameScreen extends React.Component<void, void> {
         this.x_co = Animated.multiply(this.x, squareSize);
         this.y_co = Animated.multiply(this.y, squareSize);
         this.moving = false;
-       /* this.grid = [
+        this.grid = [
             [0, 0, 1, 0, 0 ,0, 1, 0, 0 ,0],
             [0, 0, 0, 1, 0 ,0, 0, 0, 0 ,0],
             [0, 1, 0, 0, 0 ,0, 0, 0, 0 ,0],
@@ -37,9 +37,9 @@ export default class GameScreen extends React.Component<void, void> {
             [0, 0, 0, 1, 1 ,0, 0, 0, 0 ,0],
             [0, 0, 1, 0, 0 ,0, 0, 0, 0 ,0],
             [1, 0, 0, 0, 0 ,0, 0, 0, 0 ,0]
-        ];*/
+        ];
 
-        this._generate();
+        //this._generate();
     }
 
     static navigationOptions = {
@@ -72,6 +72,7 @@ export default class GameScreen extends React.Component<void, void> {
     _animationEnded(){
         this.moving = false;
         if(this.grid[this.y._value][this.x._value] === 2){
+            this._generate();
             alert("you won congrats")
         }
     }
@@ -106,8 +107,9 @@ export default class GameScreen extends React.Component<void, void> {
         );
     }
 
+
     _generate(){
-        alert("het veld word opnieuw gegenereert")
+        alert('het veld word  gegenereert')
         this.grid = Array(Math.floor(gridsize*1.2)).fill().map(
             () => Array(gridsize).fill().map(
                 () => Math.random() < 0.2 ? 1 : 0
