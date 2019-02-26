@@ -10,20 +10,26 @@ const gridsize = 10;
 const squareSize = window.width/gridsize;
 
 export default class GameScreen extends React.Component<void, void> {
+    levelindex :number ;
     x : Animated.Value;
     y : Animated.Value;
     x_co : any;
     y_co : any;
     moving: boolean;
     grid: Array<Array<number>>;
+    levels: Array<Array<Array<number>>>;
 
     constructor(){
         super();
+        this.levelindex = 0;
         this.x = new Animated.Value(0);
         this.y = new Animated.Value(0);
         this.x_co = Animated.multiply(this.x, squareSize);
         this.y_co = Animated.multiply(this.y, squareSize);
         this.moving = false;
+        this._addLevels();
+
+        /*
         this.grid = [
             [0, 0, 1, 0, 0 ,0, 1, 0, 0 ,0],
             [0, 0, 0, 1, 0 ,0, 0, 0, 0 ,0],
@@ -37,9 +43,9 @@ export default class GameScreen extends React.Component<void, void> {
             [0, 0, 0, 1, 1 ,0, 0, 0, 0 ,0],
             [0, 0, 1, 0, 0 ,0, 0, 0, 0 ,0],
             [1, 0, 0, 0, 0 ,0, 0, 0, 0 ,0]
-        ];
+        ];*/
 
-        //this._generate();
+        this._generate();
     }
 
     static navigationOptions = {
@@ -96,9 +102,6 @@ export default class GameScreen extends React.Component<void, void> {
                             { transform: [ { translateX: this.x_co }, { translateY: this.y_co } ] }
                         ]}
                     />
-                    <TouchableOpacity onPress={this._generate}>
-                        <Text>render new field</Text>
-                    </TouchableOpacity>
                 </View>
             </FlingGestureHandler>
             </FlingGestureHandler>
@@ -109,15 +112,111 @@ export default class GameScreen extends React.Component<void, void> {
 
 
     _generate(){
-        alert('het veld word  gegenereert')
+        alert('het veld word  gegenereert ');
+        this.grid = this.levels[this.levelindex];
+        this.levelindex++;
+
+        if(this.levelindex > 4){
+            this.levelindex = 0;
+        }
+
+
+
+        /* code voor het generen van een random array
         this.grid = Array(Math.floor(gridsize*1.2)).fill().map(
             () => Array(gridsize).fill().map(
                 () => Math.random() < 0.2 ? 1 : 0
             )
-        );
-
-        this.grid[Math.ceil(Math.random() *10)][Math.ceil(Math.random()*10)] = 2;
+        );*/
+        //this.grid[Math.ceil(Math.random() *10)][Math.ceil(Math.random()*10)] = 2;
 
         this.setState({});
+    }
+
+    _addLevels(){
+        this.levels =  [[
+            [0, 0, 1, 0, 0 ,0, 1, 0, 0 ,0],
+            [0, 0, 0, 1, 0 ,0, 0, 0, 0 ,0],
+            [0, 1, 0, 0, 0 ,0, 0, 0, 0 ,0],
+            [0, 0, 0, 0, 1 ,0, 0, 0, 0 ,0],
+            [0, 0, 1, 0, 0 ,2, 1, 0, 0 ,0],
+            [0, 0, 0, 1, 1 ,0, 0, 0, 0 ,0],
+            [0, 0, 1, 0, 0 ,0, 0, 0, 0 ,0],
+            [1, 0, 0, 0, 0 ,0, 0, 0, 0 ,0],
+            [0, 0, 1, 0, 0 ,0, 0, 0, 0 ,0],
+            [0, 0, 0, 1, 1 ,0, 0, 0, 0 ,0],
+            [0, 0, 1, 0, 0 ,0, 0, 0, 0 ,0],
+            [1, 0, 0, 0, 0 ,0, 0, 0, 0 ,0]
+        ],
+        [
+            [0, 0, 1, 0, 0 ,0, 1, 0, 0 ,0],
+            [1, 0, 0, 0, 0 ,0, 0, 0, 0 ,0],
+            [0, 0, 0, 0, 0 ,0, 0, 0, 0 ,0],
+            [0, 0, 0, 0, 1 ,0, 0, 0, 0 ,0],
+            [0, 0, 1, 0, 0 ,0, 1, 0, 0 ,0],
+            [0, 0, 0, 2, 1 ,0, 0, 0, 0 ,0],
+            [0, 0, 1, 1, 0 ,0, 0, 0, 0 ,0],
+            [1, 0, 0, 0, 0 ,0, 0, 0, 0 ,0],
+            [0, 0, 1, 0, 0 ,0, 0, 0, 0 ,0],
+            [0, 0, 0, 1, 1 ,0, 0, 0, 0 ,0],
+            [0, 0, 1, 0, 0 ,0, 0, 0, 0 ,0],
+            [1, 0, 0, 0, 0 ,0, 0, 1, 0 ,0]
+        ],
+        [
+            [0, 0, 0, 0, 0 ,0, 0, 0, 0 ,0],
+            [0, 0, 0, 0, 0 ,0, 0, 0, 0 ,0],
+            [0, 0, 0, 0, 1 ,0, 1, 0, 0 ,0],
+            [0, 0, 0, 0, 2 ,0, 0, 0, 0 ,0],
+            [0, 0, 0, 0, 0 ,0, 0, 1, 0 ,0],
+            [1, 0, 0, 0, 0 ,0, 0, 0, 0 ,0],
+            [0, 0, 0, 0, 0 ,0, 0, 0, 0 ,0],
+            [0, 0, 0, 0, 0 ,0, 0, 0, 0 ,0],
+            [0, 0, 0, 0, 0 ,0, 0, 0, 0 ,0],
+            [0, 0, 0, 1, 0 ,0, 0, 0, 0 ,0],
+            [0, 0, 0, 0, 0 ,0, 1, 0, 0 ,1],
+            [0, 0, 0, 0, 0 ,0, 0, 0, 0 ,0]
+        ],
+        [
+            [0, 0, 0, 0, 1 ,0, 0, 0, 0 ,0],
+            [1, 1, 1, 0, 0 ,0, 0, 1, 1 ,0],
+            [0, 1, 0, 0, 0 ,0, 1, 0, 0 ,0],
+            [1, 0, 0, 1, 0 ,0, 0, 0, 0 ,1],
+            [0, 0, 0, 1, 0 ,0, 0, 1, 0 ,0],
+            [0, 0, 0, 0, 0 ,0, 0, 0, 1 ,0],
+            [0, 0, 1, 0, 0 ,1, 0, 0, 0 ,0],
+            [0, 0, 0, 0, 0 ,0, 0, 1, 0 ,0],
+            [0, 0, 0, 0, 1 ,0, 0, 0, 0 ,0],
+            [0, 0, 1, 0, 0 ,0, 1, 0, 0 ,0],
+            [1, 2, 1, 0, 1 ,1, 0, 0, 0 ,0],
+            [0, 0, 1, 0, 0 ,2, 1, 0, 0 ,0]
+        ],
+        [
+            [0, 0, 0, 0, 0 ,0, 0, 0, 0 ,0],
+            [0, 0, 0, 0, 0 ,0, 0, 0, 0 ,0],
+            [0, 0, 0, 0, 0 ,0, 0, 0, 0 ,0],
+            [0, 0, 0, 0, 0 ,0, 0, 0, 0 ,0],
+            [0, 0, 0, 0, 0 ,0, 0, 0, 0 ,0],
+            [0, 0, 0, 0, 0 ,0, 0, 0, 0 ,0],
+            [0, 0, 0, 0, 0 ,0, 0, 0, 0 ,0],
+            [0, 0, 0, 0, 0 ,0, 0, 0, 0 ,0],
+            [1, 1, 1, 1, 0 ,0, 0, 0, 0 ,0],
+            [0, 0, 0, 0, 0 ,0, 0, 1, 0 ,0],
+            [0, 0, 0, 0, 1 ,0, 0, 2, 1 ,0],
+            [0, 0, 0, 0, 0 ,0, 0, 0, 1 ,0]
+        ],
+        [
+            [0, 0, 0, 0, 0 ,0, 0, 0, 1 ,2],
+            [0, 0, 0, 0, 0 ,0, 0, 0, 1 ,0],
+            [0, 0, 0, 0, 0 ,0, 1, 0, 1 ,0],
+            [0, 0, 0, 0, 0 ,0, 0, 0, 1 ,0],
+            [0, 0, 0, 0, 0 ,1, 0, 1, 1 ,0],
+            [0, 0, 0, 0, 1 ,0, 0, 0, 0 ,0],
+            [0, 0, 0, 0, 0 ,0, 1, 1, 1 ,0],
+            [0, 0, 0, 0, 0 ,1, 0, 0, 1 ,1],
+            [0, 0, 0, 1, 0 ,0, 0, 0, 0 ,0],
+            [0, 0, 0, 0, 0 ,0, 0, 0, 0 ,0],
+            [0, 0, 0, 0, 0 ,0, 0, 0, 0 ,0],
+            [0, 0, 0, 0, 0 ,0, 0, 0, 0 ,0]
+        ]];
     }
 }
