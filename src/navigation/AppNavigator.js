@@ -1,10 +1,16 @@
 // @flow
 
 import React from 'react';
-import { createAppContainer, createSwitchNavigator } from 'react-navigation';
+import {createAppContainer, createStackNavigator} from 'react-navigation';
 
-import MainTabNavigator from './MainTabNavigator';
+import HomeScreen from "../screens/HomeScreen";
+import GameScreen from "../screens/GameScreen";
+import AccelerometerScreen from "../screens/AccelerometerScreen";
 
-export default createAppContainer(createSwitchNavigator({
-  Main: MainTabNavigator,
+export default createAppContainer(createStackNavigator({
+    Home: HomeScreen,
+    Game: GameScreen,
+    Accelerometer: AccelerometerScreen
+}, {
+    initialRouteName: 'Home',
 }));
