@@ -8,7 +8,7 @@ import {styles} from "../stylesheets/style";
 export default class HomeScreen extends Component<any, void> {
     render() {
         return (
-            <View style={styles.menu}>
+            <View style={styles.container}>
                 <StatusBar hidden/>
 
                 <Button title="Play with Accelerometer"
