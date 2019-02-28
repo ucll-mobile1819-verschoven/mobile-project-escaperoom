@@ -13,4 +13,8 @@ export default createAppContainer(createStackNavigator({
     Accelerometer: AccelerometerScreen
 }, {
     initialRouteName: 'Home',
+    headerMode: 'none',
+    navigationOptions: {
+        headerVisible: false,
+    }
 }));

@@ -1,7 +1,7 @@
 // @flow
 
 import React, {Component} from 'react';
-import {View, Button} from 'react-native';
+import {View, Button, StatusBar} from 'react-native';
 
 import {styles} from "../stylesheets/style";
 
@@ -9,6 +9,8 @@ export default class HomeScreen extends Component<any, void> {
     render() {
         return (
             <View style={styles.menu}>
+                <StatusBar hidden/>
+
                 <Button title="Play with Accelerometer"
                         onPress={() => this.props.navigation.navigate('Accelerometer')}/>
 
