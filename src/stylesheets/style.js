@@ -18,7 +18,6 @@ export const styles = StyleSheet.create({
         flexWrap: 'wrap'
     },
     playerSquare : {
-        backgroundColor: colors.PlayerColor,
         position: 'absolute',
     },
     playerHighlightHorizontal : {

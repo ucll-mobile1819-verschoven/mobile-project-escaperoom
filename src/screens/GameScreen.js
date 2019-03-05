@@ -5,10 +5,10 @@ import {View} from 'react-native';
 
 import {window} from "../constants/Layout";
 import {styles} from "../stylesheets/style";
-import {colors} from "../constants/Colors"
-import Player from "../components/Player";
 import {advanceField, generateField} from "../game/GameMechanics";
-import type {Field, Move} from "../game/GameMechanics";
+import type {Field} from "../game/GameMechanics";
+import PlayerSquare from "../components/PlayerSquare";
+import FieldSquare from "../components/FieldSquare";
 
 export default class GameScreen extends Component<any, Field> {
     constructor() {
@@ -30,7 +30,8 @@ export default class GameScreen extends Component<any, Field> {
 
         return (
             <View style={styles.container}>
-                <Player squareSize={squareSize}
+                <PlayerSquare
+                        squareSize={squareSize}
                         getPlayer={() => {return this.state.player}}
                         onMove={move => advanceField(this.state, move)}
                         onMoveEnded={() => this._checkField()}
@@ -40,16 +41,15 @@ export default class GameScreen extends Component<any, Field> {
                         {this.state.grid._data.map(
                             row => row.map(
                                 x =>
-                                    <View key={id++} style={{
-                                        backgroundColor: colors[x],
-                                        width: squareSize,
-                                        height: squareSize
-                                    }}/>
+                                    <FieldSquare
+                                          key={id++}
+                                          type={x}
+                                          size={squareSize}/>
                             )
                         )}
                     </View>
 
-                </Player>
+                </PlayerSquare>
             </View>
         );
     }

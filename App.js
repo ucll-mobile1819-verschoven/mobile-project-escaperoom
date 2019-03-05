@@ -42,7 +42,9 @@ export default class App extends Component<any, AppState> {
                 'space-mono': require('./assets/fonts/SpaceMono-Regular.ttf'),
             }),
             Asset.loadAsync([
-                require('./assets/images/game-background-2.jpg')
+                require('./assets/images/parking.jpg'),
+                require('./assets/images/brick-wall.jpg'),
+                require('./assets/images/red-car.png')
             ])
         ]);
     };

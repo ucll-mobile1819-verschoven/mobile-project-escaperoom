@@ -20,8 +20,9 @@ export function advanceField(field : Field, move : Move) : void {
 }
 
 export function generateField() : Field {
-    let width = math.random(5, 25);
-    let height = math.random(width, 25);
+    let ratio = math.random(1, 5);
+    let width = ratio * 5;
+    let height = ratio * 6;
 
     let grid = new math.Grid<Square>(height, width, "Empty");
     let seen = new math.Grid<boolean>(height, width, false);

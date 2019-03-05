@@ -1,18 +1,26 @@
 // @flow
 
 import React, {Component} from 'react';
-import {View, Animated, Easing} from 'react-native';
+import {View, Animated, Easing, Image} from 'react-native';
 import {PanGestureHandler, Directions, State} from 'react-native-gesture-handler';
 
 import type {Move} from "../game/GameMechanics";
 import {styles} from "../stylesheets/style";
 
 const squareSpeed = 55;                             // = milliseconds to travel across 1 square
+const turnSpeed = 100;
 const panSpeed = 10;
+const angles = {
+    Left: 0.75,
+    Down: 0.5,
+    Right: 0.25,
+    Up: 0.0
+};
 
-export default class Player extends Component<any, void> {
+export default class PlayerSquare extends Component<any, void> {
     x: Animated.Value;
     y: Animated.Value;
+    angle: Animated.Value;
     moving: boolean;
 
     constructor(props : any) {
@@ -21,6 +29,7 @@ export default class Player extends Component<any, void> {
         let player = props.getPlayer();
         this.x = new Animated.Value(player.x * props.squareSize);
         this.y = new Animated.Value(player.y * props.squareSize);
+        this.angle = new Animated.Value(0);
         this.moving = false;
     }
 
@@ -30,7 +39,7 @@ export default class Player extends Component<any, void> {
 
             if(Math.abs(nativeEvent.velocityX) > Math.abs(nativeEvent.velocityY)){
                 if(nativeEvent.velocityX > panSpeed) move = "Right";
-                else if(nativeEvent.velocityX < -panSpeed) move = "Left"
+                else if(nativeEvent.velocityX < -panSpeed) move = "Left";
                 else return;
             } else {
                 if(nativeEvent.velocityY > panSpeed) move = "Down";
@@ -44,10 +53,22 @@ export default class Player extends Component<any, void> {
             this.props.onMove(move);
             let {x: new_x, y: new_y} = this.props.getPlayer();
 
-            if(old_x !== new_x) this._animateSquare(this.x, old_x, new_x);
-            else if(old_y !== new_y) this._animateSquare(this.y, old_y, new_y);
+            if(old_x !== new_x) this._rotateSquare(this.x, old_x, new_x, move);
+            else if(old_y !== new_y) this._rotateSquare(this.y, old_y, new_y, move);
             else this.moving = false;
         }
+    }
+
+    _rotateSquare(value : Animated.Value, from : number, to : number, move : Move) : void {
+        let dif = angles[move] - this.angle._value % 1;
+        let change_angle = Math.abs(dif) > 0.6 ? Math.sign(-dif) * 0.25 : dif;
+        let to_angle = this.angle._value + change_angle;
+
+        Animated.timing(this.angle, {
+            toValue: to_angle,
+            duration: turnSpeed,
+            easing: Easing.out(Easing.linear)
+        }).start(() => this._animateSquare(value, from, to));
     }
 
     _animateSquare(value : Animated.Value, from : number, to : number) : void {
@@ -75,17 +96,26 @@ export default class Player extends Component<any, void> {
                 <View>
                     {this.props.children}
 
-                    <Animated.View style={[
-                        styles.playerSquare,
-                        {
-                            width: this.props.squareSize,
-                            height: this.props.squareSize,
-                            transform: [
-                                {translateX: this.x},
-                                {translateY: this.y}
-                            ]
-                        }
-                    ]} />
+                    <Animated.View
+                        style={[
+                            styles.playerSquare,
+                            {
+                                transform: [
+                                    {translateX: this.x},
+                                    {translateY: this.y},
+                                    {rotate: this.angle.interpolate(
+                                        {
+                                            inputRange: [0, 1],
+                                            outputRange: ['0deg', '360deg']
+                                        })
+                                    },
+                                ]
+                            }
+                        ]} >
+                        <Image
+                            source={require('../../assets/images/red-car.png')}
+                            style={{ width: this.props.squareSize, height: this.props.squareSize }}/>
+                    </Animated.View>
 
                     {
                         this.props.highlight
