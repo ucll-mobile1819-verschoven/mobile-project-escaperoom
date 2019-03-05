@@ -10,15 +10,6 @@ export function random(lower : number, upper : number) : number {
     return Math.floor(Math.random() * (upper - lower)) + lower;
 }
 
-export function isSuperSet<T>(set : Set<T>, subset : Set<T>) : boolean {
-    for (let elem of subset) {
-        if (!set.has(elem)) {
-            return false;
-        }
-    }
-    return true;
-}
-
 export class Vec2 {
     x: number;
     y: number;

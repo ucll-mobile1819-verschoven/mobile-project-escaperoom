@@ -1,14 +1,6 @@
-const tintColor = '#2f95dc';
-
-export default {
-  tintColor,
-  tabIconDefault: '#ccc',
-  tabIconSelected: tintColor,
-  tabBar: '#fefefe',
-  errorBackground: 'red',
-  errorText: '#fff',
-  warningBackground: '#EAEB5E',
-  warningText: '#666804',
-  noticeBackground: tintColor,
-  noticeText: '#fff',
+export const colors = {
+    Empty: '#000000',
+    Wall: '#ff0000',
+    Finish: '#0000ff',
+    PlayerColor: '#00ff00',
 };

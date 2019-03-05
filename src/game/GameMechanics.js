@@ -71,44 +71,7 @@ export function generateField() : Field {
 
     grid.set(current, "Finish");
 
-    //if(!valid(grid, new math.Vec2(0, 0), current )) alert("problem");
     return { grid : grid, player : new math.Vec2(0, 0) };
-}
-
-function valid(grid : math.Grid<Square>, start : math.Vec2, finish : math.Vec2) : boolean {
-    let reachable = new Set();
-    let reverse_reachable = new Set();
-
-    let todo = [start];
-    while(todo.length > 0){
-        let pos = todo.pop();
-
-        if(!reachable.has(pos)) {
-            reachable.add(pos);
-            for(let prop in dirs) todo.push(slide(grid, pos, dirs[prop]));
-        }
-    }
-
-    todo = [finish];
-    while(todo.length > 0){
-        let pos = todo.pop();
-
-        if(!reverse_reachable.has(pos)){
-            reverse_reachable.add(pos);
-
-            for(let prop in dirs){
-                let dir = dirs[prop];
-
-                if(!grid.inside(pos.sub(dir)) || isSolid[grid.at(pos.sub(dir))]){
-                    for(let p = pos; grid.inside(p) && !isSolid[grid.at(p)]; p = p.add(dir)){
-                        todo.push(p);
-                    }
-                }
-            }
-        }
-    }
-
-    return math.isSuperSet(reverse_reachable, reachable);
 }
 
 function slide(grid : math.Grid<Square>, pos : math.Vec2, dir : math.Vec2) : math.Vec2 {
