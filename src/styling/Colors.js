@@ -3,4 +3,6 @@ export const colors = {
     Wall: '#ff0000',
     Finish: '#0000ff',
     PlayerColor: '#00ff00',
+    black: '#000000',
+    white : '#ffffff',
 };

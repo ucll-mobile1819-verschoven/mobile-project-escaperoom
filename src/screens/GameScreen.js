@@ -33,6 +33,7 @@ export default class GameScreen extends Component<any, Field> {
         return (
             <ImageBackground  source={getThemeAsset('StartScreenBackground')} style={{width: '100%', height: '100%'}}>
                 <View style={styles.container}>
+
                     <PlayerSquare
                             squareSize={squareSize}
                             getPlayer={() => {return this.state.player}}
@@ -41,7 +42,8 @@ export default class GameScreen extends Component<any, Field> {
                             highlight={settings.highlight === 'enabled'}
                             rotation={getThemeAsset('PlayerRotation')}>
 
-                        <View style={[{ width: squareSize * this.state.grid.width() }, styles.gameField ]}>
+                        <View style={[{ width: squareSize * this.state.grid.width()  }, styles.gameField ]}>
+
                             {this.state.grid._data.map(
                                 row => row.map(
                                     x =>
@@ -51,9 +53,11 @@ export default class GameScreen extends Component<any, Field> {
                                               size={squareSize}/>
                                 )
                             )}
+
                         </View>
 
                     </PlayerSquare>
+
                 </View>
             </ImageBackground>
         );

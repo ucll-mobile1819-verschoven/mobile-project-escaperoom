@@ -15,7 +15,10 @@ export const styles = StyleSheet.create({
     },
     gameField: {
         flexDirection: 'row',
-        flexWrap: 'wrap'
+        flexWrap: 'wrap',
+        /*borderWidth: 0.5,
+        borderColor: colors.PlayerColor, */
+
     },
     playerSquare : {
         position: 'absolute',
@@ -35,5 +38,28 @@ export const styles = StyleSheet.create({
         borderLeftWidth: 1,
         borderRightWidth: 1,
         borderColor: colors.PlayerColor,
+    },
+
+
+    /* test voor buttons */
+    view: {
+
+        position: 'absolute',
+        backgroundColor: 'transparent'
+    },
+    image: {
+
+        width: 250,
+        resizeMode: 'contain'
+    },
+    touchable: {
+        alignItems: 'center',
+        justifyContent: 'center',
+
+    },
+    text: {
+        color: colors.white,
+        fontSize: 18,
+        textAlign: 'center'
     },
 });

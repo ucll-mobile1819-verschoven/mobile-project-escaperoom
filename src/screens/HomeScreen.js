@@ -1,7 +1,7 @@
 // @flow
 
 import React, {Component} from 'react';
-import {View, Button, StatusBar, ImageBackground} from 'react-native';
+import {View, Button, StatusBar, ImageBackground, TouchableOpacity, StyleSheet , Image, Text} from 'react-native';
 
 import {styles} from "../styling/Style";
 import {cycleSetting, setSetting, settings} from "../utilities/Settings";
@@ -25,17 +25,33 @@ export default class HomeScreen extends Component<any, void> {
 
                     <StatusBar hidden/>
 
-                    <Button title="Play with Accelerometer"
-                            onPress={() => this.props.navigation.navigate('Accelerometer')}/>
+                    <TouchableOpacity style={styles.touchable}   onPress={() => this.props.navigation.navigate('Game')}>
 
-                    <Button title="Play game"
-                            onPress={() => this.props.navigation.navigate('Game')}/>
+                        <Image
+                            source={getThemeAsset('redbutton')}
+                            style={styles.image} />
+                        <View style={styles.view}>
+                            <Text style={styles.text}>play game</Text>
+                        </View>
+                    </TouchableOpacity>
+
+                    <TouchableOpacity style={styles.touchable}   onPress={() => this.props.navigation.navigate('Accelerometer')}>
+
+                        <Image
+                            source={getThemeAsset('redbutton')}
+                            style={styles.image} />
+                        <View style={styles.view}>
+                            <Text style={styles.text}>Play with Accelerometer</Text>
+                        </View>
+                    </TouchableOpacity>
+
 
                     <Button title={"Change theme: " + settings.theme}
                             onPress={() => this._changeTheme()}/>
 
                     <Button title={"Change highlight: " + settings.highlight}
                             onPress={() => this._changeHighlight()}/>
+
 
                 </View>
             </ImageBackground>
