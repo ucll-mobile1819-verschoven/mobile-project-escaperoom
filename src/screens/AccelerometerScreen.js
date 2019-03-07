@@ -4,8 +4,8 @@ import React, {Component} from 'react';
 import {View, Text, TouchableOpacity} from 'react-native';
 import {Accelerometer} from 'expo';
 
-import {styles} from "../stylesheets/style";
-import {round} from "../utilities/mathematics";
+import {styles} from "../styling/Style";
+import {round} from "../utilities/Mathematics";
 
 type AccelerometerState = {
     x: number;

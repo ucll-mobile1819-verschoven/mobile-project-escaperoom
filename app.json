@@ -7,6 +7,10 @@
     "platforms": [
       "android"
     ],
+    "android": {
+      "package": "ucll.mobile.dev",
+      "versionCode": 1
+    },
     "version": "0.01",
     "orientation": "portrait",
     "icon": "./assets/images/icon.png",

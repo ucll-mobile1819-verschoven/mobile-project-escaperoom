@@ -5,6 +5,7 @@ import {View} from 'react-native';
 import {AppLoading, Asset, Font, Icon} from 'expo';
 
 import AppNavigator from './src/navigation/AppNavigator';
+import {loadSettings} from "./src/utilities/Settings";
 
 type AppState = {
     isLoadingComplete: boolean;
@@ -16,7 +17,7 @@ export default class App extends Component<any, AppState> {
 
         this.state = {
             isLoadingComplete: false
-        }
+        };
     }
 
     render() {
@@ -42,10 +43,12 @@ export default class App extends Component<any, AppState> {
                 'space-mono': require('./assets/fonts/SpaceMono-Regular.ttf'),
             }),
             Asset.loadAsync([
-                require('./assets/images/parking.jpg'),
-                require('./assets/images/brick-wall.jpg'),
-                require('./assets/images/red-car.png')
-            ])
+                require('./assets/images/Car/parking.jpg'),
+                require('./assets/images/Car/brick-wall.jpg'),
+                require('./assets/images/Car/red-car.png'),
+                require('./assets/images/Minimalistic/Minimalistic-player.jpg'),
+            ]),
+            loadSettings()
         ]);
     };
 

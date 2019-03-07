@@ -1,40 +1,21 @@
 // @flow
 
 import React, {Component} from 'react';
-import {View, Image} from 'react-native';
+import {Image} from 'react-native';
 
-import {colors} from "../constants/Colors";
+import {getThemeAsset} from "../styling/Assets";
 
 export default class FieldSquare extends Component<any, void> {
     render() {
-        if(this.props.type === "Empty"){
-            return (
-                <View style={{
+        return (
+            <Image
+                source={getThemeAsset(this.props.type)}
+                fadeDuration={0}
+                style={{
                     width : this.props.size,
                     height : this.props.size,
-                    backgroundColor : colors[this.props.type],
-                }}/>
-            );
-        } else if(this.props.type === "Finish" ){
-            return (
-                <Image
-                    source={require('../../assets/images/parking.jpg')}
-                    style={{
-                        width : this.props.size,
-                        height : this.props.size,
-                    }}
-                />
-            );
-        } else {
-            return (
-                <Image
-                    source={require('../../assets/images/brick-wall.jpg')}
-                    style={{
-                        width : this.props.size,
-                        height : this.props.size,
-                    }}
-                />
-            );
-        }
+                }}
+            />
+        );
     }
 }

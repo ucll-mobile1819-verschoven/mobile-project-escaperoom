@@ -5,7 +5,8 @@ import {View, Animated, Easing, Image} from 'react-native';
 import {PanGestureHandler, Directions, State} from 'react-native-gesture-handler';
 
 import type {Move} from "../game/GameMechanics";
-import {styles} from "../stylesheets/style";
+import {styles} from "../styling/Style";
+import {getThemeAsset} from "../styling/Assets";
 
 const squareSpeed = 55;                             // = milliseconds to travel across 1 square
 const turnSpeed = 100;
@@ -60,15 +61,19 @@ export default class PlayerSquare extends Component<any, void> {
     }
 
     _rotateSquare(value : Animated.Value, from : number, to : number, move : Move) : void {
-        let dif = angles[move] - this.angle._value % 1;
-        let change_angle = Math.abs(dif) > 0.6 ? Math.sign(-dif) * 0.25 : dif;
-        let to_angle = this.angle._value + change_angle;
+        if(this.props.rotation){
+            let dif = angles[move] - ((this.angle._value % 1) + 1) % 1;
+            let change_angle = Math.abs(dif) > 0.6 ? Math.sign(-dif) * 0.25 : dif;
+            let to_angle = this.angle._value + change_angle;
 
-        Animated.timing(this.angle, {
-            toValue: to_angle,
-            duration: turnSpeed,
-            easing: Easing.out(Easing.linear)
-        }).start(() => this._animateSquare(value, from, to));
+            Animated.timing(this.angle, {
+                toValue: to_angle,
+                duration: turnSpeed,
+                easing: Easing.out(Easing.linear)
+            }).start(() => this._animateSquare(value, from, to));
+        } else {
+            this._animateSquare(value, from, to);
+        }
     }
 
     _animateSquare(value : Animated.Value, from : number, to : number) : void {
@@ -96,10 +101,14 @@ export default class PlayerSquare extends Component<any, void> {
                 <View>
                     {this.props.children}
 
-                    <Animated.View
+                    <Animated.Image
+                        source={getThemeAsset('Player')}
+                        fadeDuration={0}
                         style={[
                             styles.playerSquare,
                             {
+                                width: this.props.squareSize,
+                                height: this.props.squareSize,
                                 transform: [
                                     {translateX: this.x},
                                     {translateY: this.y},
@@ -111,38 +120,40 @@ export default class PlayerSquare extends Component<any, void> {
                                     },
                                 ]
                             }
-                        ]} >
-                        <Image
-                            source={require('../../assets/images/red-car.png')}
-                            style={{ width: this.props.squareSize, height: this.props.squareSize }}/>
-                    </Animated.View>
+                        ]} />
 
                     {
                         this.props.highlight
                         &&
-                        <Animated.View style={[
-                            styles.playerHighlightHorizontal,
-                            {
-                                height: this.props.squareSize,
-                                transform: [
-                                    {translateY: this.y}
-                                ]
-                            }
-                        ]}/>
+                        <Animated.View
+                            fadeDuration={0}
+                            style={[
+                                styles.playerHighlightHorizontal,
+                                {
+                                    height: this.props.squareSize,
+                                    transform: [
+                                        {translateY: this.y}
+                                    ]
+                                }
+                            ]}
+                        />
                     }
 
                     {
                         this.props.highlight
                         &&
-                        <Animated.View style={[
-                            styles.playerHighlightVertical,
-                            {
-                                width: this.props.squareSize,
-                                transform: [
-                                    {translateX: this.x}
-                                ]
-                            }
-                        ]} />
+                        <Animated.View
+                            fadeDuration={0}
+                            style={[
+                                styles.playerHighlightVertical,
+                                {
+                                    width: this.props.squareSize,
+                                    transform: [
+                                        {translateX: this.x}
+                                    ]
+                                }
+                            ]}
+                        />
                     }
                 </View>
             </PanGestureHandler>

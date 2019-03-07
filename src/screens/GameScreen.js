@@ -3,12 +3,14 @@
 import React, {Component} from 'react';
 import {View} from 'react-native';
 
-import {window} from "../constants/Layout";
-import {styles} from "../stylesheets/style";
+import {window} from "../styling/Layout";
+import {styles} from "../styling/Style";
 import {advanceField, generateField} from "../game/GameMechanics";
 import type {Field} from "../game/GameMechanics";
 import PlayerSquare from "../components/PlayerSquare";
 import FieldSquare from "../components/FieldSquare";
+import {getThemeAsset} from "../styling/Assets";
+import {settings} from "../utilities/Settings";
 
 export default class GameScreen extends Component<any, Field> {
     constructor() {
@@ -35,7 +37,8 @@ export default class GameScreen extends Component<any, Field> {
                         getPlayer={() => {return this.state.player}}
                         onMove={move => advanceField(this.state, move)}
                         onMoveEnded={() => this._checkField()}
-                        highlight={true}>
+                        highlight={settings.highlight === 'enabled'}
+                        rotation={getThemeAsset('PlayerRotation')}>
 
                     <View style={[{ width: squareSize * this.state.grid.width() }, styles.gameField ]}>
                         {this.state.grid._data.map(

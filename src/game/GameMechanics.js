@@ -1,6 +1,6 @@
 // @flow
 
-import * as math from "../utilities/mathematics.js";
+import * as math from "../utilities/Mathematics.js";
 
 export type Square = "Empty" | "Wall" | "Finish";
 export type Move = "Left" | "Up" | "Right" | "Down";
