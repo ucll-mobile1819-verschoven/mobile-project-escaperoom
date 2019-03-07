@@ -6,6 +6,7 @@ import {View, Button, StatusBar, ImageBackground, TouchableOpacity, StyleSheet ,
 import {styles} from "../styling/Style";
 import {cycleSetting, setSetting, settings} from "../utilities/Settings";
 import {getThemeAsset} from "../styling/Assets";
+import SettingsScreen from "./SettingsScreen";
 
 export default class HomeScreen extends Component<any, void> {
     _changeTheme() {
@@ -45,12 +46,18 @@ export default class HomeScreen extends Component<any, void> {
                         </View>
                     </TouchableOpacity>
 
+                    <TouchableOpacity style={styles.touchable}   onPress={() => this.props.navigation.navigate('settings')}>
 
-                    <Button title={"Change theme: " + settings.theme}
-                            onPress={() => this._changeTheme()}/>
+                        <Image
+                            source={getThemeAsset('redbutton')}
+                            style={styles.image} />
+                        <View style={styles.view}>
+                            <Text style={styles.text}>settings</Text>
+                        </View>
+                    </TouchableOpacity>
 
-                    <Button title={"Change highlight: " + settings.highlight}
-                            onPress={() => this._changeHighlight()}/>
+
+
 
 
                 </View>
