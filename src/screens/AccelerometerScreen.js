@@ -1,11 +1,12 @@
 // @flow
 
 import React, {Component} from 'react';
-import {View, Text, TouchableOpacity} from 'react-native';
+import {View, Text, TouchableOpacity, ImageBackground} from 'react-native';
 import {Accelerometer} from 'expo';
 
 import {styles} from "../styling/Style";
 import {round} from "../utilities/Mathematics";
+import {getThemeAsset} from "../styling/Assets";
 
 type AccelerometerState = {
     x: number;
@@ -66,38 +67,40 @@ export default class AccelerometerScreen extends Component<any, AccelerometerSta
         let {x, y, z} = this.state;
 
         return (
-            <View style={styles.container}>
+            <ImageBackground  source={getThemeAsset('StartScreenBackground')} style={{width: '100%', height: '100%'}}>
+                <View style={styles.container}>
 
-                <View style={styles.controls}>
-                    <Text>Accelerometer:</Text>
-                    <Text>x: {round(x)} y: {round(y)} z: {round(z)}</Text>
-                    <Text>rotation x-axis: {round(Math.atan(y / z) * 180 / Math.PI)}°</Text>
-                    <Text>rotation y-axis: {round(Math.atan(x / z) * 180 / Math.PI)}°</Text>
-                    <Text>rotation z-axis: {round(Math.atan(x / y) * 180 / Math.PI)}°</Text>
-                    <Text>You are holding me:
-                        {Math.abs(x) < 0.5 && Math.abs(y) < 0.5 && "Horizontal"}
-                        {Math.abs(x) < 0.5 && Math.abs(z) < 0.5 && "Vertical"}
-                        {Math.abs(y) < 0.5 && Math.abs(z) < 0.5 && "Sideways"}
-                    </Text>
-                    <Text>You are turning me:
-                        {round(Math.atan(x / Math.abs(z))) > 0.3 && "Left"}
-                        {round(Math.atan(x / Math.abs(z))) < -0.3 && "Right"}
-                    </Text>
-                </View>
+                    <View style={styles.controls}>
+                        <Text>Accelerometer:</Text>
+                        <Text>x: {round(x)} y: {round(y)} z: {round(z)}</Text>
+                        <Text>rotation x-axis: {round(Math.atan(y / z) * 180 / Math.PI)}°</Text>
+                        <Text>rotation y-axis: {round(Math.atan(x / z) * 180 / Math.PI)}°</Text>
+                        <Text>rotation z-axis: {round(Math.atan(x / y) * 180 / Math.PI)}°</Text>
+                        <Text>You are holding me:
+                            {Math.abs(x) < 0.5 && Math.abs(y) < 0.5 && "Horizontal"}
+                            {Math.abs(x) < 0.5 && Math.abs(z) < 0.5 && "Vertical"}
+                            {Math.abs(y) < 0.5 && Math.abs(z) < 0.5 && "Sideways"}
+                        </Text>
+                        <Text>You are turning me:
+                            {round(Math.atan(x / Math.abs(z))) > 0.3 && "Left"}
+                            {round(Math.atan(x / Math.abs(z))) < -0.3 && "Right"}
+                        </Text>
+                    </View>
 
-                <View style={styles.controls}>
-                    <Text>Accelerometer: Controls</Text>
-                    <TouchableOpacity onPress={this._toggle}>
-                        <Text>Toggle</Text>
-                    </TouchableOpacity>
-                    <TouchableOpacity onPress={this._slow}>
-                        <Text>Slow</Text>
-                    </TouchableOpacity>
-                    <TouchableOpacity onPress={this._fast}>
-                        <Text>Fast</Text>
-                    </TouchableOpacity>
+                    <View style={styles.controls}>
+                        <Text>Accelerometer: Controls</Text>
+                        <TouchableOpacity onPress={this._toggle}>
+                            <Text>Toggle</Text>
+                        </TouchableOpacity>
+                        <TouchableOpacity onPress={this._slow}>
+                            <Text>Slow</Text>
+                        </TouchableOpacity>
+                        <TouchableOpacity onPress={this._fast}>
+                            <Text>Fast</Text>
+                        </TouchableOpacity>
+                    </View>
                 </View>
-            </View>
+            </ImageBackground>
         );
     }
 }

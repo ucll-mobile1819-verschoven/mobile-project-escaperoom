@@ -1,10 +1,11 @@
 // @flow
 
 import React, {Component} from 'react';
-import {View, Button, StatusBar} from 'react-native';
+import {View, Button, StatusBar, ImageBackground} from 'react-native';
 
 import {styles} from "../styling/Style";
 import {cycleSetting, setSetting, settings} from "../utilities/Settings";
+import {getThemeAsset} from "../styling/Assets";
 
 export default class HomeScreen extends Component<any, void> {
     _changeTheme() {
@@ -19,21 +20,25 @@ export default class HomeScreen extends Component<any, void> {
 
     render() {
         return (
-            <View style={styles.container}>
-                <StatusBar hidden/>
+            <ImageBackground  source={getThemeAsset('StartScreenBackground')} style={{width: '100%', height: '100%'}}>
+                <View style={styles.container}>
 
-                <Button title="Play with Accelerometer"
-                        onPress={() => this.props.navigation.navigate('Accelerometer')}/>
+                    <StatusBar hidden/>
 
-                <Button title="Play game"
-                        onPress={() => this.props.navigation.navigate('Game')}/>
+                    <Button title="Play with Accelerometer"
+                            onPress={() => this.props.navigation.navigate('Accelerometer')}/>
 
-                <Button title={"Change theme: " + settings.theme}
-                        onPress={() => this._changeTheme()}/>
+                    <Button title="Play game"
+                            onPress={() => this.props.navigation.navigate('Game')}/>
 
-                <Button title={"Change highlight: " + settings.highlight}
-                        onPress={() => this._changeHighlight()}/>
-            </View>
+                    <Button title={"Change theme: " + settings.theme}
+                            onPress={() => this._changeTheme()}/>
+
+                    <Button title={"Change highlight: " + settings.highlight}
+                            onPress={() => this._changeHighlight()}/>
+
+                </View>
+            </ImageBackground>
         );
     }
 }

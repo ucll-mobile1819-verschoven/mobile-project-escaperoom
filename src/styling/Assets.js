@@ -13,12 +13,14 @@ const themes = {
         Empty : require('../../assets/images/Minimalistic/Minimalistic-empty.jpg'),
         Wall : require('../../assets/images/Minimalistic/Minimalistic-wall.jpg'),
         Finish : require('../../assets/images/Minimalistic/Minimalistic-finish.jpg'),
+        StartScreenBackground : require('../../assets/images/game-background-2.jpg'),
     },
     car : {
         Player : require('../../assets/images/Car/red-car.png'),
         PlayerRotation : true,
         Empty : require('../../assets/images/Minimalistic/Minimalistic-empty.jpg'),
         Wall : require('../../assets/images/Car/brick-wall.jpg'),
-        Finish : require('../../assets/images/Car/parking.jpg')
+        Finish : require('../../assets/images/Car/parking.jpg'),
+        StartScreenBackground : require('../../assets/images/game-background-2.jpg'),
     }
 };

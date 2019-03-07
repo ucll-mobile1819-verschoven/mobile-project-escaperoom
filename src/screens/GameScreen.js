@@ -1,7 +1,7 @@
 // @flow
 
 import React, {Component} from 'react';
-import {View} from 'react-native';
+import {View, ImageBackground} from 'react-native';
 
 import {window} from "../styling/Layout";
 import {styles} from "../styling/Style";
@@ -31,29 +31,31 @@ export default class GameScreen extends Component<any, Field> {
         let squareSize = Math.floor(Math.min(window.width / this.state.grid.width(), window.height / this.state.grid.height()));
 
         return (
-            <View style={styles.container}>
-                <PlayerSquare
-                        squareSize={squareSize}
-                        getPlayer={() => {return this.state.player}}
-                        onMove={move => advanceField(this.state, move)}
-                        onMoveEnded={() => this._checkField()}
-                        highlight={settings.highlight === 'enabled'}
-                        rotation={getThemeAsset('PlayerRotation')}>
+            <ImageBackground  source={getThemeAsset('StartScreenBackground')} style={{width: '100%', height: '100%'}}>
+                <View style={styles.container}>
+                    <PlayerSquare
+                            squareSize={squareSize}
+                            getPlayer={() => {return this.state.player}}
+                            onMove={move => advanceField(this.state, move)}
+                            onMoveEnded={() => this._checkField()}
+                            highlight={settings.highlight === 'enabled'}
+                            rotation={getThemeAsset('PlayerRotation')}>
 
-                    <View style={[{ width: squareSize * this.state.grid.width() }, styles.gameField ]}>
-                        {this.state.grid._data.map(
-                            row => row.map(
-                                x =>
-                                    <FieldSquare
-                                          key={id++}
-                                          type={x}
-                                          size={squareSize}/>
-                            )
-                        )}
-                    </View>
+                        <View style={[{ width: squareSize * this.state.grid.width() }, styles.gameField ]}>
+                            {this.state.grid._data.map(
+                                row => row.map(
+                                    x =>
+                                        <FieldSquare
+                                              key={id++}
+                                              type={x}
+                                              size={squareSize}/>
+                                )
+                            )}
+                        </View>
 
-                </PlayerSquare>
-            </View>
+                    </PlayerSquare>
+                </View>
+            </ImageBackground>
         );
     }
 }
