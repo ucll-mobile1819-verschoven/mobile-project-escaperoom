@@ -1,7 +1,7 @@
 // @flow
 
 import React, {Component} from 'react';
-import {View, ImageBackground} from 'react-native';
+import {View, ImageBackground, Text} from 'react-native';
 
 import {window} from "../styling/Layout";
 import {styles} from "../styling/Style";
@@ -32,6 +32,7 @@ export default class GameScreen extends Component<any, Field> {
 
         return (
             <ImageBackground  source={getThemeAsset('StartScreenBackground')} style={{width: '100%', height: '100%'}}>
+                <Text style={styles.titel}>park you'r car</Text>
                 <View style={styles.container}>
 
                     <PlayerSquare

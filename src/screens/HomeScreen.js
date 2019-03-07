@@ -22,9 +22,11 @@ export default class HomeScreen extends Component<any, void> {
     render() {
         return (
             <ImageBackground  source={getThemeAsset('StartScreenBackground')} style={{width: '100%', height: '100%'}}>
+                <Text style={styles.titel}>park you'r car</Text>
                 <View style={styles.container}>
 
                     <StatusBar hidden/>
+
 
                     <TouchableOpacity style={styles.touchable}   onPress={() => this.props.navigation.navigate('Game')}>
 

@@ -39,6 +39,11 @@ export const styles = StyleSheet.create({
         borderRightWidth: 1,
         borderColor: colors.PlayerColor,
     },
+    titel : {
+        color: colors.white,
+        fontSize: 40,
+        textAlign: 'center'
+    },
 
 
     /* test voor buttons */
