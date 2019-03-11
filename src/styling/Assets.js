@@ -2,8 +2,15 @@
 
 import {settings} from "../utilities/Settings";
 
+export const getAsset =(key:string) => {
+  return assets[key];
+};
+
 export const getThemeAsset = (key : string) => {
     return themes[settings.theme][key];
+};
+
+const assets = {
 };
 
 const themes = {
@@ -26,3 +33,5 @@ const themes = {
         redbutton : require('../../assets/images/redbutton.png'),
     }
 };
+
+

@@ -7,6 +7,7 @@ export type Move = "Left" | "Up" | "Right" | "Down";
 export type Field = {
     grid: math.Grid<Square>;
     player: math.Vec2;
+    start: math.Vec2;
 };
 
 let isSolid = {
@@ -22,7 +23,7 @@ export function advanceField(field : Field, move : Move) : void {
 export function generateField() : Field {
     let ratio = math.random(1, 5);
     let width = ratio * 5;
-    let height = ratio * 6;
+    let height = ratio * 5;
 
     let grid = new math.Grid<Square>(height, width, "Empty");
     let seen = new math.Grid<boolean>(height, width, false);
@@ -72,7 +73,7 @@ export function generateField() : Field {
 
     grid.set(current, "Finish");
 
-    return { grid : grid, player : new math.Vec2(0, 0) };
+    return { grid : grid, player : new math.Vec2(0, 0), start : new math.Vec2(0,0) };
 }
 
 function slide(grid : math.Grid<Square>, pos : math.Vec2, dir : math.Vec2) : math.Vec2 {

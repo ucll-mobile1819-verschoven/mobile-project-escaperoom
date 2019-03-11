@@ -16,8 +16,9 @@ export const styles = StyleSheet.create({
     gameField: {
         flexDirection: 'row',
         flexWrap: 'wrap',
-        /*borderWidth: 0.5,
-        borderColor: colors.PlayerColor, */
+        borderTopWidth: 2,
+        borderBottomWidth : 2,
+        borderColor: colors.Wall,
 
     },
     playerSquare : {
@@ -46,7 +47,7 @@ export const styles = StyleSheet.create({
     },
 
 
-    /* test voor buttons */
+    /* big button */
     view: {
 
         position: 'absolute',
@@ -65,6 +66,29 @@ export const styles = StyleSheet.create({
     text: {
         color: colors.white,
         fontSize: 18,
+        textAlign: 'center'
+    },
+
+    /* small button*/
+    viewsmall: {
+
+        position: 'absolute',
+        backgroundColor: 'transparent'
+    },
+    imagesmall: {
+
+        width: 100,
+        resizeMode: 'contain'
+    },
+    touchablesmall: {
+        alignItems: 'center',
+        justifyContent: 'center',
+        marginLeft : 10,
+        marginRight : 10,
+    },
+    textsmall: {
+        color: colors.white,
+        fontSize: 14,
         textAlign: 'center'
     },
 });

@@ -27,6 +27,7 @@ export default class PlayerSquare extends Component<any, void> {
     constructor(props : any) {
         super(props);
 
+
         let player = props.getPlayer();
         this.x = new Animated.Value(player.x * props.squareSize);
         this.y = new Animated.Value(player.y * props.squareSize);

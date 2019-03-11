@@ -9,27 +9,16 @@ import {getThemeAsset} from "../styling/Assets";
 import SettingsScreen from "./SettingsScreen";
 
 export default class HomeScreen extends Component<any, void> {
-    _changeTheme() {
-        cycleSetting('theme')
-            .then(() => this.setState({}));
-    }
-
-    _changeHighlight() {
-        cycleSetting('highlight')
-            .then(() => this.setState({}));
-    }
-
     render() {
         return (
             <ImageBackground  source={getThemeAsset('StartScreenBackground')} style={{width: '100%', height: '100%'}}>
-                <Text style={styles.titel}>park you'r car</Text>
+                <Text style={styles.titel}>park your car</Text>
                 <View style={styles.container}>
 
                     <StatusBar hidden/>
 
 
                     <TouchableOpacity style={styles.touchable}   onPress={() => this.props.navigation.navigate('Game')}>
-
                         <Image
                             source={getThemeAsset('redbutton')}
                             style={styles.image} />
