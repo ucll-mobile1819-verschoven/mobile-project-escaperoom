@@ -1,13 +1,13 @@
 // @flow
 
-import * as math from "../utilities/Mathematics.js";
+import {Vec2, Grid, random} from "../utilities/Mathematics";
 
 export type Square = "Empty" | "Wall" | "Finish";
 export type Move = "Left" | "Up" | "Right" | "Down";
-export type Field = {
-    grid: math.Grid<Square>;
-    player: math.Vec2;
-    start: math.Vec2;
+export type Game = {
+    grid: Grid<Square>;
+    player: Vec2;
+    start: Vec2;
 };
 
 let isSolid = {
@@ -16,20 +16,37 @@ let isSolid = {
     Finish: false,
 };
 
-export function advanceField(field : Field, move : Move) : void {
-    field.player = slide(field.grid, field.player, dirs[move]);
+export function movePlayer(game : Game, move : Move) : Game {
+    const grid = game.grid;
+    const dir = dirs[move];
+    const start = game.start;
+    let pos = game.player;
+
+    while(grid.inside(pos.add(dir)) && !isSolid[grid.at(pos.add(dir))]){
+        pos = pos.add(dir);
+    }
+
+    return {grid : grid, player : pos, start : start};
 }
 
-export function generateField() : Field {
-    let ratio = math.random(1, 5);
+export function resetGame(game : Game) : Game {
+    return {grid : game.grid, player : game.start, start: game.start};
+}
+
+export function gameEnded(game : Game) : boolean {
+    return game.grid.at(game.player) === "Finish";
+}
+
+export function generateGame() : Game {
+    let ratio = random(1, 5);
     let width = ratio * 5;
     let height = ratio * 5;
 
-    let grid = new math.Grid<Square>(height, width, "Empty");
-    let seen = new math.Grid<boolean>(height, width, false);
-    let path = new math.Grid<boolean>(height, width, false);
+    let grid = new Grid<Square>(height, width, "Empty");
+    let seen = new Grid<boolean>(height, width, false);
+    let path = new Grid<boolean>(height, width, false);
 
-    let current = new math.Vec2(0, 0);
+    let current = new Vec2(0, 0);
 
     while(true) {
         let options = [];
@@ -47,7 +64,7 @@ export function generateField() : Field {
 
         if(options.length === 0) break;
 
-        let next_pos = options[math.random(0, options.length)];
+        let next_pos = options[random(0, options.length)];
         let next_dir = next_pos.sub(current).clamp();
 
         if(grid.inside(next_pos.add(next_dir))){
@@ -73,14 +90,7 @@ export function generateField() : Field {
 
     grid.set(current, "Finish");
 
-    return { grid : grid, player : new math.Vec2(0, 0), start : new math.Vec2(0,0) };
+    return { grid : grid, player : new Vec2(0, 0), start : new Vec2(0,0) };
 }
 
-function slide(grid : math.Grid<Square>, pos : math.Vec2, dir : math.Vec2) : math.Vec2 {
-    while(grid.inside(pos.add(dir)) && !isSolid[grid.at(pos.add(dir))]){
-        pos = pos.add(dir);
-    }
-    return pos;
-}
-
-const dirs = {Left: new math.Vec2(-1, 0), Right: new math.Vec2(1, 0), Up: new math.Vec2(0, -1), Down: new math.Vec2(0, 1)};
+const dirs = {Left: new Vec2(-1, 0), Right: new Vec2(1, 0), Up: new Vec2(0, -1), Down: new Vec2(0, 1)};

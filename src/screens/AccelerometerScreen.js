@@ -3,6 +3,7 @@
 import React, {Component} from 'react';
 import {View, Text, TouchableOpacity, ImageBackground} from 'react-native';
 import {Accelerometer} from 'expo';
+import {connect} from 'react-redux';
 
 import {styles} from "../styling/Style";
 import {round} from "../utilities/Mathematics";
@@ -14,7 +15,7 @@ type AccelerometerState = {
     z: number;
 }
 
-export default class AccelerometerScreen extends Component<any, AccelerometerState> {
+class AccelerometerScreen extends Component<any, AccelerometerState> {
     _subscription: any;
 
     constructor() {
@@ -67,10 +68,10 @@ export default class AccelerometerScreen extends Component<any, AccelerometerSta
         let {x, y, z} = this.state;
 
         return (
-            <ImageBackground  source={getThemeAsset('StartScreenBackground')} style={{width: '100%', height: '100%'}}>
-                <View style={styles.container}>
+            <ImageBackground source={this.props.background} style={styles.container}>
+                <View style={[styles.centered, styles.container]}>
 
-                    <View style={styles.controls}>
+                    <View style={styles.m10}>
                         <Text>Accelerometer:</Text>
                         <Text>x: {round(x)} y: {round(y)} z: {round(z)}</Text>
                         <Text>rotation x-axis: {round(Math.atan(y / z) * 180 / Math.PI)}°</Text>
@@ -87,7 +88,7 @@ export default class AccelerometerScreen extends Component<any, AccelerometerSta
                         </Text>
                     </View>
 
-                    <View style={styles.controls}>
+                    <View style={styles.m10}>
                         <Text>Accelerometer: Controls</Text>
                         <TouchableOpacity onPress={this._toggle}>
                             <Text>Toggle</Text>
@@ -104,3 +105,12 @@ export default class AccelerometerScreen extends Component<any, AccelerometerSta
         );
     }
 }
+
+const mapStateToProps = state => ({
+    background : getThemeAsset('Background', state.settings.theme),
+});
+
+const mapDispatchToProps = dispatch => ({
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(AccelerometerScreen);

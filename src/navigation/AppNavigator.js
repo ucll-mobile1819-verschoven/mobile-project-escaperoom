@@ -12,7 +12,7 @@ export default createAppContainer(createStackNavigator({
     Home: HomeScreen,
     Game: GameScreen,
     Accelerometer: AccelerometerScreen,
-    settings: SettingsScreen
+    Settings: SettingsScreen
 }, {
     initialRouteName: 'Home',
     headerMode: 'none',

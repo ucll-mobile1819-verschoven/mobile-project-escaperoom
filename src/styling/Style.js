@@ -7,19 +7,19 @@ import {colors} from "./Colors"
 export const styles = StyleSheet.create({
     container: {
         flex: 1,
+    },
+    centered: {
         alignItems: 'center',
         justifyContent: 'center',
-    },
-    controls: {
-        marginTop: 10
     },
     gameField: {
         flexDirection: 'row',
         flexWrap: 'wrap',
+    },
+    gameFieldBorder: {
         borderTopWidth: 2,
         borderBottomWidth : 2,
         borderColor: colors.Wall,
-
     },
     playerSquare : {
         position: 'absolute',
@@ -40,55 +40,28 @@ export const styles = StyleSheet.create({
         borderRightWidth: 1,
         borderColor: colors.PlayerColor,
     },
-    titel : {
+    title : {
         color: colors.white,
         fontSize: 40,
         textAlign: 'center'
     },
-
-
-    /* big button */
-    view: {
-
-        position: 'absolute',
-        backgroundColor: 'transparent'
+    menuButton : {
+        width: "50%",
+        height: "10%",
     },
-    image: {
-
-        width: 250,
-        resizeMode: 'contain'
+    smallButton : {
+        flex: 1,
+        margin: 7
     },
-    touchable: {
-        alignItems: 'center',
-        justifyContent: 'center',
-
+    m5 : {
+        margin: 5
     },
-    text: {
+    m10 : {
+        margin : 10
+    },
+    buttonText: {
         color: colors.white,
         fontSize: 18,
-        textAlign: 'center'
-    },
-
-    /* small button*/
-    viewsmall: {
-
-        position: 'absolute',
-        backgroundColor: 'transparent'
-    },
-    imagesmall: {
-
-        width: 100,
-        resizeMode: 'contain'
-    },
-    touchablesmall: {
-        alignItems: 'center',
-        justifyContent: 'center',
-        marginLeft : 10,
-        marginRight : 10,
-    },
-    textsmall: {
-        color: colors.white,
-        fontSize: 14,
         textAlign: 'center'
     },
 });

@@ -3,107 +3,66 @@
 import React, {Component} from 'react';
 import {View, Animated, Easing, Image} from 'react-native';
 import {PanGestureHandler, Directions, State} from 'react-native-gesture-handler';
+import {connect} from 'react-redux';
 
-import type {Move} from "../game/GameMechanics";
 import {styles} from "../styling/Style";
 import {getThemeAsset} from "../styling/Assets";
+import AngleAnimation from "../utilities/AngleAnimation";
+import {move, moveEnded} from "../redux/gameRedux";
+import ConstantSpeedAnimation from "../utilities/ConstantSpeedAnimation";
 
-const squareSpeed = 55;                             // = milliseconds to travel across 1 square
-const turnSpeed = 100;
+const squareSpeed = 2;      // Milliseconds per pixel
+const turnSpeed = 150;      // Milliseconds per complete turn
 const panSpeed = 10;
-const angles = {
-    Left: 0.75,
-    Down: 0.5,
-    Right: 0.25,
-    Up: 0.0
-};
 
-export default class PlayerSquare extends Component<any, void> {
-    x: Animated.Value;
-    y: Animated.Value;
-    angle: Animated.Value;
-    moving: boolean;
+class PlayerSquare extends Component<any, void> {
+    position: ConstantSpeedAnimation;
+    angle: AngleAnimation;
 
-    constructor(props : any) {
+    constructor(props : any){
         super(props);
 
-
-        let player = props.getPlayer();
-        this.x = new Animated.Value(player.x * props.squareSize);
-        this.y = new Animated.Value(player.y * props.squareSize);
-        this.angle = new Animated.Value(0);
-        this.moving = false;
+        this.position = new ConstantSpeedAnimation(this.props.position.mul(this.props.squareSize), squareSpeed);
+        this.angle = new AngleAnimation(turnSpeed);
     }
 
-    _moveSquare({nativeEvent}: any) {
-        if (nativeEvent.oldState === State.ACTIVE && !this.moving) {
-            let move : Move;
+    componentDidUpdate(){
+        if(this.props.moving){
+            let animations = [];
 
-            if(Math.abs(nativeEvent.velocityX) > Math.abs(nativeEvent.velocityY)){
-                if(nativeEvent.velocityX > panSpeed) move = "Right";
-                else if(nativeEvent.velocityX < -panSpeed) move = "Left";
-                else return;
-            } else {
-                if(nativeEvent.velocityY > panSpeed) move = "Down";
-                else if(nativeEvent.velocityY < -panSpeed) move = "Up";
-                else return;
-            }
+            if(this.props.rotation) animations.push(this.angle.turnTo(this.props.moveDir));
+            animations.push(this.position.moveTo(this.props.position.mul(this.props.squareSize)));
 
-            this.moving = true;
-
-            let {x: old_x, y: old_y} = this.props.getPlayer();
-            this.props.onMove(move);
-            let {x: new_x, y: new_y} = this.props.getPlayer();
-
-            if(old_x !== new_x) this._rotateSquare(this.x, old_x, new_x, move);
-            else if(old_y !== new_y) this._rotateSquare(this.y, old_y, new_y, move);
-            else this.moving = false;
-        }
-    }
-
-    _rotateSquare(value : Animated.Value, from : number, to : number, move : Move) : void {
-        if(this.props.rotation){
-            let dif = angles[move] - ((this.angle._value % 1) + 1) % 1;
-            let change_angle = Math.abs(dif) > 0.6 ? Math.sign(-dif) * 0.25 : dif;
-            let to_angle = this.angle._value + change_angle;
-
-            Animated.timing(this.angle, {
-                toValue: to_angle,
-                duration: turnSpeed,
-                easing: Easing.out(Easing.linear)
-            }).start(() => this._animateSquare(value, from, to));
+            Animated.parallel(animations).start(({finished}) => {finished && this.props.onMoveEnded();});
         } else {
-            this._animateSquare(value, from, to);
+            this.angle.setDir(this.props.moveDir);
+            this.position.setValue(this.props.position.mul(this.props.squareSize));
         }
     }
 
-    _animateSquare(value : Animated.Value, from : number, to : number) : void {
-        Animated.timing(value, {
-            toValue: this.props.squareSize * to,
-            duration: squareSpeed * Math.abs(to - from),
-            easing: Easing.out(Easing.linear)
-        }).start(() => this._animationEnded());
-    }
-
-    _animationEnded() {
-        this.moving = false;
-
-        this.props.onMoveEnded();
-
-        // onMoveEnded might have changed the position, so update the animation
-        let {x: new_x, y: new_y} = this.props.getPlayer();
-        this.x.setValue(new_x * this.props.squareSize);
-        this.y.setValue(new_y * this.props.squareSize);
+    _moveSquare({nativeEvent} : any) {
+        if (nativeEvent.oldState === State.ACTIVE) {
+            if(Math.abs(nativeEvent.velocityX) > Math.abs(nativeEvent.velocityY)){
+                if(nativeEvent.velocityX > panSpeed)    this.props.onMove("Right");
+                if(nativeEvent.velocityX < -panSpeed)   this.props.onMove("Left");
+            } else {
+                if(nativeEvent.velocityY > panSpeed)    this.props.onMove("Down");
+                if(nativeEvent.velocityY < -panSpeed)   this.props.onMove("Up");
+            }
+        }
     }
 
     render() {
         return (
-            <PanGestureHandler hitSlop={{top: 1000, bottom: 1000, left: 1000, right: 1000}} onHandlerStateChange={ev => this._moveSquare(ev)}>
-                <View>
+            <PanGestureHandler
+                hitSlop={{top: 1000, bottom: 1000, left: 1000, right: 1000}}
+                onHandlerStateChange={ev => this._moveSquare(ev)}>
+
+                <View style={this.props.style}>
                     {this.props.children}
 
                     <Animated.Image
-                        source={getThemeAsset('Player')}
+                        source={this.props.player}
                         fadeDuration={0}
                         style={[
                             styles.playerSquare,
@@ -111,8 +70,8 @@ export default class PlayerSquare extends Component<any, void> {
                                 width: this.props.squareSize,
                                 height: this.props.squareSize,
                                 transform: [
-                                    {translateX: this.x},
-                                    {translateY: this.y},
+                                    {translateX: this.position.x},
+                                    {translateY: this.position.y},
                                     {rotate: this.angle.interpolate(
                                         {
                                             inputRange: [0, 1],
@@ -133,7 +92,7 @@ export default class PlayerSquare extends Component<any, void> {
                                 {
                                     height: this.props.squareSize,
                                     transform: [
-                                        {translateY: this.y}
+                                        {translateY: this.position.y}
                                     ]
                                 }
                             ]}
@@ -150,7 +109,7 @@ export default class PlayerSquare extends Component<any, void> {
                                 {
                                     width: this.props.squareSize,
                                     transform: [
-                                        {translateX: this.x}
+                                        {translateX: this.position.x}
                                     ]
                                 }
                             ]}
@@ -161,3 +120,20 @@ export default class PlayerSquare extends Component<any, void> {
         );
     }
 }
+
+const mapStateToProps = state => ({
+    position: state.game.gameData.player,
+    moving: state.game.moving,
+    moveDir: state.game.moveDir,
+
+    highlight: state.settings.highlight === 'Enabled',
+    rotation: getThemeAsset('PlayerRotation', state.settings.theme),
+    player: getThemeAsset('Player', state.settings.theme),
+});
+
+const mapDispatchToProps = dispatch => ({
+    onMove: dir => dispatch(move(dir)),
+    onMoveEnded: () => dispatch(moveEnded()),
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(PlayerSquare);

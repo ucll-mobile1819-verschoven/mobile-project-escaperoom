@@ -27,6 +27,10 @@ export class Vec2 {
         return new Vec2(this.x - other.x, this.y - other.y);
     }
 
+    mul(scale : number) : Vec2 {
+        return new Vec2(this.x * scale, this.y * scale);
+    }
+
     clamp() : Vec2 {
         return new Vec2(Math.min(Math.max(this.x, -1), 1), Math.min(Math.max(this.y, -1), 1));
     }

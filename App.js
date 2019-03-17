@@ -1,11 +1,13 @@
 // @flow
 
 import React, {Component} from 'react';
-import {View} from 'react-native';
+import {View, AsyncStorage} from 'react-native';
 import {AppLoading, Asset, Font, Icon} from 'expo';
+import {Provider} from 'react-redux';
 
 import AppNavigator from './src/navigation/AppNavigator';
-import {loadSettings} from "./src/utilities/Settings";
+import store from "./src/redux/store";
+import {setSetting} from "./src/redux/settingsRedux";
 
 type AppState = {
     isLoadingComplete: boolean;
@@ -23,15 +25,19 @@ export default class App extends Component<any, AppState> {
     render() {
         if (!this.state.isLoadingComplete && !this.props.skipLoadingScreen) {
             return (
-                <AppLoading
-                    startAsync={this._loadResourcesAsync}
-                    onError={this._handleLoadingError}
-                    onFinish={this._handleFinishLoading}
-                />
+                <Provider store={store}>
+                    <AppLoading
+                        startAsync={this._loadResourcesAsync}
+                        onError={this._handleLoadingError}
+                        onFinish={this._handleFinishLoading}
+                    />
+                </Provider>
             );
         } else {
             return (
-                <AppNavigator/>
+                <Provider store={store}>
+                    <AppNavigator/>
+                </Provider>
             );
         }
     }
@@ -42,13 +48,7 @@ export default class App extends Component<any, AppState> {
                 ...Icon.Ionicons.font,
                 'space-mono': require('./assets/fonts/SpaceMono-Regular.ttf'),
             }),
-            Asset.loadAsync([
-                require('./assets/images/Car/parking.jpg'),
-                require('./assets/images/Car/brick-wall.jpg'),
-                require('./assets/images/Car/red-car.png'),
-                require('./assets/images/Minimalistic/Minimalistic-player.jpg'),
-            ]),
-            loadSettings()
+            this._loadSettings(),
         ]);
     };
 
@@ -59,4 +59,11 @@ export default class App extends Component<any, AppState> {
     _handleFinishLoading = () => {
         this.setState({isLoadingComplete: true});
     };
+
+    _loadSettings() {
+        return Promise.all([
+            AsyncStorage.getItem('theme', (error, result) => store.dispatch(setSetting('theme', result))),
+            AsyncStorage.getItem('highlight', (error, result) => store.dispatch(setSetting('highlight', result))),
+        ]);
+    }
 }
