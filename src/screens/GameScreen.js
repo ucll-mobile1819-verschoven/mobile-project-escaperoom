@@ -1,7 +1,7 @@
 // @flow
 
 import React, {Component} from 'react';
-import {View, ImageBackground} from 'react-native';
+import {View, ImageBackground, Text, Modal} from 'react-native';
 import {connect} from 'react-redux';
 
 import {styles} from "../styling/Style";
@@ -38,11 +38,32 @@ class GameScreen extends Component<any, void> {
                             source={this.props.button}
                             onPress={this.props.resetGame}/>
                     </View>
-
                     <GameField />
+                    <Text style={styles.title}>moves : {this.props.moveCounter}</Text>
+                    <Modal
+                        animationType="slide"
+                        transparent={false}
+                        visible={this.props.gameFinished}
+                        onRequestClose={this.props.nextGame}>
+                        <View style={styles.container}>
+
+                                <Text style={styles.title}>you won!</Text>
+                            <Text>moves : {this.props.moveCounter}</Text>
+
+                                <ImageButton
+                                    style={styles.smallButton}
+                                    textStyle={styles.buttonText}
+                                    title={"next level"}
+                                    source={this.props.button}
+                                    onPress={this.props.nextGame}/>
+
+                        </View>
+                    </Modal>
+
 
                 </View>
             </ImageBackground>
+
         );
     }
 }
@@ -50,6 +71,8 @@ class GameScreen extends Component<any, void> {
 const mapStateToProps = state => ({
     background : getThemeAsset('Background', state.settings.theme),
     button: getThemeAsset('Button', state.settings.theme),
+    gameFinished : state.game.isGameFinished,
+    moveCounter : state.game.moveCounter,
 });
 
 const mapDispatchToProps = dispatch => ({

@@ -33,7 +33,7 @@ class PlayerSquare extends Component<any, void> {
             if(this.props.rotation) animations.push(this.angle.turnTo(this.props.moveDir));
             animations.push(this.position.moveTo(this.props.position.mul(this.props.squareSize)));
 
-            Animated.parallel(animations).start(({finished}) => {finished && this.props.onMoveEnded();});
+            Animated.sequence(animations).start(({finished}) => {finished && this.props.onMoveEnded();});
         } else {
             this.angle.setDir(this.props.moveDir);
             this.position.setValue(this.props.position.mul(this.props.squareSize));
