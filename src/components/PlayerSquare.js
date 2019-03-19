@@ -11,8 +11,8 @@ import AngleAnimation from "../utilities/AngleAnimation";
 import {move, moveEnded} from "../redux/gameRedux";
 import ConstantSpeedAnimation from "../utilities/ConstantSpeedAnimation";
 
-const squareSpeed = 2;      // Milliseconds per pixel
-const turnSpeed = 150;      // Milliseconds per complete turn
+const squareSpeed = 8;      // Milliseconds per pixel
+const turnSpeed = 300;      // Milliseconds per complete turn
 const panSpeed = 10;
 
 class PlayerSquare extends Component<any, void> {
@@ -22,8 +22,8 @@ class PlayerSquare extends Component<any, void> {
     constructor(props : any){
         super(props);
 
-        this.position = new ConstantSpeedAnimation(this.props.position.mul(this.props.squareSize), squareSpeed);
-        this.angle = new AngleAnimation(turnSpeed);
+        this.position = new ConstantSpeedAnimation(this.props.position.mul(this.props.squareSize), 10 - this.props.carSpeed);
+        this.angle = new AngleAnimation( (10-this.props.carSpeed) * 100);
     }
 
     componentDidUpdate(){
@@ -129,6 +129,7 @@ const mapStateToProps = state => ({
     highlight: state.settings.highlight === 'Enabled',
     rotation: getThemeAsset('PlayerRotation', state.settings.theme),
     player: getThemeAsset('Player', state.settings.theme),
+    carSpeed: parseFloat(state.settings.carSpeed),
 });
 
 const mapDispatchToProps = dispatch => ({

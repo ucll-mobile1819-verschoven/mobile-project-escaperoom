@@ -13,6 +13,7 @@ const options = {
 const initialState = {
     theme: options['theme'][0],
     highlight: options['highlight'][0],
+    carSpeed: '50',
 };
 
 export const settingsReducer = (state = initialState, action) => {
