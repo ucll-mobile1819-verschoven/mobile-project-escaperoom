@@ -1,7 +1,7 @@
 // @flow
 
 import React, {Component} from 'react';
-import {View, ImageBackground, Slider} from 'react-native';
+import {View, ImageBackground, Slider, Text, Image} from 'react-native';
 import {connect} from 'react-redux';
 
 import {styles} from "../styling/Style";
@@ -29,14 +29,27 @@ class SettingsScreen extends Component<any, void> {
                         source={this.props.button}
                         onPress={this.props.changeHighlight}/>
 
-                    <Slider
-                        style={{width: 200}}
-                        step={0.1}
-                        maximumValue={10}
-                        minimumValue={0.1}
-                        onValueChange={this.props.changeCarSpeed}
-                        value={this.props.carSpeed}
-                    />
+
+                    <View
+                        style={[styles.m10, styles.menuButton, styles.centered]}
+                      >
+
+                        <Image
+                            style={{resizeMode: 'contain', flex: 1}}
+                            source={this.props.button}/>
+
+                        <View style={{position: 'absolute', backgroundColor: 'transparent'}}>
+                            <Text style={styles.buttonText}>change car speed</Text>
+                            <Slider
+                                style={{width: 180}}
+                                step={0.1}
+                                maximumValue={10}
+                                minimumValue={0.1}
+                                onValueChange={this.props.changeCarSpeed}
+                                value={this.props.carSpeed}
+                            />
+                        </View>
+                    </View>
 
                 </View>
             </ImageBackground>

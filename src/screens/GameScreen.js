@@ -40,14 +40,17 @@ class GameScreen extends Component<any, void> {
                     </View>
                     <GameField />
                     <Text style={styles.title}>moves : {this.props.moveCounter}</Text>
+
+
                     <Modal
                         animationType="slide"
-                        transparent={false}
+                        transparent={true}
                         visible={this.props.gameFinished}
                         onRequestClose={this.props.nextGame}>
-                        <View style={styles.container}>
 
-                                <Text style={styles.title}>you won!</Text>
+                        <View style={styles.winScreen}>
+
+                                <Text>you won!</Text>
                             <Text>moves : {this.props.moveCounter}</Text>
 
                                 <ImageButton

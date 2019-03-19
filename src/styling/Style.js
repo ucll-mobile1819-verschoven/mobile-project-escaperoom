@@ -65,4 +65,19 @@ export const styles = StyleSheet.create({
         textAlign: 'center'
     },
 
+    winScreen:{
+        alignItems: 'center',
+        justifyContent: 'center',
+        opacity : 1,
+        backgroundColor: '#9FA8DA',
+        borderWidth : 3,
+        margin : "10%",
+        width: "80%",
+        height: "40%",
+        flex : 1,
+    },
+    winScreenButton : {
+        flex : 1 ,
+        margin :10,
+    }
 });
