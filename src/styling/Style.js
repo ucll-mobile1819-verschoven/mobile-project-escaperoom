@@ -68,12 +68,11 @@ export const styles = StyleSheet.create({
     winScreen:{
         alignItems: 'center',
         justifyContent: 'center',
-        opacity : 1,
-        backgroundColor: '#9FA8DA',
-        borderWidth : 3,
-        margin : "10%",
-        width: "80%",
-        height: "40%",
+        marginLeft : 5,
+        marginRight : 5,
+        marginTop : 50,
+        marginBottom : 50,
+        resizeMode: 'contain',
         flex : 1,
     },
     winScreenButton : {

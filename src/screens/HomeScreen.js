@@ -37,9 +37,6 @@ class HomeScreen extends Component<any, void> {
     }
 }
 
-
-
-
 const mapStateToProps = state => ({
     background : getThemeAsset('Background', state.settings.theme),
     button: getThemeAsset('Button', state.settings.theme),
