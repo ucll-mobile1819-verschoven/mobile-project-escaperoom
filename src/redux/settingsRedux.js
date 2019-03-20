@@ -6,7 +6,7 @@ const actions = {
 };
 
 const options = {
-    theme : ['Minimalistic', 'Car'],
+    theme : ['Minimalistic', 'Car' , 'Wood'],
     highlight : ['Enabled', 'Disabled'],
 };
 

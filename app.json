@@ -1,7 +1,7 @@
 {
   "expo": {
-    "name": "TestProject",
-    "slug": "TestProject",
+    "name": "park your car",
+    "slug": "parkyoucar",
     "privacy": "unlisted",
     "sdkVersion": "32.0.0",
     "platforms": [
@@ -24,6 +24,7 @@
     },
     "assetBundlePatterns": [
       "**/*"
-    ]
+    ],
+    "description": ""
   }
 }

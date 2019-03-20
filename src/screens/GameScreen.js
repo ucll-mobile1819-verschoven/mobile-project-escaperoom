@@ -41,7 +41,6 @@ class GameScreen extends Component<any, void> {
                     <GameField />
                     <Text style={styles.title}>moves : {this.props.moveCounter}</Text>
 
-
                     <Modal
                         animationType="slide"
                         transparent={true}
@@ -59,9 +58,11 @@ class GameScreen extends Component<any, void> {
                                     title={"next level"}
                                     source={this.props.button}
                                     onPress={this.props.nextGame}/>
-
                         </View>
                     </Modal>
+
+
+
 
 
                 </View>

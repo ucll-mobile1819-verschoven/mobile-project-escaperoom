@@ -29,6 +29,15 @@ const themes = {
         Finish : require('../../assets/images/Car/parking.jpg'),
         Background : require('../../assets/images/Car/game-background-2.jpg'),
         Button : require('../../assets/images/Car/redbutton.png'),
+    },
+    Wood : {
+        Player : require('../../assets/images/Car/red-car.png'),
+        PlayerRotation : true,
+        /* Empty : require('../../assets/images/transparant.png'),*/ // empty is hier weg zodat de achtergrond zichtbaar is
+        Wall : require('../../assets/images/Wood/blockade.png'),
+        Finish : require('../../assets/images/Car/parking.jpg'),
+        Background : require('../../assets/images/Wood/WoodenBackground.png'),
+        Button : require('../../assets/images/Wood/button.png'),
     }
 };
 
