@@ -10,10 +10,10 @@ const options = {
     highlight : ['Enabled', 'Disabled'],
 };
 
-const initialState = {
+export const initialState = {
     theme: options['theme'][0],
     highlight: options['highlight'][0],
-    carSpeed: '50',
+    carSpeed: '7.5',
 };
 
 export const settingsReducer = (state = initialState, action) => {

@@ -21,14 +21,12 @@ export default class ImageButton extends Component<ImageButtonProps, void> {
                 onPress={this.props.onPress}>
 
                 <Image
-                    style={{resizeMode: 'contain', flex: 1}}
+                    style={{position: 'absolute', width: "100%", height: "100%", resizeMode: 'contain'}}
                     source={this.props.source}/>
 
-                <View style={{position: 'absolute', backgroundColor: 'transparent'}}>
-                    <Text style={this.props.textStyle}>
-                        {this.props.title}
-                    </Text>
-                </View>
+                <Text style={this.props.textStyle}>
+                    {this.props.title}
+                </Text>
             </TouchableOpacity>
         )
     }

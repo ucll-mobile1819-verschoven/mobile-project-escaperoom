@@ -1,13 +1,13 @@
 // @flow
 
 import React, {Component} from 'react';
-import {View, AsyncStorage} from 'react-native';
-import {AppLoading, Asset, Font, Icon} from 'expo';
+import {AsyncStorage} from 'react-native';
+import {AppLoading, Font, Icon} from 'expo';
 import {Provider} from 'react-redux';
 
 import AppNavigator from './src/navigation/AppNavigator';
 import store from "./src/redux/store";
-import {setSetting} from "./src/redux/settingsRedux";
+import {initialState, setSetting} from "./src/redux/settingsRedux";
 
 type AppState = {
     isLoadingComplete: boolean;
@@ -23,7 +23,7 @@ export default class App extends Component<any, AppState> {
     }
 
     render() {
-        if (!this.state.isLoadingComplete && !this.props.skipLoadingScreen) {
+        if (!this.state.isLoadingComplete) {
             return (
                 <Provider store={store}>
                     <AppLoading
@@ -61,9 +61,8 @@ export default class App extends Component<any, AppState> {
     };
 
     _loadSettings() {
-        return Promise.all([
-            AsyncStorage.getItem('theme', (error, result) => store.dispatch(setSetting('theme', result))),
-            AsyncStorage.getItem('highlight', (error, result) => store.dispatch(setSetting('highlight', result))),
-        ]);
+        return Promise.all(
+            Object.keys(initialState).map(key => AsyncStorage.getItem(key, (error, result) => store.dispatch(setSetting(key, result))))
+         );
     }
 }

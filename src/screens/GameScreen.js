@@ -38,7 +38,9 @@ class GameScreen extends Component<any, void> {
                             source={this.props.button}
                             onPress={this.props.resetGame}/>
                     </View>
+
                     <GameField />
+
                     <Text style={styles.title}>moves : {this.props.moveCounter}</Text>
 
                     <Modal
@@ -47,13 +49,12 @@ class GameScreen extends Component<any, void> {
                         visible={this.props.gameFinished}
                         onRequestClose={this.props.nextGame}>
 
-                            <ImageBackground source={this.props.winbackground} style={styles.winScreen}>
+                            <ImageBackground source={this.props.winBackground} style={styles.winScreen}>
+                                <Image
+                                    style={{flex: 1}}
+                                    source={this.props.win}/>
 
-                            <Image
-                                style={{flex: 1}}
-                                source={this.props.win}/>
-
-                            <Text  style={styles.title}>moves : {this.props.moveCounter}</Text>
+                                <Text  style={styles.title}>moves : {this.props.moveCounter}</Text>
 
                                 <ImageButton
                                     style={styles.smallButton}
@@ -73,8 +74,9 @@ class GameScreen extends Component<any, void> {
 const mapStateToProps = state => ({
     background : getThemeAsset('Background', state.settings.theme),
     button: getThemeAsset('Button', state.settings.theme),
-    winbackground : getThemeAsset('winbackground', state.settings.theme),
+    winBackground : getThemeAsset('winBackground', state.settings.theme),
     win: getThemeAsset('win' , state.settings.theme),
+
     gameFinished : state.game.isGameFinished,
     moveCounter : state.game.moveCounter,
 });
