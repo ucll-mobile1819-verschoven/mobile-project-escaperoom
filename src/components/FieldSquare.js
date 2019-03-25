@@ -12,10 +12,13 @@ class FieldSquare extends Component<any, void> {
             <Image
                 source={getThemeAsset(this.props.type, this.props.theme)}
                 fadeDuration={0}
-                style={{
-                    width : this.props.size,
-                    height : this.props.size,
-                }}
+                style={[
+                    this.props.style,
+                    {
+                        width : this.props.size,
+                        height : this.props.size,
+                    }
+                ]}
             />
         );
     }

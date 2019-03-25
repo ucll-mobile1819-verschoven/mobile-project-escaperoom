@@ -11,24 +11,31 @@ import PlayerSquare from "./PlayerSquare";
 
 class GameField extends Component<any, void> {
     render() {
-        let id = 0;
+        let x = -1, y = -1;
         const w = this.props.grid.width();
         const h = this.props.grid.height();
         const squareSize = Math.floor(Math.min(window.width / w, window.height / h));
         const width = squareSize * w;
+        const height = squareSize * h;
 
         return (
             <PlayerSquare style={styles.gameFieldBorder} squareSize={squareSize}>
 
-                <View style={[{ width: width}, styles.gameField ]}>
-                    {this.props.grid._data.map(
-                        row => row.map(
-                            x =>
-                                <FieldSquare
-                                    key={id++}
-                                    type={x}
-                                    size={squareSize}/>
-                        )
+                <View style={{ width: width, height: height}}>
+                    {this.props.grid._data.map( row => {
+                            y++;
+                            x = -1;
+                            return row.map( type => {
+                                    x++;
+                                    return (type !== 'Empty') &&
+                                    <FieldSquare
+                                        style={{position: "absolute", left: x * squareSize, top: y * squareSize}}
+                                        key={x + y * w}
+                                        type={type}
+                                        size={squareSize}/>;
+                                }
+                            )
+                        }
                     )}
                 </View>
 

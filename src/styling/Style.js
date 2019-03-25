@@ -12,10 +12,6 @@ export const styles = StyleSheet.create({
         alignItems: 'center',
         justifyContent: 'center',
     },
-    gameField: {
-        flexDirection: 'row',
-        flexWrap: 'wrap',
-    },
     gameFieldBorder: {
         borderTopWidth: 2,
         borderBottomWidth : 2,
