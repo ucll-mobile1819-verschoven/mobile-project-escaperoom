@@ -12,6 +12,7 @@ import {move, moveEnded} from "../redux/gameRedux";
 import ConstantSpeedAnimation from "../utilities/ConstantSpeedAnimation";
 
 const panSpeed = 1;
+const turnSpeed = 50;
 
 class PlayerSquare extends Component<any, void> {
     position: ConstantSpeedAnimation;
@@ -21,7 +22,7 @@ class PlayerSquare extends Component<any, void> {
         super(props);
 
         this.position = new ConstantSpeedAnimation(this.props.position.mul(this.props.squareSize), this.props.carSpeed);
-        this.angle = new AngleAnimation( this.props.carSpeed * 100);
+        this.angle = new AngleAnimation( this.props.carSpeed * turnSpeed);
     }
 
     componentDidUpdate(){
@@ -31,7 +32,7 @@ class PlayerSquare extends Component<any, void> {
             if(this.props.rotation) animations.push(this.angle.turnTo(this.props.moveDir));
             animations.push(this.position.moveTo(this.props.position.mul(this.props.squareSize)));
 
-            Animated.sequence(animations).start(({finished}) => {finished && this.props.onMoveEnded();});
+            Animated.sequence(animations).start(() => this.props.onMoveEnded());
         } else {
             this.angle.setDir(this.props.moveDir);
             this.position.setValue(this.props.position.mul(this.props.squareSize));

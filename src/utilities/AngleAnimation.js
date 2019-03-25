@@ -39,9 +39,11 @@ export default class AngleAnimation extends Animated.Value {
         if(db < da) this.currentAngle = b;
         if(dc < db && dc < da) this.currentAngle = c;
 
+        let quarters = Math.min(da, db, dc) * 4;
+
         return Animated.timing(this, {
             toValue: this.currentAngle,
-            duration: this.turnSpeed,
+            duration: this.turnSpeed * quarters,
             easing: Easing.linear,
             useNativeDriver: true,
         });

@@ -25,9 +25,10 @@ export const gameReducer = (state = initialState, action) => {
             moving: true,
             moveDir: state.moving ? state.moveDir : action.payload,
             gameData: state.moving ? state.gameData : movePlayer(state.gameData, action.payload),
+            moveCounter: state.moveCounter + (state.moving ? 0 : 1),
             isGameFinished : false
         });
-        case actions.moveEnded:     return copyAndSet(state, {moving: false,  isGameFinished : gameEnded(state.gameData) , moveCounter: state.moveCounter + 1 });
+        case actions.moveEnded:     return copyAndSet(state, {moving: false,  isGameFinished : gameEnded(state.gameData) });
 
         default: return state;
     }
