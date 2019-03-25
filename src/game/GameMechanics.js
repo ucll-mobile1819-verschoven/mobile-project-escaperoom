@@ -29,6 +29,11 @@ export function movePlayer(game : Game, move : Move) : Game {
     return {grid : grid, player : pos, start : start};
 }
 
+export function validMove(game : Game, move : Move) : boolean {
+    const nextPos = game.player.add(dirs[move]);
+    return game.grid.inside(nextPos) && !isSolid[game.grid.at(nextPos)];
+}
+
 export function resetGame(game : Game) : Game {
     return {grid : game.grid, player : game.start, start: game.start};
 }
