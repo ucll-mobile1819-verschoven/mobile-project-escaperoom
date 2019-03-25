@@ -1,4 +1,5 @@
 import {gameEnded, generateGame, movePlayer, resetGame} from "../game/GameMechanics";
+import {copyAndSet} from "./utilRedux";
 
 const actions = {
     reset_game: 'RESET_GAME',
@@ -18,16 +19,15 @@ const initialState = {
 
 export const gameReducer = (state = initialState, action) => {
     switch (action.type){
-        case actions.reset_game:    return {moving: false,  moveDir: state.moveDir, gameData: resetGame(state.gameData), isGameFinished : false, moveCounter: state.moveCounter};
-        case actions.next_game:     return {moving: false,  moveDir: state.moveDir, gameData: generateGame() , isGameFinished : false , moveCounter: 0};
-        case actions.move: return {
+        case actions.reset_game:    return copyAndSet(state, {moving: false, gameData: resetGame(state.gameData), isGameFinished : false});
+        case actions.next_game:     return copyAndSet(state, {moving: false, gameData: generateGame() , isGameFinished : false , moveCounter: 0});
+        case actions.move:          return copyAndSet(state, {
             moving: true,
             moveDir: state.moving ? state.moveDir : action.payload,
             gameData: state.moving ? state.gameData : movePlayer(state.gameData, action.payload),
-            isGameFinished : false,
-            moveCounter: state.moveCounter
-        };
-        case actions.moveEnded:     return {moving: false,  moveDir: state.moveDir, gameData: state.gameData, isGameFinished : gameEnded(state.gameData) , moveCounter: state.moveCounter +1 };
+            isGameFinished : false
+        });
+        case actions.moveEnded:     return copyAndSet(state, {moving: false,  isGameFinished : gameEnded(state.gameData) , moveCounter: state.moveCounter + 1 });
 
         default: return state;
     }

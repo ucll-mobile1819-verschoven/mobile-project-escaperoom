@@ -11,7 +11,7 @@ import AngleAnimation from "../utilities/AngleAnimation";
 import {move, moveEnded} from "../redux/gameRedux";
 import ConstantSpeedAnimation from "../utilities/ConstantSpeedAnimation";
 
-const panSpeed = 10;
+const panSpeed = 1;
 
 class PlayerSquare extends Component<any, void> {
     position: ConstantSpeedAnimation;

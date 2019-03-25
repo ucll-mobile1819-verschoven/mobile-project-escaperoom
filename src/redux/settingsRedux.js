@@ -1,4 +1,5 @@
 import {saveData} from "../utilities/storage";
+import {copyAndSet} from "./utilRedux";
 
 const actions = {
     toggle_setting: 'TOGGLE_SETTING',
@@ -20,9 +21,11 @@ export const settingsReducer = (state = initialState, action) => {
     switch (action.type){
         case actions.toggle_setting: {
             const {key} = action.payload;
-            let next = JSON.parse(JSON.stringify(state));
 
-            next[key] = options[key][(options[key].indexOf(next[key]) + 1) % options[key].length];
+            let next = copyAndSet(state, {
+                [key] : options[key][(options[key].indexOf(state[key]) + 1) % options[key].length]
+            });
+
             saveData(key, next[key]);
 
             return next;
@@ -30,12 +33,12 @@ export const settingsReducer = (state = initialState, action) => {
 
         case actions.set_setting : {
             const {key, value} = action.payload;
-            let next = JSON.parse(JSON.stringify(state));
 
-            if(value) {
-                next[key] = value;
-                saveData(key, value);
-            }
+            let next = copyAndSet(state, {
+                [key] : value ? value : state[key]
+            });
+
+            saveData(key, next[key]);
 
             return next;
         }

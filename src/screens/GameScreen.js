@@ -39,9 +39,9 @@ class GameScreen extends Component<any, void> {
                             onPress={this.props.resetGame}/>
                     </View>
 
-                    <GameField />
-
                     <Text style={styles.title}>moves : {this.props.moveCounter}</Text>
+
+                    <GameField />
 
                     <Modal
                         animationType="slide"
