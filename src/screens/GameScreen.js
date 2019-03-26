@@ -8,6 +8,7 @@ import {styles} from "../styling/Style";
 import {getThemeAsset} from "../styling/Assets";
 import GameField from "../components/GameField";
 import ImageButton from "../components/ImageButton";
+import WinScreen from "../components/WinScreen";
 import {nextGame, gameReset} from "../redux/gameRedux";
 
 class GameScreen extends Component<any, void> {
@@ -43,27 +44,10 @@ class GameScreen extends Component<any, void> {
 
                     <GameField />
 
-                    <Modal
-                        animationType="slide"
-                        transparent={true}
-                        visible={this.props.gameFinished}
-                        onRequestClose={this.props.nextGame}>
+                    <WinScreen nextGame={this.props.nextGame}
+                               isVisible={this.props.gameFinished}
+                               scoreDict={{moves:this.props.moveCounter}} />
 
-                            <ImageBackground source={this.props.winBackground} style={styles.winScreen}>
-                                <Image
-                                    style={{flex: 1}}
-                                    source={this.props.win}/>
-
-                                <Text  style={styles.title}>moves : {this.props.moveCounter}</Text>
-
-                                <ImageButton
-                                    style={styles.smallButton}
-                                    textStyle={styles.buttonText}
-                                    title={"next level"}
-                                    source={this.props.button}
-                                    onPress={this.props.nextGame}/>
-                            </ImageBackground>
-                    </Modal>
                 </View>
             </ImageBackground>
 

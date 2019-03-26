@@ -23,9 +23,9 @@ class GameField extends Component<any, void> {
 
                 <View style={{ width: width, height: height}}>
                     {this.props.grid._data.map( row => {
-                            y++;
-                            x = -1;
-                            return row.map( type => {
+                                y++;
+                                x = -1;
+                                return row.map( type => {
                                     x++;
                                     return (type !== 'Empty') &&
                                     <FieldSquare
