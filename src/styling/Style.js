@@ -74,5 +74,11 @@ export const styles = StyleSheet.create({
     winScreenButton : {
         flex : 1 ,
         margin :10,
+    },
+    winscreenBackground : {
+        height: "100%",
+        width: "100%",
+        backgroundColor: "#0009",
+
     }
 });
