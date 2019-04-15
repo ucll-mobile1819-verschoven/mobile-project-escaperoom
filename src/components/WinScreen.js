@@ -2,7 +2,7 @@
 
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
-import {ImageBackground, Text, Modal , Image , View } from 'react-native';
+import {ImageBackground, Text, Modal , Image } from 'react-native';
 import {getThemeAsset} from "../styling/Assets";
 import {styles} from "../styling/Style";
 import ImageButton from "../components/ImageButton";
@@ -21,13 +21,12 @@ type WinScreenProps = {
 class WinScreen extends Component<WinScreenProps, void> {
     render() {
         return (
-
             <Modal
                 animationType="slide"
                 transparent={true}
                 visible={this.props.isVisible}
                 onRequestClose={this.props.nextGame}>
-                <View style={styles.winscreenBackground}>
+
                 <ImageBackground source={this.props.background} style={styles.winScreen}>
                     <Image
                         style={{flex: 1}}
@@ -47,8 +46,6 @@ class WinScreen extends Component<WinScreenProps, void> {
                         source={this.props.button}
                         onPress={this.props.nextGame}/>
                 </ImageBackground>
-
-                </View>
             </Modal>
         );
     }
