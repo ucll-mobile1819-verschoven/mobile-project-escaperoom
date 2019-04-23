@@ -122,8 +122,8 @@ class PlayerSquare extends Component<any, void> {
 
 const mapStateToProps = state => ({
     position: state.game.gameData.player,
+    moveDir: state.game.gameData.moveDir,
     moving: state.game.moving,
-    moveDir: state.game.moveDir,
 
     highlight: state.settings.highlight === 'Enabled',
     rotation: getThemeAsset('PlayerRotation', state.settings.theme),

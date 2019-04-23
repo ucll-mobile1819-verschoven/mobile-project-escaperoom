@@ -61,8 +61,8 @@ const mapStateToProps = state => ({
     winBackground : getThemeAsset('winBackground', state.settings.theme),
     win: getThemeAsset('win' , state.settings.theme),
 
-    gameFinished : state.game.isGameFinished,
-    moveCounter : state.game.moveCounter,
+    gameFinished : state.game.gameData.isGameFinished && !state.game.moving,
+    moveCounter : state.game.gameData.moveCounter,
 });
 
 const mapDispatchToProps = dispatch => ({
