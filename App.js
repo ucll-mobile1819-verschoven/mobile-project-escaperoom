@@ -7,7 +7,8 @@ import {Provider} from 'react-redux';
 
 import AppNavigator from './src/navigation/AppNavigator';
 import store from "./src/redux/store";
-import {initialState, setSetting} from "./src/redux/settingsRedux";
+import {initialState as settingKeys, setSetting} from "./src/redux/settingsRedux";
+import {initialState as playerDataKeys, setPlayerData} from "./src/redux/playerDataRedux";
 
 type AppState = {
     isLoadingComplete: boolean;
@@ -49,6 +50,7 @@ export default class App extends Component<any, AppState> {
                 'space-mono': require('./assets/fonts/SpaceMono-Regular.ttf'),
             }),
             this._loadSettings(),
+            this._loadPlayerData(),
         ]);
     };
 
@@ -62,7 +64,13 @@ export default class App extends Component<any, AppState> {
 
     _loadSettings() {
         return Promise.all(
-            Object.keys(initialState).map(key => AsyncStorage.getItem(key, (error, result) => store.dispatch(setSetting(key, result))))
+            Object.keys(settingKeys).map(key => AsyncStorage.getItem(key, (error, result) => store.dispatch(setSetting(key, result))))
          );
+    }
+
+    _loadPlayerData() {
+        return Promise.all(
+            Object.keys(playerDataKeys).map(key => AsyncStorage.getItem(key, (error, result) => store.dispatch(setPlayerData(key, result))))
+        );
     }
 }

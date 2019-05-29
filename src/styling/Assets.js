@@ -9,6 +9,10 @@ export const getThemeAsset = (key : string, theme : string) => {
 };
 
 const assets = {
+    Hand : require('../../assets/images/hand-icon.png'),
+    Star : require('../../assets/images/star.png'),
+    StarYellow : require('../../assets/images/yellow-star.png'),
+    StarRed : require('../../assets/images/red-star.png'),
 };
 
 const themes = {
@@ -21,6 +25,7 @@ const themes = {
         Button : require('../../assets/images/Minimalistic/uniformBlue.jpg'),
         win : require('../../assets/images/Win.png'),
         winBackground : require('../../assets/images/Wood/woodwinbackground.png'),
+        ConstrastColor: 'black',
     },
     Car : {
         Player : require('../../assets/images/Car/red-car.png'),
@@ -31,6 +36,7 @@ const themes = {
         Button : require('../../assets/images/Car/redbutton.png'),
         win : require('../../assets/images/Win.png'),
         winBackground : require('../../assets/images/Wood/woodwinbackground.png'),
+        ConstrastColor: 'white',
     },
     Wood : {
         Player : require('../../assets/images/Car/red-car.png'),
@@ -41,7 +47,7 @@ const themes = {
         Button : require('../../assets/images/Wood/button.png'),
         win : require('../../assets/images/Win.png'),
         winBackground : require('../../assets/images/Wood/woodwinbackground.png'),
-
+        ConstrastColor: 'white',
     }
 };
 

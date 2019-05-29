@@ -8,6 +8,9 @@ export const styles = StyleSheet.create({
     container: {
         flex: 1,
     },
+    rowFlex:{
+        flexDirection: 'row'
+    },
     centered: {
         alignItems: 'center',
         justifyContent: 'center',
@@ -37,7 +40,6 @@ export const styles = StyleSheet.create({
         borderColor: colors.PlayerColor,
     },
     title : {
-        color: colors.white,
         fontSize: 40,
         textAlign: 'center'
     },

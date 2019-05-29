@@ -8,6 +8,7 @@ import {styles} from "../styling/Style";
 type ImageButtonProps = {
     style?: any;
     textStyle?: any;
+    imageStyle?: any;
     source: any;
     title: string;
     onPress: any;
@@ -21,7 +22,7 @@ export default class ImageButton extends Component<ImageButtonProps, void> {
                 onPress={this.props.onPress}>
 
                 <Image
-                    style={{position: 'absolute', width: "100%", height: "100%", resizeMode: 'contain'}}
+                    style={[{position: 'absolute', width: "100%", height: "100%", resizeMode: 'contain'}, this.props.imageStyle]}
                     source={this.props.source}/>
 
                 <Text style={this.props.textStyle}>

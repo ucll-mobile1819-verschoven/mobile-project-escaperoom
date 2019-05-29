@@ -11,7 +11,7 @@ const actions = {
 
 const initialState = {
     moving: false,
-    gameData: generateGame(),
+    gameData: {} //generateGame(),
 };
 
 export const gameReducer = (state = initialState, action) => {
