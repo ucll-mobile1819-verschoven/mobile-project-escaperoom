@@ -2,7 +2,7 @@
 
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
-import {ImageBackground, Text, Modal, View } from 'react-native';
+import {ImageBackground, Text, View } from 'react-native';
 import {getThemeAsset} from "../styling/Assets";
 import {styles} from "../styling/Style";
 import ImageButton from "../components/ImageButton";
@@ -23,17 +23,14 @@ type WinScreenProps = {
 
 class WinScreen extends Component<WinScreenProps, void> {
     render() {
-        return (
-            <Modal
-                animationType="slide"
-                transparent={true}
-                visible={this.props.isVisible}
-                onRequestClose={this.props.back}>
+        if(!this.props.isVisible) {
+            return <View style={{width: 0, height: 0}}/>;
+        }
 
-                <View style={styles.winscreenBackground}>
-                    <ImageBackground source={this.props.background} style={[styles.winScreen, {paddingTop: 32, paddingBottom: 32}]}>
-                        <ImageBackground source={this.props.win} style={{flex: 1}} imageStyle={{resizeMode: 'stretch'}}>
-                            <Text style={{fontSize: 40, color: this.props.color, paddingLeft: 25, paddingRight: 25, top : 20}}>{this.props.message}</Text>
+        return  <View style={styles.winscreenBackground}>
+                    <ImageBackground source={this.props.background} style={[styles.winScreen]}>
+                        <ImageBackground source={this.props.win} style={{flex: 1, marginTop: 32}} imageStyle={{resizeMode: 'stretch'}}>
+                            <Text style={{fontSize: 40, color: this.props.color, paddingLeft: 25, paddingRight: 25, top : 9}}>{this.props.message}</Text>
                         </ImageBackground>
 
                         {
@@ -44,7 +41,7 @@ class WinScreen extends Component<WinScreenProps, void> {
                             })
                         }
 
-                        <View style={[styles.rowFlex, styles.container]}>
+                        <View style={[styles.rowFlex, {flex: 1}]}>
                             <ImageButton
                                 style={styles.smallButton}
                                 textStyle={styles.bigButtonText}
@@ -61,15 +58,13 @@ class WinScreen extends Component<WinScreenProps, void> {
                         </View>
 
                         <ImageButton
-                            style={{margin: 7, flex: 0.5}}
+                            style={{flex: 1, width: '50%', marginBottom: 32}}
                             textStyle={styles.bigButtonText}
                             title={"menu"}
                             source={this.props.button}
                             onPress={this.props.back}/>
                     </ImageBackground>
-                </View>
-            </Modal>
-        );
+                </View>;
     }
 }
 
@@ -77,7 +72,7 @@ const mapStateToProps = state => ({
     background : getThemeAsset('winBackground' , state.settings.theme ),
     win: getThemeAsset('win' , state.settings.theme),
     button: getThemeAsset('Button', state.settings.theme),
-    color: getThemeAsset('ConstrastColor', state.settings.theme),
+    color: getThemeAsset('ContrastColor', state.settings.theme),
 });
 
 const mapDispatchToProps = dispatch => ({

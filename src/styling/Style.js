@@ -64,7 +64,7 @@ export const styles = StyleSheet.create({
     },
     buttonText: {
         color: colors.white,
-        fontSize: 18,
+        fontSize: 22,
         textAlign: 'center'
     },
 
@@ -81,9 +81,8 @@ export const styles = StyleSheet.create({
         margin :10,
     },
     winscreenBackground : {
-        height: "100%",
-        width: "100%",
+        width: '100%',
+        height: '100%',
         backgroundColor: "#0009",
-
     }
 });

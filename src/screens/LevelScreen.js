@@ -74,7 +74,7 @@ class LevelScreen extends Component<any, any> {
                         {Object.keys(levelData).map(tabName => (
                             <ImageButton
                                 key={tabName}
-                                style={[{width: 80, marginLeft: 8}]}
+                                style={[{width: 80, margin: 5}]}
                                 textStyle={{color: this.props.color, fontSize: 22}}
                                 source={this.props.button}
                                 title={tabName}
@@ -103,7 +103,7 @@ class LevelScreen extends Component<any, any> {
 
 const mapStateToProps = state => ({
     background : getThemeAsset('Background', state.settings.theme),
-    color : getThemeAsset('ConstrastColor', state.settings.theme),
+    color : getThemeAsset('ContrastColor', state.settings.theme),
     button : getThemeAsset('Button', state.settings.theme),
     highscore : state.playerData.highscore,
 });

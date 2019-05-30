@@ -24,19 +24,18 @@ class GameScreen extends Component<any, void> {
         return (
             <ImageBackground source={this.props.background} style={styles.container}>
                 <View style={styles.container}>
-
                     <View style={{flexDirection: 'row', width: '100%', height: 50}}>
                         <ImageButton
                             style={styles.smallButton}
                             textStyle={styles.buttonText}
-                            title={"back"}
+                            title={"menu"}
                             source={this.props.button}
                             onPress={() => this.props.navigation.navigate('Level')}/>
 
                         <ImageButton
                             style={styles.smallButton}
                             textStyle={styles.buttonText}
-                            title={"next level"}
+                            title={"next"}
                             source={this.props.button}
                             onPress={this.props.nextGame}/>
 
@@ -51,15 +50,14 @@ class GameScreen extends Component<any, void> {
                     <Text style={[styles.title, {color: this.props.color}]}>moves : {this.props.moveCounter}</Text>
 
                     <GameField />
-
-                    <WinScreen nextGame={this.props.nextGame}
-                               restart={this.props.resetGame}
-                               back={() => this.props.navigation.navigate('Level')}
-                               isVisible={this.props.gameFinished}
-                               scoreDict={{target: this.props.target, 'your moves': this.props.moveCounter}}
-                               message={this.props.target === this.props.moveCounter ? "Perfect Victory" : "Victory"}/>
-
                 </View>
+
+                <WinScreen nextGame={this.props.nextGame}
+                           restart={this.props.resetGame}
+                           back={() => this.props.navigation.navigate('Level')}
+                           isVisible={this.props.gameFinished}
+                           scoreDict={{target: this.props.target, 'your moves': this.props.moveCounter}}
+                           message={this.props.target === this.props.moveCounter ? "Perfect Victory" : "Victory"}/>
             </ImageBackground>
 
         );
@@ -69,7 +67,7 @@ class GameScreen extends Component<any, void> {
 const mapStateToProps = state => ({
     background : getThemeAsset('Background', state.settings.theme),
     button: getThemeAsset('Button', state.settings.theme),
-    color: getThemeAsset('ConstrastColor', state.settings.theme),
+    color: getThemeAsset('ContrastColor', state.settings.theme),
 
     gameFinished : state.game.gameData.isGameFinished && !state.game.moving,
     moveCounter : state.game.gameData.moveCounter,

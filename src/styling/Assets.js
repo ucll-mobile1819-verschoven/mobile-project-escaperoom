@@ -25,7 +25,7 @@ const themes = {
         Button : require('../../assets/images/Minimalistic/uniformBlue.jpg'),
         win : require('../../assets/images/Minimalistic/SimpleWin.png'),
         winBackground : require('../../assets/images/Minimalistic/winbackground.png'),
-        ConstrastColor: 'black',
+        ContrastColor: 'black',
     },
     Car : {
         Player : require('../../assets/images/Car/red-car.png'),
@@ -36,7 +36,7 @@ const themes = {
         Button : require('../../assets/images/Car/redbutton.png'),
         win : require('../../assets/images/Car/Win.png'),
         winBackground : require('../../assets/images/Car/winbackground.png'),
-        ConstrastColor: 'black',
+        ContrastColor: 'black',
     },
     Wood : {
         Player : require('../../assets/images/Wood/car.png'),
@@ -47,7 +47,7 @@ const themes = {
         Button : require('../../assets/images/Wood/button.png'),
         win : require('../../assets/images/Wood/Win.png'),
         winBackground : require('../../assets/images/Wood/woodwinbackground.png'),
-        ConstrastColor: 'white',
+        ContrastColor: 'white',
     }
 };
 

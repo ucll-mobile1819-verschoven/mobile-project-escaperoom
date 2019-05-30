@@ -23,9 +23,9 @@ class HomeScreen extends Component<any, void> {
     render() {
         return (
             <ImageBackground source={this.props.background} style={styles.container}>
-                <Text style={[styles.title, {color: this.props.color}]}>park your car</Text>
+                <Text style={[{textAlign: 'center', fontSize: 50, color: this.props.color, marginTop: 50}]}>park your car</Text>
 
-                <View style={[styles.container, styles.centered]}>
+                <View style={[styles.container, styles.centered, {marginTop: -100}]}>
                     <StatusBar hidden/>
 
                     {this.createMenuButton("Select Level", "Level")}
@@ -39,7 +39,7 @@ class HomeScreen extends Component<any, void> {
 
 const mapStateToProps = state => ({
     background : getThemeAsset('Background', state.settings.theme),
-    color : getThemeAsset('ConstrastColor', state.settings.theme),
+    color : getThemeAsset('ContrastColor', state.settings.theme),
     button: getThemeAsset('Button', state.settings.theme),
 });
 

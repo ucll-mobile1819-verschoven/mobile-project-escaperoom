@@ -22,7 +22,7 @@ export default class ImageButton extends Component<ImageButtonProps, void> {
                 onPress={this.props.onPress}>
 
                 <Image
-                    style={[{position: 'absolute', width: "100%", height: "100%", resizeMode: 'contain'}, this.props.imageStyle]}
+                    style={[{position: 'absolute', width: "100%", height: "100%", resizeMode: 'stretch'}, this.props.imageStyle]}
                     source={this.props.source}/>
 
                 <Text style={this.props.textStyle}>

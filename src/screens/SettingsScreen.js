@@ -1,7 +1,7 @@
 // @flow
 
 import React, {Component} from 'react';
-import {View, ImageBackground} from 'react-native';
+import {View, ImageBackground, Text} from 'react-native';
 import {connect} from 'react-redux';
 
 import {styles} from "../styling/Style";
@@ -16,17 +16,21 @@ class SettingsScreen extends Component<any, void> {
             <ImageBackground  source={this.props.background} style={styles.container}>
                 <View style={[styles.container, styles.centered]}>
 
+                    <Text style={[{color: this.props.color, fontSize: 30, textAlign: 'center', width: '70%'}]}>
+                        Click on a setting to change it
+                    </Text>
+
                     <ImageButton
                         style={[styles.m10, styles.menuButton]}
                         textStyle={styles.buttonText}
-                        title={"Change theme: " + this.props.theme}
+                        title={"Color theme: " + this.props.theme}
                         source={this.props.button}
                         onPress={this.props.changeTheme}/>
 
                     <ImageButton
                         style={[styles.m10, styles.menuButton]}
                         textStyle={styles.buttonText}
-                        title={"Change highlight: " + this.props.highlight}
+                        title={"Guide lines: " + this.props.highlight}
                         source={this.props.button}
                         onPress={this.props.changeHighlight}/>
 
@@ -34,7 +38,7 @@ class SettingsScreen extends Component<any, void> {
                         style={[styles.m10, styles.menuButton]}
                         textStyle={styles.buttonText}
                         sliderStyle={{width: 180}}
-                        title={"change car speed"}
+                        title={"Car speed"}
                         source={this.props.button}
                         step={0.1}
                         minimumValue={5}
@@ -51,6 +55,7 @@ class SettingsScreen extends Component<any, void> {
 const mapStateToProps = state => ({
     background : getThemeAsset('Background', state.settings.theme),
     button: getThemeAsset('Button', state.settings.theme),
+    color: getThemeAsset('ContrastColor', state.settings.theme),
 
     theme: state.settings.theme,
     highlight: state.settings.highlight,
