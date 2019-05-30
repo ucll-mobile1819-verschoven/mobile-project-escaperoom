@@ -35,7 +35,7 @@ const themes = {
         Background : require('../../assets/images/Car/background.png'),
         Button : require('../../assets/images/Car/redbutton.png'),
         win : require('../../assets/images/Car/Win.png'),
-        winBackground : require('../../assets/images/Wood/woodwinbackground.png'),
+        winBackground : require('../../assets/images/Car/winbackground.png'),
         ConstrastColor: 'black',
     },
     Wood : {
