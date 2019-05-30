@@ -53,6 +53,8 @@ class GameScreen extends Component<any, void> {
                     <GameField />
 
                     <WinScreen nextGame={this.props.nextGame}
+                               restart={this.props.resetGame}
+                               back={() => this.props.navigation.navigate('Level')}
                                isVisible={this.props.gameFinished}
                                scoreDict={{target: this.props.target, 'your moves': this.props.moveCounter}}
                                message={this.props.target === this.props.moveCounter ? "Perfect Victory" : "Victory"}/>

@@ -2,16 +2,19 @@
 
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
-import {ImageBackground, Text, Modal , Image , View } from 'react-native';
+import {ImageBackground, Text, Modal, View } from 'react-native';
 import {getThemeAsset} from "../styling/Assets";
 import {styles} from "../styling/Style";
 import ImageButton from "../components/ImageButton";
 
 type WinScreenProps = {
     nextGame : any;
+    restart : any;
+    back : any;
+
     isVisible : boolean;
     scoreDict : any;
-    message: string,
+    message: string;
 
     background? : any;
     win? : any;
@@ -25,7 +28,7 @@ class WinScreen extends Component<WinScreenProps, void> {
                 animationType="slide"
                 transparent={true}
                 visible={this.props.isVisible}
-                onRequestClose={this.props.nextGame}>
+                onRequestClose={this.props.back}>
 
                 <View style={styles.winscreenBackground}>
                     <ImageBackground source={this.props.background} style={[styles.winScreen, {paddingTop: 32, paddingBottom: 32}]}>
@@ -41,12 +44,28 @@ class WinScreen extends Component<WinScreenProps, void> {
                             })
                         }
 
+                        <View style={[styles.rowFlex, styles.container]}>
+                            <ImageButton
+                                style={styles.smallButton}
+                                textStyle={styles.bigButtonText}
+                                title={"next"}
+                                source={this.props.button}
+                                onPress={this.props.nextGame}/>
+
+                            <ImageButton
+                                style={styles.smallButton}
+                                textStyle={styles.bigButtonText}
+                                title={"redo"}
+                                source={this.props.button}
+                                onPress={this.props.restart}/>
+                        </View>
+
                         <ImageButton
-                            style={styles.smallButton}
+                            style={{margin: 7, flex: 0.5}}
                             textStyle={styles.bigButtonText}
-                            title={"next level"}
+                            title={"menu"}
                             source={this.props.button}
-                            onPress={this.props.nextGame}/>
+                            onPress={this.props.back}/>
                     </ImageBackground>
                 </View>
             </Modal>
