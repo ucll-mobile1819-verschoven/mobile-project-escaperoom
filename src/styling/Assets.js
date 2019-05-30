@@ -32,11 +32,11 @@ const themes = {
         PlayerRotation : true,
         Wall : require('../../assets/images/Car/brick-wall.jpg'),
         Finish : require('../../assets/images/Car/parking.jpg'),
-        Background : require('../../assets/images/Car/game-background-2.jpg'),
+        Background : require('../../assets/images/Car/background.png'),
         Button : require('../../assets/images/Car/redbutton.png'),
         win : require('../../assets/images/Car/Win.png'),
         winBackground : require('../../assets/images/Wood/woodwinbackground.png'),
-        ConstrastColor: 'white',
+        ConstrastColor: 'black',
     },
     Wood : {
         Player : require('../../assets/images/Car/red-car.png'),
