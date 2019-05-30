@@ -31,6 +31,8 @@ export const playerDataReducer = (state = initialState, action) => {
         case actions.update_highscore : {
             const {id, score} = action.payload;
 
+            if(state.highscore[id] <= score) return state;
+
             mergeData('highscore', JSON.stringify({[id] : score}));
 
             return copyAndSet(state, {

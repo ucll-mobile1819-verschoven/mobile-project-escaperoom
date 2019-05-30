@@ -13,9 +13,9 @@ type WinScreenProps = {
     isVisible : boolean;
     scoreDict : any;
 
-    background : any;
-    win: any;
-    button : any;
+    background? : any;
+    win? : any;
+    button? : any;
 }
 
 class WinScreen extends Component<WinScreenProps, void> {
