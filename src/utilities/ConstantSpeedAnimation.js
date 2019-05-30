@@ -13,9 +13,11 @@ export default class ConstantSpeedAnimation extends Animated.ValueXY {
         this.currentPosition = pos;
     }
 
-    setValue(pos : any) {
-        super.setValue(pos);
-        this.currentPosition = pos;
+    setValue(pos : Vec2) {
+        if(!pos.equals(this.currentPosition)) { // Why ? To prevent bug in AnimatedValue (setting to same value crashes)
+            super.setValue(pos);
+            this.currentPosition = pos;
+        }
     }
 
     moveTo(pos : Vec2) {

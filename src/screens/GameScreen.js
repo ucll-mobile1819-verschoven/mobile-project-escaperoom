@@ -10,8 +10,15 @@ import GameField from "../components/GameField";
 import ImageButton from "../components/ImageButton";
 import WinScreen from "../components/WinScreen";
 import {nextGame, gameReset} from "../redux/gameRedux";
+import {updateHighscore} from "../redux/playerDataRedux";
 
 class GameScreen extends Component<any, void> {
+    componentDidUpdate(prevProps, prevState) {
+        if (!prevProps.gameFinished && this.props.gameFinished){
+            this.props.updateHighscore(this.props.levelId, this.props.moveCounter);
+        }
+    }
+
     render() {
         return (
             <ImageBackground source={this.props.background} style={styles.container}>
@@ -23,7 +30,7 @@ class GameScreen extends Component<any, void> {
                             textStyle={styles.buttonText}
                             title={"back"}
                             source={this.props.button}
-                            onPress={() => this.props.navigation.navigate('Home')}/>
+                            onPress={() => this.props.navigation.navigate('Level')}/>
 
                         <ImageButton
                             style={styles.smallButton}
@@ -63,11 +70,13 @@ const mapStateToProps = state => ({
 
     gameFinished : state.game.gameData.isGameFinished && !state.game.moving,
     moveCounter : state.game.gameData.moveCounter,
+    levelId : state.game.levelId,
 });
 
 const mapDispatchToProps = dispatch => ({
     nextGame: () => dispatch(nextGame()),
     resetGame: () => dispatch(gameReset()),
+    updateHighscore: (id, score) => dispatch(updateHighscore(id, score)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(GameScreen);

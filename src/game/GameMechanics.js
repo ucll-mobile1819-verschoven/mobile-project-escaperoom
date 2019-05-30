@@ -48,8 +48,32 @@ export function resetGame(game : Game) : Game {
         start: game.start,
         moveDir: game.moveDir,
         isGameFinished: false,
-        moveCounter: game.moveCounter
+        moveCounter: 0
     };
+}
+
+export function levelToGame(level) : Game {
+    let y = level.findIndex(line => line.includes('S'));
+    let x = level[y].indexOf('S');
+    let grid = new Grid<Square>(0, 0, "Empty");
+    grid._data = level.map(line => line.split('').map(char => char_to_square(char)));
+
+    return {
+        grid : grid,
+        player : new Vec2(x, y),
+        start : new Vec2(x, y),
+        moveDir : dirs.Right,
+        isGameFinished : false,
+        moveCounter : 0,
+    };
+}
+
+function char_to_square(char) {
+    switch (char) {
+        case 'W': return "Wall";
+        case 'F': return "Finish";
+        default: return "Empty";
+    }
 }
 
 const dirs = {Left: new Vec2(-1, 0), Right: new Vec2(1, 0), Up: new Vec2(0, -1), Down: new Vec2(0, 1)};

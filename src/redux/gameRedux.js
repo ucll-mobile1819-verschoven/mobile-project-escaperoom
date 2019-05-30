@@ -1,29 +1,42 @@
-import {gameEnded, generateGame, movePlayer, resetGame, validMove} from "../game/GameMechanics";
+import {levelToGame, movePlayer, resetGame} from "../game/GameMechanics";
 import {copyAndSet} from "./utilRedux";
+import {idToLevel, nextLevelId} from "../game/GameLevel";
 
 const actions = {
     reset_game: 'RESET_GAME',
+    set_game: 'SET_GAME',
     next_game: 'NEXT_GAME',
     move: 'MOVE',
     moveEnded: 'MOVE_ENDED',
-    check_game: 'CHECK_GAME',
 };
 
 const initialState = {
     moving: false,
-    gameData: {} //generateGame(),
+    levelId: "",
+    gameData: {}
 };
 
 export const gameReducer = (state = initialState, action) => {
     switch (action.type){
-        case actions.reset_game:    return copyAndSet(state, {moving: false, gameData: resetGame(state.gameData)});
-        case actions.next_game:     return copyAndSet(state, {moving: false, gameData: generateGame()});
+        case actions.reset_game: {
+            return copyAndSet(state, {moving: false, gameData: resetGame(state.gameData)});
+        }
+        case actions.set_game: {
+            let new_id = action.payload;
+            return copyAndSet(state, {moving: false, levelId: new_id, gameData: levelToGame(idToLevel(new_id))});
+        }
+        case actions.next_game: {
+            let new_id = nextLevelId(state.levelId);
+            return copyAndSet(state, {moving: false, levelId: new_id, gameData: levelToGame(idToLevel(new_id))});
+        }
         case actions.move: {
             if(state.moving) return state;
 
             return copyAndSet(state, {moving: true, gameData: movePlayer(state.gameData, action.payload)});
         }
-        case actions.moveEnded:     return copyAndSet(state, {moving: false});
+        case actions.moveEnded: {
+            return copyAndSet(state, {moving: false});
+        }
 
         default: return state;
     }
@@ -32,6 +45,11 @@ export const gameReducer = (state = initialState, action) => {
 export const gameReset = () => ({
     type: actions.reset_game,
     payload: '',
+});
+
+export const setGame = (id) => ({
+    type: actions.set_game,
+    payload: id
 });
 
 export const nextGame = () => ({

@@ -21,12 +21,12 @@ type WinScreenProps = {
 class WinScreen extends Component<WinScreenProps, void> {
     render() {
         return (
-
             <Modal
                 animationType="slide"
                 transparent={true}
                 visible={this.props.isVisible}
                 onRequestClose={this.props.nextGame}>
+
                 <View style={styles.winscreenBackground}>
                 <ImageBackground source={this.props.background} style={styles.winScreen}>
                     <Image
@@ -38,7 +38,6 @@ class WinScreen extends Component<WinScreenProps, void> {
                             return  <Text key = {key} style={styles.title}>{key} : {this.props.scoreDict[key]}</Text>
                         })
                     }
-
 
                     <ImageButton
                         style={styles.smallButton}
