@@ -39,7 +39,7 @@ const themes = {
         ConstrastColor: 'black',
     },
     Wood : {
-        Player : require('../../assets/images/Car/red-car.png'),
+        Player : require('../../assets/images/Wood/car.png'),
         PlayerRotation : true,
         Wall : require('../../assets/images/Wood/blockade.png'),
         Finish : require('../../assets/images/Car/parking.jpg'),
