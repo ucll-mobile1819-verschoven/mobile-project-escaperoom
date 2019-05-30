@@ -57,6 +57,11 @@ export const styles = StyleSheet.create({
     m10 : {
         margin : 10
     },
+    bigButtonText: {
+        color: colors.white,
+        fontSize: 40,
+        textAlign: 'center'
+    },
     buttonText: {
         color: colors.white,
         fontSize: 18,
@@ -66,10 +71,8 @@ export const styles = StyleSheet.create({
     winScreen:{
         alignItems: 'center',
         justifyContent: 'center',
-        marginLeft : 5,
-        marginRight : 5,
-        marginTop : 50,
-        marginBottom : 50,
+        marginTop : 60,
+        marginBottom : 60,
         resizeMode: 'contain',
         flex : 1,
     },

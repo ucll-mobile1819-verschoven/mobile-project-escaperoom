@@ -11,6 +11,7 @@ import ImageButton from "../components/ImageButton";
 import WinScreen from "../components/WinScreen";
 import {nextGame, gameReset} from "../redux/gameRedux";
 import {updateHighscore} from "../redux/playerDataRedux";
+import {idToDifficulty} from "../game/GameLevel";
 
 class GameScreen extends Component<any, void> {
     componentDidUpdate(prevProps, prevState) {
@@ -47,13 +48,14 @@ class GameScreen extends Component<any, void> {
                             onPress={this.props.resetGame}/>
                     </View>
 
-                    <Text style={styles.title}>moves : {this.props.moveCounter}</Text>
+                    <Text style={[styles.title, {color: this.props.color}]}>moves : {this.props.moveCounter}</Text>
 
                     <GameField />
 
                     <WinScreen nextGame={this.props.nextGame}
                                isVisible={this.props.gameFinished}
-                               scoreDict={{moves:this.props.moveCounter}} />
+                               scoreDict={{target: this.props.target, 'your moves': this.props.moveCounter}}
+                               message={this.props.target === this.props.moveCounter ? "Perfect Victory" : "Victory"}/>
 
                 </View>
             </ImageBackground>
@@ -65,12 +67,11 @@ class GameScreen extends Component<any, void> {
 const mapStateToProps = state => ({
     background : getThemeAsset('Background', state.settings.theme),
     button: getThemeAsset('Button', state.settings.theme),
-    winBackground : getThemeAsset('winBackground', state.settings.theme),
-    win: getThemeAsset('win' , state.settings.theme),
+    color: getThemeAsset('ConstrastColor', state.settings.theme),
 
     gameFinished : state.game.gameData.isGameFinished && !state.game.moving,
     moveCounter : state.game.gameData.moveCounter,
-    levelId : state.game.levelId,
+    target : idToDifficulty(state.game.levelId),
 });
 
 const mapDispatchToProps = dispatch => ({

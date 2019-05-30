@@ -23,8 +23,8 @@ const themes = {
         Finish : require('../../assets/images/Minimalistic/Minimalistic-finish.jpg'),
        /* Background : require('../../assets/images/game-background-2.jpg'), */
         Button : require('../../assets/images/Minimalistic/uniformBlue.jpg'),
-        win : require('../../assets/images/Win.png'),
-        winBackground : require('../../assets/images/Wood/woodwinbackground.png'),
+        win : require('../../assets/images/SimpleWin.png'),
+        winBackground : require('../../assets/images/Minimalistic/winbackground.png'),
         ConstrastColor: 'black',
     },
     Car : {

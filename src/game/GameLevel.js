@@ -28,3 +28,7 @@ export function nextLevelId(id) {
     difficulty = baseDifficulty;
     return levelToId(difficulty, nr);
 }
+
+export function idToDifficulty(id) {
+    return parseInt(id.split("-")[1]);
+}
