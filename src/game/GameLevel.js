@@ -2,33 +2,33 @@
 
 export const levelData = require('../../assets/levels/levels.json');
 
-const baseDifficulty = 2;
-
 export function idToLevel(id) {
-    let [version, difficulty, nr] = id.split("-");
-    if (version !== levelData.version) return null;
-
-    return levelData.levels[difficulty - baseDifficulty]["Level " + nr];
+    let [tab, difficulty, nr] = id.split("#");
+    return levelData[tab][difficulty][parseInt(nr)];
 }
 
-export function levelToId(difficulty, nr) {
-    return levelData.version + "-" + difficulty + "-" + nr;
+export function levelToId(tab, difficulty, nr) {
+    return tab + "#" + difficulty + "#" + nr;
 }
 
 // ! Assumes existing difficulties are contiguous starting from 2
 export function nextLevelId(id) {
-    let [version, difficulty, nr] = id.split("-");
-    if (version !== levelData.version) return null;
+    const [tab, difficulty, nr] = id.split("#");
 
-    nr++;
-    if(levelData.levels[difficulty - baseDifficulty]["Level " + nr]) return levelToId(difficulty, nr);
-    difficulty++;
-    nr = 1;
-    if(levelData.levels[difficulty - baseDifficulty]) return levelToId(difficulty, nr);
-    difficulty = baseDifficulty;
-    return levelToId(difficulty, nr);
+    const next_index = parseInt(nr) + 1;
+    if(levelData[tab][difficulty][next_index]) return levelToId(tab, difficulty, next_index);
+
+    const tab_keys = Object.keys(levelData[tab]);
+    const next_difficulty_index = tab_keys.indexOf(difficulty) + 1;
+    if(next_difficulty_index < tab_keys.length) return levelToId(tab, tab_keys[next_difficulty_index], 0);
+
+    const tabs = Object.keys(levelData);
+    const next_tab_index = tabs.indexOf(tab) + 1;
+    if(next_tab_index < tabs.length) return levelToId(tabs[next_tab_index], Object.keys(levelData[tabs[next_tab_index]])[0], 0);
+
+    return levelToId(tabs[0], Object.keys(levelData[tabs[0]])[0], 0);
 }
 
 export function idToDifficulty(id) {
-    return parseInt(id.split("-")[1]);
+    return parseInt(id.split("#")[1]);
 }

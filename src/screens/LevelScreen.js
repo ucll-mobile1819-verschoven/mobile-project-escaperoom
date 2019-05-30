@@ -1,34 +1,45 @@
 // @flow
 
 import React, {Component} from 'react';
-import {View, ImageBackground, Text, ScrollView, Image} from 'react-native';
+import {View, ImageBackground, Text, Image} from 'react-native';
 import {connect} from 'react-redux';
 
 import {styles} from "../styling/Style";
 import {getAsset, getThemeAsset} from "../styling/Assets";
 import ImageButton from "../components/ImageButton";
-import {levelToId} from "../game/GameLevel";
+import {levelData, levelToId} from "../game/GameLevel";
 import {setGame} from "../redux/gameRedux";
 
-class LevelScreen extends Component<any, void> {
+class LevelScreen extends Component<any, any> {
+    constructor(){
+        super();
+
+        this.state = {tab : Object.keys(levelData)[0]};
+    }
+
     createGameButton(difficulty, nr) {
-        let id = levelToId(difficulty, nr);
+        let id = levelToId(this.state.tab, difficulty, nr);
         let score = this.props.highscore[id];
 
         return (
-            <ImageBackground source={this.props.button} style={[{width: 64, height: 64}, styles.m5]} imageStyle={{resizeMode: 'stretch'}}>
+            <ImageBackground
+                source={this.props.button}
+                style={[{width: 64, height: 64}, styles.m5]}
+                imageStyle={{resizeMode: 'stretch'}}
+                key={nr}>
+
                 <ImageButton
                     style={[styles.m5, {width: 54, height: 54}]}
                     textStyle={{color: this.props.color, fontSize: 22}}
-                    source={score === difficulty ? getAsset('StarRed') : score ? getAsset('StarYellow') : getAsset('Star')}
-                    title={nr}
+                    source={score === parseInt(difficulty) ? getAsset('StarRed') : score ? getAsset('StarYellow') : getAsset('Star')}
+                    title={nr + 1}
                     onPress={() => {this.props.setGame(id); this.props.navigation.navigate('Game');}}/>
             </ImageBackground>
         );
     }
 
     render() {
-        let levelData = require('../../assets/levels/levels.json');
+        const tabData = levelData[this.state.tab];
 
         return (
             <ImageBackground source={this.props.background} style={[styles.container]}>
@@ -58,20 +69,33 @@ class LevelScreen extends Component<any, void> {
                     </View>
                 </View>
 
-                <ScrollView style={[{flex: 1}]}>
-                    {levelData.levels.map(group => (
-                        <View key={group.Difficulty} style={[styles.rowFlex]}>
+                <View styles={[{flex: 0.05}]}>
+                    <View style={[styles.rowFlex, {flexWrap: 'wrap'}]}>
+                        {Object.keys(levelData).map(tabName => (
+                            <ImageButton
+                                key={tabName}
+                                style={[{width: 80, marginLeft: 8}]}
+                                textStyle={{color: this.props.color, fontSize: 22}}
+                                source={this.props.button}
+                                title={tabName}
+                                onPress={() => {this.setState({tab: tabName});}}/>
+                        ))}
+                    </View>
+                </View>
+
+                <View style={[{flex: 1}]}>
+                    {Object.keys(tabData).map(difficulty => (
+                        <View key={difficulty} style={[styles.rowFlex]}>
                             <ImageBackground source={getAsset('Hand')} style={{width: 64, height: 64}} imageStyle={[{tintColor: this.props.color}]}>
-                                <Text style={{top: 28, left: 4, alignSelf: 'center', fontSize: 26, color: this.props.color}}>{group.Difficulty}</Text>
+                                <Text style={{top: 28, left: 4, alignSelf: 'center', fontSize: 26, color: this.props.color}}>{difficulty}</Text>
                             </ImageBackground>
 
-                            {group["Level 1"] && this.createGameButton(group.Difficulty, 1)}
-                            {group["Level 2"] && this.createGameButton(group.Difficulty, 2)}
-                            {group["Level 3"] && this.createGameButton(group.Difficulty, 3)}
-                            {group["Level 4"] && this.createGameButton(group.Difficulty, 4)}
+                            {tabData[difficulty].map((value, index) => (
+                                this.createGameButton(difficulty, index)
+                            ))}
                         </View>
                     ))}
-                </ScrollView>
+                </View>
             </ImageBackground>
         );
     }
