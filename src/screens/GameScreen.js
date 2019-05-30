@@ -73,6 +73,7 @@ const mapStateToProps = state => ({
 
     gameFinished : state.game.gameData.isGameFinished && !state.game.moving,
     moveCounter : state.game.gameData.moveCounter,
+    levelId : state.game.levelId,
     target : idToDifficulty(state.game.levelId),
 });
 
