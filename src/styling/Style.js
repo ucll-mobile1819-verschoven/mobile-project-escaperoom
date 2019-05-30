@@ -16,8 +16,8 @@ export const styles = StyleSheet.create({
         justifyContent: 'center',
     },
     gameFieldBorder: {
-        borderTopWidth: 2,
-        borderBottomWidth : 2,
+        borderTopWidth: 4,
+        borderBottomWidth : 4,
         borderColor: colors.Wall,
     },
     playerSquare : {
