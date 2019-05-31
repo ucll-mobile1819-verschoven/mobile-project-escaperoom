@@ -31,6 +31,11 @@ class GameScreen extends Component<any, void> {
             this.props.navigation.replace('Game');
         };
 
+        let back = () => {
+            this.props.resetGame();
+            this.props.navigation.navigate('Level');
+        };
+
         return (
             <ImageBackground source={this.props.background} style={styles.container}>
                 <View style={styles.container}>
@@ -69,7 +74,7 @@ class GameScreen extends Component<any, void> {
 
                 <WinScreen nextGame={nextGame}
                            restart={resetGame}
-                           back={() => this.props.navigation.navigate('Level')}
+                           back={back}
                            isVisible={this.props.gameFinished}
                            scoreDict={{target: this.props.target, 'your moves': this.props.moveCounter}}
                            message={this.props.target === this.props.moveCounter ? "Perfect Victory" : "Victory"}/>

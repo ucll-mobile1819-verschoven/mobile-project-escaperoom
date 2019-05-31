@@ -23,6 +23,7 @@ export const gameReducer = (state = initialState, action) => {
         }
         case actions.set_game: {
             let new_id = action.payload;
+            if(new_id === state.levelId) return state;
             return copyAndSet(state, {moving: false, levelId: new_id, gameData: levelToGame(idToLevel(new_id))});
         }
         case actions.next_game: {
