@@ -12,6 +12,7 @@ import WinScreen from "../components/WinScreen";
 import {nextGame, gameReset} from "../redux/gameRedux";
 import {updateHighscore} from "../redux/playerDataRedux";
 import {idToDifficulty} from "../game/GameLevel";
+import BackButton from "../components/BackButton";
 
 class GameScreen extends Component<any, void> {
     componentDidUpdate(prevProps, prevState) {
@@ -31,31 +32,21 @@ class GameScreen extends Component<any, void> {
             this.props.navigation.replace('Game');
         };
 
-        let back = () => {
-            this.props.resetGame();
-            this.props.navigation.navigate('Level');
-        };
-
         return (
             <ImageBackground source={this.props.background} style={styles.container}>
-                <View style={styles.container}>
-                    <View style={{flexDirection: 'row', width: '100%', height: 50}}>
-                        <ImageButton
-                            style={styles.smallButton}
-                            textStyle={styles.buttonText}
-                            title={"menu"}
-                            source={this.props.button}
-                            onPress={() => this.props.navigation.navigate('Level')}/>
+                <BackButton onPress={() => this.props.navigation.navigate('Level')}/>
 
+                <View style={styles.container}>
+                    <View style={{flexDirection: 'row', width: '100%', height: 50, justifyContent: 'center'}}>
                         <ImageButton
-                            style={styles.smallButton}
+                            style={{margin: 7, width: '33%'}}
                             textStyle={styles.buttonText}
                             title={"next"}
                             source={this.props.button}
                             onPress={nextGame}/>
 
                         <ImageButton
-                            style={styles.smallButton}
+                            style={{margin: 7, width: '33%'}}
                             textStyle={styles.buttonText}
                             title={"restart"}
                             source={this.props.button}
@@ -80,7 +71,6 @@ class GameScreen extends Component<any, void> {
 
                 <WinScreen nextGame={nextGame}
                            restart={resetGame}
-                           back={back}
                            isVisible={this.props.gameFinished}
                            scoreDict={{target: this.props.target, 'your moves': this.props.moveCounter}}
                            message={this.props.target === this.props.moveCounter ? "Perfect Victory" : "Victory"}/>

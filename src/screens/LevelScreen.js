@@ -9,6 +9,7 @@ import {getAsset, getThemeAsset} from "../styling/Assets";
 import ImageButton from "../components/ImageButton";
 import {idToTab, levelData, levelToId} from "../game/GameLevel";
 import {setGame} from "../redux/gameRedux";
+import BackButton from "../components/BackButton";
 
 class LevelScreen extends Component<any, any> {
     constructor(){
@@ -58,13 +59,7 @@ class LevelScreen extends Component<any, any> {
 
         return (
             <ImageBackground source={this.props.background} style={[styles.container]}>
-                <ImageButton
-                    title={''}
-                    hitSlop={{top: 40, bottom: 40, left: 40, right: 40}}
-                    style={{width: 50, height: 37, position: 'absolute', top: 0, left: 0, margin: 2, zIndex: 1}}
-                    imageStyle={{tintColor: this.props.color}}
-                    source={getAsset('Back')}
-                    onPress={() => this.props.navigation.navigate('Home')}/>
+                <BackButton onPress={() => this.props.navigation.navigate('Home')}/>
 
                 <Text style={[styles.title, {color: this.props.color, flex: 0.11, padding: 10}]}>Select a level</Text>
 
