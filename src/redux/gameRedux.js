@@ -1,4 +1,4 @@
-import {levelToGame, movePlayer, resetGame} from "../game/GameMechanics";
+import {chainMove, isChainMove, levelToGame, movePlayer, resetGame} from "../game/GameMechanics";
 import {copyAndSet} from "./utilRedux";
 import {idToLevel, nextLevelId} from "../game/GameLevel";
 
@@ -36,7 +36,11 @@ export const gameReducer = (state = initialState, action) => {
             return copyAndSet(state, {moving: true, gameData: movePlayer(state.gameData, action.payload)});
         }
         case actions.moveEnded: {
-            return copyAndSet(state, {moving: false});
+            if(isChainMove(state.gameData)){
+                return copyAndSet(state, {gameData: chainMove(state.gameData)});
+            } else {
+                return copyAndSet(state, {moving: false});
+            }
         }
 
         default: return state;

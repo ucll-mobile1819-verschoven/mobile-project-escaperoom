@@ -31,7 +31,9 @@ class PlayerSquare extends Component<any, void> {
     }
 
     componentWillUpdate(nextProps, nextState){
-        if(!this.props.moving && nextProps.moving){
+        if(nextProps.moving){
+            if(this.props.moving && this.props.position.equals(nextProps.position)) return;
+
             let animations = [];
 
             if(nextProps.rotation) animations.push(this.angle.turnTo(nextProps.moveDir));
