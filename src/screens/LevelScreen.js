@@ -24,6 +24,22 @@ class LevelScreen extends Component<any, any> {
         }
     }
 
+    createTabButton(tabName) {
+        let borderSize = tabName === this.state.tab ? 3 : 0;
+        let margin = 5 - borderSize;
+
+        return (
+            <View style={{borderColor: this.props.color, borderWidth: borderSize}} key={tabName}>
+                <ImageButton
+                    style={[{width: 80, margin: margin}]}
+                    textStyle={{color: this.props.color, fontSize: 22}}
+                    source={this.props.button}
+                    title={tabName}
+                    onPress={() => {this.setState({tab: tabName});}}/>
+            </View>
+        );
+    }
+
     createGameButton(difficulty, nr) {
         let id = levelToId(this.state.tab, difficulty, nr);
         let score = this.props.highscore[id];
@@ -90,13 +106,7 @@ class LevelScreen extends Component<any, any> {
                 <View styles={[{flex: 0.05}]}>
                     <View style={[styles.rowFlex, {flexWrap: 'wrap', marginTop: 20}]}>
                         {Object.keys(levelData).map(tabName => (
-                            <ImageButton
-                                key={tabName}
-                                style={[{width: 80, margin: 5}]}
-                                textStyle={{color: this.props.color, fontSize: 22}}
-                                source={this.props.button}
-                                title={tabName}
-                                onPress={() => {this.setState({tab: tabName});}}/>
+                            this.createTabButton(tabName)
                         ))}
                     </View>
                 </View>
