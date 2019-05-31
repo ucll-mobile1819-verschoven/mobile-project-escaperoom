@@ -42,7 +42,12 @@ class LevelScreen extends Component<any, any> {
                         textStyle={{color: this.props.color, fontSize: 22}}
                         source={score === parseInt(difficulty) ? getAsset('StarRed') : score ? getAsset('StarYellow') : getAsset('Star')}
                         title={nr + 1}
-                        onPress={() => {this.props.setGame(id); this.props.navigation.navigate('Game');}}/>
+                        onPress={() => {
+                            if(this.props.navigation.isFocused()){
+                                this.props.setGame(id);
+                                this.props.navigation.navigate('Game');
+                            }
+                        }}/>
                 </ImageBackground>
             </View>
         );
