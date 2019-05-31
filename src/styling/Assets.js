@@ -39,6 +39,10 @@ const themes = {
 
         Wall : require('../../assets/images/Car/brick-wall.jpg'),
         Finish : require('../../assets/images/Car/parking.jpg'),
+        LeftArrow : require('../../assets/images/Minimalistic/left-arrow.png'),
+        RightArrow : require('../../assets/images/Minimalistic/right-arrow.png'),
+        UpArrow : require('../../assets/images/Minimalistic/up-arrow.png'),
+        DownArrow : require('../../assets/images/Minimalistic/down-arrow.png'),
 
         Background : require('../../assets/images/Car/background.png'),
         Button : require('../../assets/images/Car/redbutton.png'),
@@ -52,6 +56,10 @@ const themes = {
 
         Wall : require('../../assets/images/Wood/blockade.png'),
         Finish : require('../../assets/images/Car/parking.jpg'),
+        LeftArrow : require('../../assets/images/Wood/left-arrow.png'),
+        RightArrow : require('../../assets/images/Wood/right-arrow.png'),
+        UpArrow : require('../../assets/images/Wood/up-arrow.png'),
+        DownArrow : require('../../assets/images/Wood/down-arrow.png'),
 
         Background : require('../../assets/images/Wood/WoodenBackground.png'),
         Button : require('../../assets/images/Wood/button.png'),
