@@ -21,21 +21,23 @@ class PlayerSquare extends Component<any, void> {
     constructor(props : any){
         super(props);
 
-        this.position = new ConstantSpeedAnimation(this.props.position.mul(this.props.squareSize), this.props.carSpeed);
-        this.angle = new AngleAnimation( this.props.carSpeed * turnSpeed);
+        this.resetAnimations();
     }
 
-    componentDidUpdate(){
-        if(this.props.moving){
+    resetAnimations() {
+        this.position = new ConstantSpeedAnimation(this.props.position.mul(this.props.squareSize), this.props.carSpeed);
+        this.angle = new AngleAnimation(this.props.carSpeed * turnSpeed);
+        this.angle.setDir(this.props.moveDir);
+    }
+
+    componentWillUpdate(nextProps, nextState){
+        if(!this.props.moving && nextProps.moving){
             let animations = [];
 
-            if(this.props.rotation) animations.push(this.angle.turnTo(this.props.moveDir));
-            animations.push(this.position.moveTo(this.props.position.mul(this.props.squareSize)));
+            if(nextProps.rotation) animations.push(this.angle.turnTo(nextProps.moveDir));
+            animations.push(this.position.moveTo(nextProps.position.mul(nextProps.squareSize)));
 
-            Animated.sequence(animations).start(() => this.props.onMoveEnded());
-        } else {
-            this.angle.setDir(this.props.moveDir);
-            this.position.setValue(this.props.position.mul(this.props.squareSize));
+            Animated.sequence(animations).start(nextProps.onMoveEnded);
         }
     }
 

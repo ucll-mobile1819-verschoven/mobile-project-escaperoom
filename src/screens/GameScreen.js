@@ -21,6 +21,16 @@ class GameScreen extends Component<any, void> {
     }
 
     render() {
+        let nextGame = () => {
+            this.props.nextGame();
+            this.props.navigation.replace('Game');
+        };
+
+        let resetGame = () => {
+            this.props.resetGame();
+            this.props.navigation.replace('Game');
+        };
+
         return (
             <ImageBackground source={this.props.background} style={styles.container}>
                 <View style={styles.container}>
@@ -37,14 +47,14 @@ class GameScreen extends Component<any, void> {
                             textStyle={styles.buttonText}
                             title={"next"}
                             source={this.props.button}
-                            onPress={this.props.nextGame}/>
+                            onPress={nextGame}/>
 
                         <ImageButton
                             style={styles.smallButton}
                             textStyle={styles.buttonText}
                             title={"restart"}
                             source={this.props.button}
-                            onPress={this.props.resetGame}/>
+                            onPress={resetGame}/>
                     </View>
 
                     <Text style={[styles.title, {color: this.props.color}]}>moves : {this.props.moveCounter}</Text>
@@ -52,8 +62,8 @@ class GameScreen extends Component<any, void> {
                     <GameField />
                 </View>
 
-                <WinScreen nextGame={this.props.nextGame}
-                           restart={this.props.resetGame}
+                <WinScreen nextGame={nextGame}
+                           restart={resetGame}
                            back={() => this.props.navigation.navigate('Level')}
                            isVisible={this.props.gameFinished}
                            scoreDict={{target: this.props.target, 'your moves': this.props.moveCounter}}
