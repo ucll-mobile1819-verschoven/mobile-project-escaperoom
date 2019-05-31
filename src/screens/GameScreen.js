@@ -15,6 +15,12 @@ import {idToDifficulty} from "../game/GameLevel";
 import BackButton from "../components/BackButton";
 
 class GameScreen extends Component<any, void> {
+    componentWillUnmount() {
+        if(this.props.gameFinished) {
+            this.props.resetGame();
+        }
+    }
+
     componentDidUpdate(prevProps, prevState) {
         if (!prevProps.gameFinished && this.props.gameFinished){
             this.props.updateHighscore(this.props.levelId, this.props.moveCounter);
