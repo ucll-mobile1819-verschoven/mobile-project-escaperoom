@@ -9,6 +9,7 @@ export const getThemeAsset = (key : string, theme : string) => {
 };
 
 const assets = {
+    Back : require('../../assets/images/back.png'),
     Hand : require('../../assets/images/hand-icon.png'),
     Star : require('../../assets/images/star.png'),
     StarYellow : require('../../assets/images/yellow-star.png'),

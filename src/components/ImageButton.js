@@ -9,6 +9,7 @@ type ImageButtonProps = {
     style?: any;
     textStyle?: any;
     imageStyle?: any;
+    hitSlop?: any;
     source: any;
     title: string;
     onPress: any;
@@ -18,6 +19,7 @@ export default class ImageButton extends Component<ImageButtonProps, void> {
     render() {
         return (
             <TouchableOpacity
+                hitSlop={this.props.hitSlop}
                 style={[styles.centered, this.props.style]}
                 onPress={this.props.onPress}>
 

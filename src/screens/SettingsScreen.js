@@ -5,7 +5,7 @@ import {View, ImageBackground, Text} from 'react-native';
 import {connect} from 'react-redux';
 
 import {styles} from "../styling/Style";
-import {getThemeAsset} from "../styling/Assets";
+import {getAsset, getThemeAsset} from "../styling/Assets";
 import {setSetting, toggleSetting} from "../redux/settingsRedux";
 import ImageButton from "../components/ImageButton";
 import ImageSlider from "../components/ImageSlider";
@@ -14,6 +14,14 @@ class SettingsScreen extends Component<any, void> {
     render() {
         return (
             <ImageBackground  source={this.props.background} style={styles.container}>
+                <ImageButton
+                    title={''}
+                    hitSlop={{top: 35, bottom: 35, left: 35, right: 35}}
+                    style={{width: 50, height: 50, position: 'absolute', top: 0, left: 0, margin: 8, zIndex: 1}}
+                    imageStyle={{tintColor: this.props.color}}
+                    source={getAsset('Back')}
+                    onPress={() => this.props.navigation.navigate('Home')}/>
+
                 <View style={[styles.container, styles.centered]}>
 
                     <Text style={[{color: this.props.color, fontSize: 30, textAlign: 'center', width: '70%'}]}>
