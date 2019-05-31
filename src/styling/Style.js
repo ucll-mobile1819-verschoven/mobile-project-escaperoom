@@ -81,8 +81,11 @@ export const styles = StyleSheet.create({
         margin :10,
     },
     winscreenBackground : {
+        position: 'absolute',
         width: '100%',
         height: '100%',
+        top: 0,
+        left: 0,
         backgroundColor: "#0009",
         zIndex: 5,
     }

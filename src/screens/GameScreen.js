@@ -42,38 +42,36 @@ class GameScreen extends Component<any, void> {
             <ImageBackground source={this.props.background} style={styles.container}>
                 <BackButton onPress={() => this.props.navigation.navigate('Level')}/>
 
-                <View style={styles.container}>
-                    <View style={{flexDirection: 'row', width: '100%', height: 50, justifyContent: 'center'}}>
-                        <ImageButton
-                            style={{margin: 7, width: '33%'}}
-                            textStyle={styles.buttonText}
-                            title={"next"}
-                            source={this.props.button}
-                            onPress={nextGame}/>
+                <View style={{flexDirection: 'row', width: '100%', height: 50, justifyContent: 'center'}}>
+                    <ImageButton
+                        style={{margin: 7, width: '33%'}}
+                        textStyle={styles.buttonText}
+                        title={"next"}
+                        source={this.props.button}
+                        onPress={nextGame}/>
 
-                        <ImageButton
-                            style={{margin: 7, width: '33%'}}
-                            textStyle={styles.buttonText}
-                            title={"restart"}
-                            source={this.props.button}
-                            onPress={resetGame}/>
-                    </View>
-
-                    <Text style={[styles.title, {color: this.props.color}]}>moves : {this.props.moveCounter}</Text>
-
-                    <View style={{flexDirection: 'row', width: '100%', height: 40, justifyContent: 'space-evenly'}}>
-                        <Text style={{color: this.props.color, fontSize: 22}}>target : {this.props.target}</Text>
-                        <Text style={{color: this.props.color, fontSize: 22}}>highscore : {this.props.highscore ? this.props.highscore : "none"}</Text>
-                    </View>
-
-                    <GameField />
-
-                    <View style={[{margin: 50, flexDirection: 'row'}, styles.centered]}>
-                        <Image style={{width: 64, height: 64}} source={this.props.player}/>
-                        <Text style={{fontSize: 30, color: this.props.color}}> ====> </Text>
-                        <Image style={{width: 64, height: 64}} source={this.props.finish}/>
-                    </View>
+                    <ImageButton
+                        style={{margin: 7, width: '33%'}}
+                        textStyle={styles.buttonText}
+                        title={"restart"}
+                        source={this.props.button}
+                        onPress={resetGame}/>
                 </View>
+
+                <Text style={[styles.title, {color: this.props.color}]}>moves : {this.props.moveCounter}</Text>
+
+                <View style={{flexDirection: 'row', width: '100%', height: 40, justifyContent: 'space-evenly'}}>
+                    <Text style={{color: this.props.color, fontSize: 22}}>target : {this.props.target}</Text>
+                    <Text style={{color: this.props.color, fontSize: 22}}>highscore : {this.props.highscore ? this.props.highscore : "none"}</Text>
+                </View>
+
+                <View style={[{margin: 50, flexDirection: 'row', position: 'absolute', bottom: 0}, styles.centered]}>
+                    <Image style={{width: 64, height: 64}} source={this.props.player}/>
+                    <Text style={{fontSize: 30, color: this.props.color}}> ====> </Text>
+                    <Image style={{width: 64, height: 64}} source={this.props.finish}/>
+                </View>
+
+                <GameField />
 
                 <WinScreen nextGame={nextGame}
                            restart={resetGame}
@@ -81,7 +79,6 @@ class GameScreen extends Component<any, void> {
                            scoreDict={{target: this.props.target, 'your moves': this.props.moveCounter}}
                            message={this.props.target === this.props.moveCounter ? "Perfect Victory" : "Victory"}/>
             </ImageBackground>
-
         );
     }
 }
