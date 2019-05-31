@@ -70,6 +70,12 @@ class GameScreen extends Component<any, void> {
                     </View>
 
                     <GameField />
+
+                    <View style={[{margin: 50, flexDirection: 'row'}, styles.centered]}>
+                        <Image style={{width: 64, height: 64}} source={this.props.player}/>
+                        <Text style={{fontSize: 30, color: this.props.color}}> ====> </Text>
+                        <Image style={{width: 64, height: 64}} source={this.props.finish}/>
+                    </View>
                 </View>
 
                 <WinScreen nextGame={nextGame}
@@ -88,6 +94,8 @@ const mapStateToProps = state => ({
     background : getThemeAsset('Background', state.settings.theme),
     button: getThemeAsset('Button', state.settings.theme),
     color: getThemeAsset('ContrastColor', state.settings.theme),
+    player: getThemeAsset('Player', state.settings.theme),
+    finish: getThemeAsset('Finish', state.settings.theme),
 
     gameFinished : state.game.gameData.isGameFinished && !state.game.moving,
     moveCounter : state.game.gameData.moveCounter,
