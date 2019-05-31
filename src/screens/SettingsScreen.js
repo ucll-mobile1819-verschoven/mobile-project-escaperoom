@@ -23,14 +23,14 @@ class SettingsScreen extends Component<any, void> {
                     <ImageButton
                         style={[styles.m10, styles.menuButton]}
                         textStyle={styles.buttonText}
-                        title={"Color theme: " + this.props.theme}
+                        title={"Color theme: \n" + this.props.theme}
                         source={this.props.button}
                         onPress={this.props.changeTheme}/>
 
                     <ImageButton
                         style={[styles.m10, styles.menuButton]}
                         textStyle={styles.buttonText}
-                        title={"Guide lines: " + this.props.highlight}
+                        title={"Guide lines: \n" + this.props.highlight}
                         source={this.props.button}
                         onPress={this.props.changeHighlight}/>
 
