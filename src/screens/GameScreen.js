@@ -59,6 +59,11 @@ class GameScreen extends Component<any, void> {
 
                     <Text style={[styles.title, {color: this.props.color}]}>moves : {this.props.moveCounter}</Text>
 
+                    <View style={{flexDirection: 'row', width: '100%', height: 40, justifyContent: 'space-evenly'}}>
+                        <Text style={{color: this.props.color, fontSize: 22}}>target : {this.props.target}</Text>
+                        <Text style={{color: this.props.color, fontSize: 22}}>highscore : {this.props.highscore ? this.props.highscore : "none"}</Text>
+                    </View>
+
                     <GameField />
                 </View>
 
@@ -83,6 +88,7 @@ const mapStateToProps = state => ({
     moveCounter : state.game.gameData.moveCounter,
     levelId : state.game.levelId,
     target : idToDifficulty(state.game.levelId),
+    highscore : state.playerData.highscore[state.game.levelId],
 });
 
 const mapDispatchToProps = dispatch => ({
