@@ -9,6 +9,11 @@ export const getThemeAsset = (key : string, theme : string) => {
 };
 
 const assets = {
+    Back : require('../../assets/images/back.png'),
+    Hand : require('../../assets/images/hand-icon.png'),
+    Star : require('../../assets/images/star.png'),
+    StarYellow : require('../../assets/images/yellow-star.png'),
+    StarRed : require('../../assets/images/red-star.png'),
 };
 
 const themes = {
@@ -19,29 +24,31 @@ const themes = {
         Finish : require('../../assets/images/Minimalistic/Minimalistic-finish.jpg'),
        /* Background : require('../../assets/images/game-background-2.jpg'), */
         Button : require('../../assets/images/Minimalistic/uniformBlue.jpg'),
-        win : require('../../assets/images/Win.png'),
-        winBackground : require('../../assets/images/Wood/woodwinbackground.png'),
+        win : require('../../assets/images/Minimalistic/SimpleWin.png'),
+        winBackground : require('../../assets/images/Minimalistic/winbackground.png'),
+        ContrastColor: 'black',
     },
     Car : {
         Player : require('../../assets/images/Car/red-car.png'),
         PlayerRotation : true,
         Wall : require('../../assets/images/Car/brick-wall.jpg'),
         Finish : require('../../assets/images/Car/parking.jpg'),
-        Background : require('../../assets/images/Car/game-background-2.jpg'),
+        Background : require('../../assets/images/Car/background.png'),
         Button : require('../../assets/images/Car/redbutton.png'),
-        win : require('../../assets/images/Win.png'),
-        winBackground : require('../../assets/images/Wood/woodwinbackground.png'),
+        win : require('../../assets/images/Car/Win.png'),
+        winBackground : require('../../assets/images/Car/winbackground.png'),
+        ContrastColor: 'black',
     },
     Wood : {
-        Player : require('../../assets/images/Car/red-car.png'),
+        Player : require('../../assets/images/Wood/car.png'),
         PlayerRotation : true,
         Wall : require('../../assets/images/Wood/blockade.png'),
         Finish : require('../../assets/images/Car/parking.jpg'),
         Background : require('../../assets/images/Wood/WoodenBackground.png'),
         Button : require('../../assets/images/Wood/button.png'),
-        win : require('../../assets/images/Win.png'),
+        win : require('../../assets/images/Wood/Win.png'),
         winBackground : require('../../assets/images/Wood/woodwinbackground.png'),
-
+        ContrastColor: 'white',
     }
 };
 

@@ -2,55 +2,69 @@
 
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
-import {ImageBackground, Text, Modal , Image , View } from 'react-native';
+import {ImageBackground, Text, View } from 'react-native';
 import {getThemeAsset} from "../styling/Assets";
 import {styles} from "../styling/Style";
 import ImageButton from "../components/ImageButton";
 
-
 type WinScreenProps = {
     nextGame : any;
+    restart : any;
+    back : any;
+
     isVisible : boolean;
     scoreDict : any;
+    message: string;
 
-    background : any;
-    win: any;
-    button : any;
+    background? : any;
+    win? : any;
+    button? : any;
 }
 
 class WinScreen extends Component<WinScreenProps, void> {
     render() {
-        return (
+        if(!this.props.isVisible) {
+            return <View style={{width: 0, height: 0}}/>;
+        }
 
-            <Modal
-                animationType="slide"
-                transparent={true}
-                visible={this.props.isVisible}
-                onRequestClose={this.props.nextGame}>
-                <View style={styles.winscreenBackground}>
-                <ImageBackground source={this.props.background} style={styles.winScreen}>
-                    <Image
-                        style={{flex: 1}}
-                        source={this.props.win}/>
+        return  <View style={styles.winscreenBackground}>
+                    <ImageBackground source={this.props.background} style={[styles.winScreen]}>
+                        <ImageBackground source={this.props.win} style={{flex: 1, marginTop: 32}} imageStyle={{resizeMode: 'stretch'}}>
+                            <Text style={{fontSize: 40, color: this.props.color, paddingLeft: 25, paddingRight: 25, top : 9}}>{this.props.message}</Text>
+                        </ImageBackground>
 
-                    {
-                        Object.keys(this.props.scoreDict).map(key => {
-                            return  <Text key = {key} style={styles.title}>{key} : {this.props.scoreDict[key]}</Text>
-                        })
-                    }
+                        {
+                            Object.keys(this.props.scoreDict).map(key => {
+                                return  <Text key={key} style={[styles.title, {color: this.props.color, flex: 1, fontSize: 40}]}>
+                                            {key} : {this.props.scoreDict[key]}
+                                        </Text>
+                            })
+                        }
 
+                        <View style={[styles.rowFlex, {flex: 1}]}>
+                            <ImageButton
+                                style={styles.smallButton}
+                                textStyle={styles.bigButtonText}
+                                title={"next"}
+                                source={this.props.button}
+                                onPress={this.props.nextGame}/>
 
-                    <ImageButton
-                        style={styles.smallButton}
-                        textStyle={styles.buttonText}
-                        title={"next level"}
-                        source={this.props.button}
-                        onPress={this.props.nextGame}/>
-                </ImageBackground>
+                            <ImageButton
+                                style={styles.smallButton}
+                                textStyle={styles.bigButtonText}
+                                title={"redo"}
+                                source={this.props.button}
+                                onPress={this.props.restart}/>
+                        </View>
 
-                </View>
-            </Modal>
-        );
+                        <ImageButton
+                            style={{flex: 1, width: '50%', marginBottom: 32}}
+                            textStyle={styles.bigButtonText}
+                            title={"menu"}
+                            source={this.props.button}
+                            onPress={this.props.back}/>
+                    </ImageBackground>
+                </View>;
     }
 }
 
@@ -58,6 +72,7 @@ const mapStateToProps = state => ({
     background : getThemeAsset('winBackground' , state.settings.theme ),
     win: getThemeAsset('win' , state.settings.theme),
     button: getThemeAsset('Button', state.settings.theme),
+    color: getThemeAsset('ContrastColor', state.settings.theme),
 });
 
 const mapDispatchToProps = dispatch => ({
