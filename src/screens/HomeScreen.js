@@ -3,10 +3,10 @@
 import React, {Component} from 'react';
 import {View, StatusBar, ImageBackground, Text} from 'react-native';
 import {connect} from 'react-redux';
-
 import {styles} from "../styling/Style";
 import {getThemeAsset} from "../styling/Assets";
 import ImageButton from "../components/ImageButton";
+
 
 class HomeScreen extends Component<any, void> {
     createMenuButton(title : string, screen : string) {
@@ -20,6 +20,7 @@ class HomeScreen extends Component<any, void> {
         );
     }
 
+
     render() {
         return (
             <ImageBackground source={this.props.background} style={styles.container}>
@@ -27,7 +28,6 @@ class HomeScreen extends Component<any, void> {
 
                 <View style={[styles.container, styles.centered]}>
                     <StatusBar hidden/>
-
                     {this.createMenuButton("Play game", "Game")}
                     {this.createMenuButton("Play with Accelerometer", "Accelerometer")}
                     {this.createMenuButton("Settings", "Settings")}
