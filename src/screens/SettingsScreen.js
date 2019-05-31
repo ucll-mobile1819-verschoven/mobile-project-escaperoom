@@ -16,8 +16,8 @@ class SettingsScreen extends Component<any, void> {
             <ImageBackground  source={this.props.background} style={styles.container}>
                 <ImageButton
                     title={''}
-                    hitSlop={{top: 35, bottom: 35, left: 35, right: 35}}
-                    style={{width: 50, height: 50, position: 'absolute', top: 0, left: 0, margin: 8, zIndex: 1}}
+                    hitSlop={{top: 40, bottom: 40, left: 40, right: 40}}
+                    style={{width: 50, height: 37, position: 'absolute', top: 0, left: 0, margin: 2, zIndex: 1}}
                     imageStyle={{tintColor: this.props.color}}
                     source={getAsset('Back')}
                     onPress={() => this.props.navigation.navigate('Home')}/>
