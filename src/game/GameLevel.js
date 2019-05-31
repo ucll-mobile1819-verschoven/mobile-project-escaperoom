@@ -29,6 +29,10 @@ export function nextLevelId(id) {
     return levelToId(tabs[0], Object.keys(levelData[tabs[0]])[0], 0);
 }
 
+export function idToTab(id) {
+    return id.split('#')[0];
+}
+
 export function idToDifficulty(id) {
     return parseInt(id.split("#")[1]);
 }

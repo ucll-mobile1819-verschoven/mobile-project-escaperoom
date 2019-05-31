@@ -7,7 +7,7 @@ import {connect} from 'react-redux';
 import {styles} from "../styling/Style";
 import {getAsset, getThemeAsset} from "../styling/Assets";
 import ImageButton from "../components/ImageButton";
-import {levelData, levelToId} from "../game/GameLevel";
+import {idToTab, levelData, levelToId} from "../game/GameLevel";
 import {setGame} from "../redux/gameRedux";
 
 class LevelScreen extends Component<any, any> {
@@ -15,6 +15,12 @@ class LevelScreen extends Component<any, any> {
         super();
 
         this.state = {tab : Object.keys(levelData)[0]};
+    }
+
+    componentWillUpdate(nextProps, nextState){
+        if(this.props.currentId !== nextProps.currentId){
+            this.state.tab = idToTab(nextProps.currentId);
+        }
     }
 
     createGameButton(difficulty, nr) {
