@@ -20,21 +20,25 @@ class LevelScreen extends Component<any, any> {
     createGameButton(difficulty, nr) {
         let id = levelToId(this.state.tab, difficulty, nr);
         let score = this.props.highscore[id];
+        let borderSize = id === this.props.currentId ? 3 : 0;
+        let backgroundSize = 64 - 2 * borderSize;
+        let imageMargin = 5 - borderSize;
 
         return (
-            <ImageBackground
-                source={this.props.button}
-                style={[{width: 64, height: 64}, styles.m5]}
-                imageStyle={{resizeMode: 'stretch'}}
-                key={nr}>
+            <View style={{borderColor: this.props.color, borderWidth: borderSize}} key={nr}>
+                <ImageBackground
+                    source={this.props.button}
+                    style={{width: backgroundSize, height: backgroundSize, margin: 5}}
+                    imageStyle={{resizeMode: 'stretch'}}>
 
-                <ImageButton
-                    style={[styles.m5, {width: 54, height: 54}]}
-                    textStyle={{color: this.props.color, fontSize: 22}}
-                    source={score === parseInt(difficulty) ? getAsset('StarRed') : score ? getAsset('StarYellow') : getAsset('Star')}
-                    title={nr + 1}
-                    onPress={() => {this.props.setGame(id); this.props.navigation.navigate('Game');}}/>
-            </ImageBackground>
+                    <ImageButton
+                        style={{width: 54, height: 54, margin: imageMargin}}
+                        textStyle={{color: this.props.color, fontSize: 22}}
+                        source={score === parseInt(difficulty) ? getAsset('StarRed') : score ? getAsset('StarYellow') : getAsset('Star')}
+                        title={nr + 1}
+                        onPress={() => {this.props.setGame(id); this.props.navigation.navigate('Game');}}/>
+                </ImageBackground>
+            </View>
         );
     }
 
@@ -45,7 +49,7 @@ class LevelScreen extends Component<any, any> {
             <ImageBackground source={this.props.background} style={[styles.container]}>
                 <Text style={[styles.title, {color: this.props.color, flex: 0.1}]}>Select a level</Text>
 
-                <View style={[styles.rowFlex, styles.m10, {flex: 0.05}]}>
+                <View style={[styles.rowFlex, styles.m10, {flex: 0.05, marginTop: 20}]}>
                     <View style={[styles.container, styles.rowFlex]}>
                         <Image source={getAsset('Hand')} style={{width: 32, height: 32, tintColor: this.props.color}}/>
                         <Text style={[{color: this.props.color}]}> = Target move count</Text>
@@ -70,7 +74,7 @@ class LevelScreen extends Component<any, any> {
                 </View>
 
                 <View styles={[{flex: 0.05}]}>
-                    <View style={[styles.rowFlex, {flexWrap: 'wrap'}]}>
+                    <View style={[styles.rowFlex, {flexWrap: 'wrap', marginTop: 20}]}>
                         {Object.keys(levelData).map(tabName => (
                             <ImageButton
                                 key={tabName}
@@ -83,7 +87,7 @@ class LevelScreen extends Component<any, any> {
                     </View>
                 </View>
 
-                <View style={[{flex: 1}]}>
+                <View style={[{flex: 1, marginTop: 20}]}>
                     {Object.keys(tabData).map(difficulty => (
                         <View key={difficulty} style={[styles.rowFlex]}>
                             <ImageBackground source={getAsset('Hand')} style={{width: 64, height: 64}} imageStyle={[{tintColor: this.props.color}]}>
@@ -105,7 +109,9 @@ const mapStateToProps = state => ({
     background : getThemeAsset('Background', state.settings.theme),
     color : getThemeAsset('ContrastColor', state.settings.theme),
     button : getThemeAsset('Button', state.settings.theme),
+
     highscore : state.playerData.highscore,
+    currentId : state.game.levelId,
 });
 
 const mapDispatchToProps = dispatch => ({
