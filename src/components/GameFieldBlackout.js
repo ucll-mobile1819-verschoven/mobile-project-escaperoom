@@ -11,12 +11,13 @@ import PlayerSquare from "./PlayerSquare";
 import {getAsset} from "../styling/Assets";
 import {Accelerometer} from "expo";
 
-const turnStrength = 2;
+const turnStrength = 4;
 const turnSlowness = 7;
 
 class GameFieldBlackout extends Component<any, void> {
     animatedPos: any;
     prevPos: any;
+    referenceAngle: any;
     _subscription: any;
 
     constructor(props : any) {
@@ -30,9 +31,13 @@ class GameFieldBlackout extends Component<any, void> {
         Accelerometer.setUpdateInterval(25);
 
         this._subscription = Accelerometer.addListener((result) => {
+            if(!this.referenceAngle) this.referenceAngle = Math.atan2(result.y, result.z);
+
+            let y = (Math.atan2(result.y, result.z) - this.referenceAngle) / (Math.PI / 4);
+
             let nextPos = {
                 x: Math.min(1, Math.max(-1, -result.x * turnStrength)) * window.width / 2 - 2 * window.width,
-                y: Math.min(1, Math.max(-1,  result.y * turnStrength)) * window.width / 2 - 2 * window.width,
+                y: Math.min(1, Math.max(-1,         y * turnStrength)) * window.width / 2 - 2 * window.width,
             };
 
             nextPos.x = (nextPos.x + this.prevPos.x * turnSlowness) / (turnSlowness + 1);
