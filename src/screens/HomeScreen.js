@@ -8,7 +8,6 @@ import {styles} from "../styling/Style";
 import {getThemeAsset} from "../styling/Assets";
 import ImageButton from "../components/ImageButton";
 
-
 class HomeScreen extends Component<any, void> {
     createMenuButton(title : string, screen : string) {
         return (
