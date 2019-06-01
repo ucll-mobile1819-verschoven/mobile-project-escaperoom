@@ -7,7 +7,7 @@ import {connect} from 'react-redux';
 import {styles} from "../styling/Style";
 import {getAsset, getThemeAsset} from "../styling/Assets";
 import ImageButton from "../components/ImageButton";
-import {idToTab, levelData, levelToId} from "../game/GameLevel";
+import {idToTab, isBlackoutLevel, levelData, levelToId} from "../game/GameLevel";
 import {setGame} from "../redux/gameRedux";
 import BackButton from "../components/BackButton";
 
@@ -50,7 +50,7 @@ class LevelScreen extends Component<any, any> {
         return (
             <View style={{borderColor: this.props.color, borderWidth: borderSize}} key={nr}>
                 <ImageBackground
-                    source={this.props.button}
+                    source={isBlackoutLevel(id) ? this.props.lightButton :  this.props.button}
                     style={{width: backgroundSize, height: backgroundSize, margin: 5}}
                     imageStyle={{resizeMode: 'stretch'}}>
 
@@ -133,6 +133,7 @@ const mapStateToProps = state => ({
     background : getThemeAsset('Background', state.settings.theme),
     color : getThemeAsset('ContrastColor', state.settings.theme),
     button : getThemeAsset('Button', state.settings.theme),
+    lightButton : getThemeAsset('LightButton', state.settings.theme),
 
     highscore : state.playerData.highscore,
     currentId : state.game.levelId,

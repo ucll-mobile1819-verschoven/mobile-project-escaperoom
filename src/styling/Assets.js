@@ -30,6 +30,7 @@ const themes = {
         DownArrow : require('../../assets/images/Minimalistic/down-arrow.png'),
 
         Button : require('../../assets/images/Minimalistic/uniformBlue.jpg'),
+        LightButton : require('../../assets/images/Minimalistic/uniformGreen.png'),
         win : require('../../assets/images/Minimalistic/SimpleWin.png'),
         winBackground : require('../../assets/images/Minimalistic/winbackground.png'),
         ContrastColor: 'black',
@@ -47,6 +48,7 @@ const themes = {
 
         Background : require('../../assets/images/Car/background.png'),
         Button : require('../../assets/images/Car/redbutton.png'),
+        LightButton : require('../../assets/images/Car/greenButton.png'),
         win : require('../../assets/images/Car/Win.png'),
         winBackground : require('../../assets/images/Car/winbackground.png'),
         ContrastColor: 'black',
@@ -64,6 +66,7 @@ const themes = {
 
         Background : require('../../assets/images/Wood/WoodenBackground.png'),
         Button : require('../../assets/images/Wood/button.png'),
+        LightButton : require('../../assets/images/Wood/greenButton.png'),
         win : require('../../assets/images/Wood/Win.png'),
         winBackground : require('../../assets/images/Wood/woodwinbackground.png'),
         ContrastColor: 'white',
