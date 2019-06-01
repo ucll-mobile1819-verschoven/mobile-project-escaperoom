@@ -1,8 +1,8 @@
 // @flow
 
 import React, {Component} from 'react';
-import {View, Animated, Easing, Image} from 'react-native';
-import {PanGestureHandler, Directions, State} from 'react-native-gesture-handler';
+import {View, Animated} from 'react-native';
+import {PanGestureHandler, State} from 'react-native-gesture-handler';
 import {connect} from 'react-redux';
 
 import {styles} from "../styling/Style";

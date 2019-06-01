@@ -19,6 +19,7 @@ export const styles = StyleSheet.create({
         borderTopWidth: 4,
         borderBottomWidth : 4,
         borderColor: colors.Wall,
+        overflow: 'hidden',
     },
     playerSquare : {
         position: 'absolute',
