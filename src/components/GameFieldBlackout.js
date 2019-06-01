@@ -33,7 +33,7 @@ class GameFieldBlackout extends Component<any, void> {
         this._subscription = Accelerometer.addListener((result) => {
             if(!this.referenceAngle) this.referenceAngle = Math.atan2(result.y, result.z);
 
-            let y = (Math.atan2(result.y, result.z) - this.referenceAngle) / (Math.PI / 4);
+            let y = Math.sin(Math.atan2(result.y, result.z) - this.referenceAngle) / (Math.PI / 4);
 
             let nextPos = {
                 x: Math.min(1, Math.max(-1, -result.x * turnStrength)) * window.width / 2 - 2 * window.width,
