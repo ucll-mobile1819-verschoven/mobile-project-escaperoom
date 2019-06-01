@@ -31,8 +31,8 @@ class GameFieldBlackout extends Component<any, void> {
 
         this._subscription = Accelerometer.addListener((result) => {
             let nextPos = {
-                x: -result.x * window.width / 2 * turnStrength - 2 * window.width,
-                y: result.y * window.width / 2 * turnStrength - 2 * window.width,
+                x: Math.min(1, Math.max(-1, -result.x * turnStrength)) * window.width / 2 - 2 * window.width,
+                y: Math.min(1, Math.max(-1,  result.y * turnStrength)) * window.width / 2 - 2 * window.width,
             };
 
             nextPos.x = (nextPos.x + this.prevPos.x * turnSlowness) / (turnSlowness + 1);
