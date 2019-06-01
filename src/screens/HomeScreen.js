@@ -26,7 +26,7 @@ class HomeScreen extends Component<any, void> {
                 <ImageButton
                     title={''}
                     hitSlop={{top: 20, bottom: 20, left: 20, right: 20}}
-                    style={{width: 37, height: 37, position: 'absolute', top: 0, left: 0, margin: 2, zIndex: 1}}
+                    style={{width: 50, height: 50, position: 'absolute', top: 0, left: 0, margin: 2, zIndex: 1}}
                     imageStyle={{tintColor: this.props.color}}
                     source={getAsset('Exit')}
                     onPress={() => BackHandler.exitApp()}/>

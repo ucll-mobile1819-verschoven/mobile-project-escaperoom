@@ -61,7 +61,7 @@ class GameScreen extends Component<any, GameScreenState> {
                     <ImageButton
                         title={''}
                         hitSlop={{top: 20, bottom: 20, left: 20, right: 20}}
-                        style={{width: 37, height: 37, position: 'absolute', top: 0, right: 0, margin: 2, zIndex: 1}}
+                        style={{width: 50, height: 50, position: 'absolute', top: 0, right: 0, margin: 2, zIndex: 1}}
                         imageStyle={{tintColor: 'white'}}
                         source={getAsset('Center')}
                         onPress={() => this.setState({shouldResetReferenceAngle: !this.state.shouldResetReferenceAngle})}/>
