@@ -1,7 +1,7 @@
 // @flow
 
 import React, {Component} from 'react';
-import {getAsset, getThemeAsset} from "../styling/Assets";
+import {getAsset} from "../styling/Assets";
 import ImageButton from "../components/ImageButton";
 
 type BackButtonProps = {
