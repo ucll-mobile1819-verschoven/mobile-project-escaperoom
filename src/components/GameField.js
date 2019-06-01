@@ -16,7 +16,6 @@ const turnSlowness = 7;
 
 class GameField extends Component<any, void> {
     animatedPos: any;
-    referencePos: any;
     prevPos: any;
     _subscription: any;
 
@@ -31,11 +30,6 @@ class GameField extends Component<any, void> {
         Accelerometer.setUpdateInterval(25);
 
         this._subscription = Accelerometer.addListener((result) => {
-            if(!this.referencePos) this.referencePos = {x: result.x, y: result.y};
-
-            result.x -= this.referencePos.x;
-            result.y -= this.referencePos.y;
-
             let nextPos = {
                 x: -result.x * window.width / 2 * turnStrength - 1.5 * window.width,
                 y: result.y * window.width / 2 * turnStrength - 1.5 * window.width,
