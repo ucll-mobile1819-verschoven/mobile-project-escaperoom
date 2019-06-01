@@ -36,8 +36,8 @@ class GameFieldBlackout extends Component<any, void> {
             let y = Math.sin(Math.atan2(result.y, result.z) - this.referenceAngle) / (Math.PI / 4);
 
             let nextPos = {
-                x: Math.min(1, Math.max(-1, -result.x * turnStrength)) * window.width / 2 - 2 * window.width,
-                y: Math.min(1, Math.max(-1,         y * turnStrength)) * window.width / 2 - 2 * window.width,
+                x: Math.min(1, Math.max(-1, -Math.sign(result.z) * result.x * turnStrength)) * window.width / 2 - 2 * window.width,
+                y: Math.min(1, Math.max(-1,                               y * turnStrength)) * window.width / 2 - 2 * window.width,
             };
 
             nextPos.x = (nextPos.x + this.prevPos.x * turnSlowness) / (turnSlowness + 1);
