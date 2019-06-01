@@ -5,7 +5,7 @@ import {View, ImageBackground, Text, Image} from 'react-native';
 import {connect} from 'react-redux';
 
 import {styles} from "../styling/Style";
-import {getThemeAsset} from "../styling/Assets";
+import {getAsset, getThemeAsset} from "../styling/Assets";
 import GameField from "../components/GameField";
 import GameFieldBlackout from "../components/GameFieldBlackout";
 import ImageButton from "../components/ImageButton";
@@ -15,7 +15,17 @@ import {updateHighscore} from "../redux/playerDataRedux";
 import {idToDifficulty, isBlackoutLevel} from "../game/GameLevel";
 import BackButton from "../components/BackButton";
 
-class GameScreen extends Component<any, void> {
+type GameScreenState = {
+    shouldResetReferenceAngle : boolean;
+}
+
+class GameScreen extends Component<any, GameScreenState> {
+    constructor(props : any) {
+        super(props);
+
+        this.state = {shouldResetReferenceAngle : false};
+    }
+
     componentWillUnmount() {
         if(this.props.gameFinished) {
             this.props.resetGame();
@@ -45,6 +55,16 @@ class GameScreen extends Component<any, void> {
             <ImageBackground source={this.props.background} style={styles.container}>
                 <BackButton onPress={() => this.props.navigation.navigate('Level')} color={this.props.color}/>
 
+                { this.props.isBlackoutLevel &&
+                    <ImageButton
+                        title={''}
+                        hitSlop={{top: 20, bottom: 20, left: 20, right: 20}}
+                        style={{width: 37, height: 37, position: 'absolute', top: 0, right: 0, margin: 2, zIndex: 1}}
+                        imageStyle={{tintColor: 'white'}}
+                        source={getAsset('Center')}
+                        onPress={() => this.setState({shouldResetReferenceAngle: !this.state.shouldResetReferenceAngle})}/>
+                }
+
                 <View style={{flexDirection: 'row', width: '100%', height: 50, justifyContent: 'center', backgroundColor: backgroundColor}}>
                     <ImageButton
                         style={{margin: 7, width: '33%'}}
@@ -70,7 +90,10 @@ class GameScreen extends Component<any, void> {
                     <Text style={{color: this.props.color, fontSize: 22}}>highscore : {this.props.highscore ? this.props.highscore : "none"}</Text>
                 </View>
 
-                { this.props.isBlackoutLevel ? <GameFieldBlackout/> : <GameField/> }
+                { this.props.isBlackoutLevel ?
+                    <GameFieldBlackout shouldResetReferenceAngle={this.state.shouldResetReferenceAngle}/> :
+                    <GameField/>
+                }
 
                 <View style={[{flexDirection: 'row', backgroundColor: backgroundColor, flex: 1}, styles.centered]}>
                     <Image style={{width: 64, height: 64}} source={this.props.player}/>

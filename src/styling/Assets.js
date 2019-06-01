@@ -15,6 +15,7 @@ const assets = {
     StarYellow : require('../../assets/images/yellow-star.png'),
     StarRed : require('../../assets/images/red-star.png'),
     Mask : require('../../assets/images/mask.png'),
+    Center : require('../../assets/images/center.png'),
 };
 
 const themes = {

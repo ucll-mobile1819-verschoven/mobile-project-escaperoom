@@ -27,6 +27,12 @@ class GameFieldBlackout extends Component<any, void> {
         this.prevPos = {x: -2 * window.width, y: -2 * window.width};
     }
 
+    componentDidUpdate(prevProps, prevState) {
+        if(prevProps.shouldResetReferenceAngle !== this.props.shouldResetReferenceAngle){
+            this.referenceAngle = null;
+        }
+    }
+
     componentDidMount() {
         Accelerometer.setUpdateInterval(25);
 
