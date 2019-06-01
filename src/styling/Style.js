@@ -8,14 +8,17 @@ export const styles = StyleSheet.create({
     container: {
         flex: 1,
     },
+    rowFlex:{
+        flexDirection: 'row'
+    },
     centered: {
         alignItems: 'center',
         justifyContent: 'center',
     },
     gameFieldBorder: {
-        borderTopWidth: 2,
-        borderBottomWidth : 2,
-        borderColor: colors.Wall,
+        borderTopWidth: 4,
+        borderBottomWidth : 4,
+        overflow: 'hidden',
     },
     playerSquare : {
         position: 'absolute',
@@ -37,7 +40,6 @@ export const styles = StyleSheet.create({
         borderColor: colors.PlayerColor,
     },
     title : {
-        color: colors.white,
         fontSize: 40,
         textAlign: 'center'
     },
@@ -55,19 +57,22 @@ export const styles = StyleSheet.create({
     m10 : {
         margin : 10
     },
+    bigButtonText: {
+        color: colors.white,
+        fontSize: 40,
+        textAlign: 'center'
+    },
     buttonText: {
         color: colors.white,
-        fontSize: 18,
+        fontSize: 22,
         textAlign: 'center'
     },
 
     winScreen:{
         alignItems: 'center',
         justifyContent: 'center',
-        marginLeft : 5,
-        marginRight : 5,
-        marginTop : 50,
-        marginBottom : 50,
+        marginTop : 60,
+        marginBottom : 60,
         resizeMode: 'contain',
         flex : 1,
     },
@@ -76,9 +81,12 @@ export const styles = StyleSheet.create({
         margin :10,
     },
     winscreenBackground : {
-        height: "100%",
-        width: "100%",
+        position: 'absolute',
+        width: '100%',
+        height: '100%',
+        top: 0,
+        left: 0,
         backgroundColor: "#0009",
-
+        zIndex: 5,
     }
 });

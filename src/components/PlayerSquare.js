@@ -1,8 +1,8 @@
 // @flow
 
 import React, {Component} from 'react';
-import {View, Animated, Easing, Image} from 'react-native';
-import {PanGestureHandler, Directions, State} from 'react-native-gesture-handler';
+import {View, Animated} from 'react-native';
+import {PanGestureHandler, State} from 'react-native-gesture-handler';
 import {connect} from 'react-redux';
 
 import {styles} from "../styling/Style";
@@ -21,21 +21,25 @@ class PlayerSquare extends Component<any, void> {
     constructor(props : any){
         super(props);
 
-        this.position = new ConstantSpeedAnimation(this.props.position.mul(this.props.squareSize), this.props.carSpeed);
-        this.angle = new AngleAnimation( this.props.carSpeed * turnSpeed);
+        this.resetAnimations();
     }
 
-    componentDidUpdate(){
-        if(this.props.moving){
+    resetAnimations() {
+        this.position = new ConstantSpeedAnimation(this.props.position.mul(this.props.squareSize), this.props.carSpeed);
+        this.angle = new AngleAnimation(this.props.carSpeed * turnSpeed);
+        this.angle.setDir(this.props.moveDir);
+    }
+
+    componentWillUpdate(nextProps, nextState){
+        if(nextProps.moving){
+            if(this.props.moving && this.props.position.equals(nextProps.position)) return;
+
             let animations = [];
 
-            if(this.props.rotation) animations.push(this.angle.turnTo(this.props.moveDir));
-            animations.push(this.position.moveTo(this.props.position.mul(this.props.squareSize)));
+            if(nextProps.rotation) animations.push(this.angle.turnTo(nextProps.moveDir));
+            animations.push(this.position.moveTo(nextProps.position.mul(nextProps.squareSize)));
 
-            Animated.sequence(animations).start(() => this.props.onMoveEnded());
-        } else {
-            this.angle.setDir(this.props.moveDir);
-            this.position.setValue(this.props.position.mul(this.props.squareSize));
+            Animated.sequence(animations).start(nextProps.onMoveEnded);
         }
     }
 
@@ -57,7 +61,7 @@ class PlayerSquare extends Component<any, void> {
                 hitSlop={{top: 1000, bottom: 1000, left: 1000, right: 1000}}
                 onHandlerStateChange={ev => this._moveSquare(ev)}>
 
-                <View style={this.props.style}>
+                <View style={[this.props.style, {zIndex: 1}]}>
                     {this.props.children}
 
                     <Animated.Image
@@ -122,8 +126,8 @@ class PlayerSquare extends Component<any, void> {
 
 const mapStateToProps = state => ({
     position: state.game.gameData.player,
+    moveDir: state.game.gameData.moveDir,
     moving: state.game.moving,
-    moveDir: state.game.moveDir,
 
     highlight: state.settings.highlight === 'Enabled',
     rotation: getThemeAsset('PlayerRotation', state.settings.theme),

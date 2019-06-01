@@ -22,8 +22,12 @@ export default class AngleAnimation extends Animated.Value {
     }
 
     setDir(dir : Dir){
-        super.setValue(angles[dir]);
-        this.currentAngle = angles[dir];
+        let angle = angles[dir];
+
+        if(Math.abs(angle - this.currentAngle) > 0.01){ // Why ? To prevent bug in AnimatedValue (setting to same value crashes)
+            super.setValue(angle);
+            this.currentAngle = angle;
+        }
     }
 
     turnTo(dir: Dir){

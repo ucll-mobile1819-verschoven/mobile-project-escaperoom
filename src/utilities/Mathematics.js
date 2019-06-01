@@ -34,6 +34,10 @@ export class Vec2 {
     clamp() : Vec2 {
         return new Vec2(Math.min(Math.max(this.x, -1), 1), Math.min(Math.max(this.y, -1), 1));
     }
+
+    equals(other : Vec2) : boolean {
+        return Math.abs(this.x - other.x) < 0.01 && Math.abs(this.y - other.y) < 0.01;
+    }
 }
 
 export class Grid<T> {
