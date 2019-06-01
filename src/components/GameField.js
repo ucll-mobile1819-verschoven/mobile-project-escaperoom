@@ -22,8 +22,8 @@ class GameField extends Component<any, void> {
     constructor(props : any) {
         super(props);
 
-        this.animatedPos = new Animated.ValueXY({x: -1.5 * window.width, y: -1.5 * window.width});
-        this.prevPos = {x: -1.5 * window.width, y: -1.5 * window.width};
+        this.animatedPos = new Animated.ValueXY({x: -2 * window.width, y: -2 * window.width});
+        this.prevPos = {x: -2 * window.width, y: -2 * window.width};
     }
 
     componentDidMount() {
@@ -31,8 +31,8 @@ class GameField extends Component<any, void> {
 
         this._subscription = Accelerometer.addListener((result) => {
             let nextPos = {
-                x: -result.x * window.width / 2 * turnStrength - 1.5 * window.width,
-                y: result.y * window.width / 2 * turnStrength - 1.5 * window.width,
+                x: -result.x * window.width / 2 * turnStrength - 2 * window.width,
+                y: result.y * window.width / 2 * turnStrength - 2 * window.width,
             };
 
             nextPos.x = (nextPos.x + this.prevPos.x * turnSlowness) / (turnSlowness + 1);
@@ -88,8 +88,8 @@ class GameField extends Component<any, void> {
                         position: 'absolute',
                         bottom: 0,
                         top: 0,
-                        width: '400%',
-                        height: '400%',
+                        width: '500%',
+                        height: '500%',
                         transform: [
                             {translateX: this.animatedPos.x},
                             {translateY: this.animatedPos.y},
