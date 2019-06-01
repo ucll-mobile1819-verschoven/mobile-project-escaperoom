@@ -10,6 +10,7 @@ import ImageButton from "../components/ImageButton";
 import {idToTab, isBlackoutLevel, levelData, levelToId} from "../game/GameLevel";
 import {setGame} from "../redux/gameRedux";
 import BackButton from "../components/BackButton";
+import InfoButton from "../components/InfoButton";
 
 class LevelScreen extends Component<any, any> {
     constructor(){
@@ -77,31 +78,10 @@ class LevelScreen extends Component<any, any> {
             <ImageBackground source={this.props.background} style={[styles.container]}>
                 <BackButton onPress={() => this.props.navigation.navigate('Home')} color={this.props.color}/>
 
+                <InfoButton color={this.props.color} background={this.props.background} />
+
                 <Text style={[styles.title, {color: this.props.color, flex: 0.11, padding: 10}]}>Select a level</Text>
-
-                <View style={[styles.rowFlex, styles.m10, {flex: 0.05}]}>
-                    <View style={[styles.container, styles.rowFlex]}>
-                        <Image source={getAsset('Hand')} style={{width: 32, height: 32, tintColor: this.props.color}}/>
-                        <Text style={[{color: this.props.color}]}> = Target move count</Text>
-                    </View>
-
-                    <View style={[styles.container, styles.rowFlex]}>
-                        <Image source={getAsset('Star')} style={{width: 32, height: 32}}/>
-                        <Text style={[{color: this.props.color}]}> = Not yet completed</Text>
-                    </View>
-                </View>
-
-                <View style={[styles.rowFlex, styles.m10, {flex: 0.05}]}>
-                    <View style={[styles.container, styles.rowFlex]}>
-                        <Image source={getAsset('StarYellow')} style={{width: 32, height: 32}}/>
-                        <Text style={[{color: this.props.color}]}> = Completed</Text>
-                    </View>
-
-                    <View style={[styles.container, styles.rowFlex]}>
-                        <Image source={getAsset('StarRed')} style={{width: 32, height: 32}}/>
-                        <Text style={[{color: this.props.color}]}> = Perfect score</Text>
-                    </View>
-                </View>
+                
 
                 <View styles={[{flex: 0.05}]}>
                     <View style={[styles.rowFlex, {flexWrap: 'wrap', marginTop: 20}]}>

@@ -17,6 +17,7 @@ const assets = {
     Mask : require('../../assets/images/mask.png'),
     Center : require('../../assets/images/center.png'),
     Exit : require('../../assets/images/exit.png'),
+    Info : require('../../assets/images/information.png')
 };
 
 const themes = {
