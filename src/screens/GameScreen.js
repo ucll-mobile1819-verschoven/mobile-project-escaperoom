@@ -27,7 +27,7 @@ class GameScreen extends Component<any, GameScreenState> {
     }
 
     componentWillUnmount() {
-        if(this.props.gameFinished) {
+        if(this.props.gameFinished && !this.props.moving) {
             this.props.resetGame();
         }
     }
@@ -106,7 +106,7 @@ class GameScreen extends Component<any, GameScreenState> {
                 <WinScreen nextGame={nextGame}
                            restart={resetGame}
                            back={back}
-                           isVisible={this.props.gameFinished}
+                           isVisible={this.props.gameFinished && !this.props.moving}
                            scoreDict={{target: this.props.target, 'your moves': this.props.moveCounter}}
                            message={this.props.target === this.props.moveCounter ? "Perfect Victory" : "Victory"}/>
             </ImageBackground>
@@ -121,7 +121,8 @@ const mapStateToProps = state => ({
     player: getThemeAsset('Player', state.settings.theme),
     finish: getThemeAsset('Finish', state.settings.theme),
 
-    gameFinished : state.game.gameData.isGameFinished && !state.game.moving,
+    gameFinished : state.game.gameData.isGameFinished,
+    moving : state.game.moving,
     moveCounter : state.game.gameData.moveCounter,
     levelId : state.game.levelId,
     target : idToDifficulty(state.game.levelId),
