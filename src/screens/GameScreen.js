@@ -51,9 +51,11 @@ class GameScreen extends Component<any, GameScreenState> {
             this.props.navigation.replace('Game');
         };
 
+        let back = () => this.props.navigation.navigate('Level');
+
         return (
             <ImageBackground source={this.props.background} style={styles.container}>
-                <BackButton onPress={() => this.props.navigation.navigate('Level')} color={this.props.color}/>
+                <BackButton onPress={back} color={this.props.color}/>
 
                 { this.props.isBlackoutLevel &&
                     <ImageButton
@@ -103,6 +105,7 @@ class GameScreen extends Component<any, GameScreenState> {
 
                 <WinScreen nextGame={nextGame}
                            restart={resetGame}
+                           back={back}
                            isVisible={this.props.gameFinished}
                            scoreDict={{target: this.props.target, 'your moves': this.props.moveCounter}}
                            message={this.props.target === this.props.moveCounter ? "Perfect Victory" : "Victory"}/>

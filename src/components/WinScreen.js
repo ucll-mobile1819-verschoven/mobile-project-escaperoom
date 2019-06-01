@@ -11,6 +11,7 @@ import BackButton from "./BackButton";
 type WinScreenProps = {
     nextGame : any;
     restart : any;
+    back : any;
 
     isVisible : boolean;
     scoreDict : any;
@@ -28,7 +29,7 @@ class WinScreen extends Component<WinScreenProps, void> {
         }
 
         return <View style={styles.winscreenBackground}>
-                    <BackButton onPress={this.props.restart} color={'white'}/>
+                    <BackButton onPress={this.props.back} color={'white'}/>
 
                     <ImageBackground source={this.props.background} style={[styles.winScreen]}>
                         <ImageBackground source={this.props.win} style={{flex: 1, marginTop: 32}} imageStyle={{resizeMode: 'stretch'}}>
