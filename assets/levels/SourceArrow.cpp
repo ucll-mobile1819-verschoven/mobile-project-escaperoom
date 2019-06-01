@@ -10,6 +10,16 @@ using Level = vector<string>;
 
 const int INF = 1'000'000'000;
 
+const int level_count = 2'000'000;
+const int minimum_arrow_count = 2;
+const int max_level_per_type = 4;
+const int seed = 11;
+
+struct Dist {
+	int moveCount;
+	int arrowCount;
+};
+
 struct Vec2 {
 	int x, y;
 
@@ -80,42 +90,46 @@ struct Grid {
 	}
 };
 
-void spread(const Grid<char>& grid, Grid<int>& distance, Vec2 pos, Vec2 dir, int dist)
+void spread(const Grid<char>& grid, Grid<Dist>& distance, Vec2 pos, Vec2 dir, int dist, int arrows)
 {
 	if (grid.isSolid(pos)) return;
 
 	if (isArrow(grid[pos])) {
+		arrows++;
+
 		if (grid[pos] != invDirToChar(dir)) return;
 
-		if (distance[pos] > dist) {
-			distance[pos] = dist;
+		if (distance[pos].moveCount > dist) {
+			distance[pos].moveCount = dist;
+			distance[pos].arrowCount = arrows;
 
 			for (Vec2 next_dir : dirs) {
-				spread(grid, distance, pos + next_dir, next_dir, dist);
+				spread(grid, distance, pos + next_dir, next_dir, dist, arrows);
 			}
 		}
 	}
 	else {
-		if (distance[pos] > dist) {
-			distance[pos] = dist;
+		if (distance[pos].moveCount > dist) {
+			distance[pos].moveCount = dist;
+			distance[pos].arrowCount = arrows;
 
 			for (Vec2 next_dir : dirs) {
 				if (grid.isSolid(pos - next_dir)) {
-					spread(grid, distance, pos + next_dir, next_dir, dist + 1);
+					spread(grid, distance, pos + next_dir, next_dir, dist + 1, arrows);
 				}
 			}
 		}
 
-		spread(grid, distance, pos + dir, dir, dist);
+		spread(grid, distance, pos + dir, dir, dist, arrows);
 	}
 }
 
-bool test(const Grid<char>& grid, const Grid<int>& distance, Grid<int>& seen, const Vec2 pos)
+bool test(const Grid<char>& grid, const Grid<Dist>& distance, Grid<int>& seen, const Vec2 pos)
 {
 	if (seen[pos]) return true;
 	seen[pos] = true;
 
-	if (distance[pos] == INF) return false;
+	if (distance[pos].moveCount == INF) return false;
 
 	for (Vec2 dir : dirs) {
 		Vec2 next = pos;
@@ -133,23 +147,26 @@ bool test(const Grid<char>& grid, const Grid<int>& distance, Grid<int>& seen, co
 
 int minimal_solution(const Grid<char>& grid, Vec2 start, Vec2 finish)
 {
-	Grid<int> distance(grid.height, grid.width, INF);
-	distance[finish] = 0;
+	Grid<Dist> distance(grid.height, grid.width, { INF, 0 });
+	distance[finish] = { 0, 0 };
 
 	for (Vec2 dir : dirs)
 	{
 		if (grid.isSolid(finish - dir)) {
-			spread(grid, distance, finish + dir, dir, 1);
+			spread(grid, distance, finish + dir, dir, 1, 0);
 		}
 	}
 
 	Grid<int> seen(grid.height, grid.width, 0);
 	if (!test(grid, distance, seen, start)) return -1;
 
-	return distance[start];
+	if (distance[start].arrowCount < minimum_arrow_count) return -1;
+
+	return distance[start].moveCount;
 }
 
 pair<Level, int> generate() {
+	int arrow_chance = rand() % 11;
 	int size = (rand() % 4 + 1) * 5;
 
 	Grid<char> grid(size, size, '.');
@@ -186,7 +203,7 @@ pair<Level, int> generate() {
 		Vec2 next_pos = options.at(index);
 		Vec2 next_dir = options_dir.at(index);
 
-		if (rand() % 10 < 7) {
+		if (rand() % 10 < arrow_chance) {
 			grid[next_pos] = invDirToChar(next_dir);
 		}
 		else {
@@ -227,10 +244,9 @@ pair<Level, int> generate() {
 	return { level, path_length };
 }
 
-const int level_count = 10'000'000;
-const int max_level_per_type = 4;
-
 int main() {
+	srand(seed);
+
 	vector<vector<Level>> levels(400);
 	int error_count = 0;
 
@@ -246,7 +262,7 @@ int main() {
 		}
 	}
 
-	ofstream out("levelsArrow.json");
+	ofstream out("levelsArrow L" + to_string(minimum_arrow_count) + ".json");
 	out << "{" << endl;
 	out << "\t\"levels\" : [" << endl;
 
