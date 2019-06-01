@@ -75,7 +75,7 @@ class LevelScreen extends Component<any, any> {
 
         return (
             <ImageBackground source={this.props.background} style={[styles.container]}>
-                <BackButton onPress={() => this.props.navigation.navigate('Home')}/>
+                <BackButton onPress={() => this.props.navigation.navigate('Home')} color={this.props.color}/>
 
                 <Text style={[styles.title, {color: this.props.color, flex: 0.11, padding: 10}]}>Select a level</Text>
 

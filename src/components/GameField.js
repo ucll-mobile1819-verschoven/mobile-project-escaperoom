@@ -1,58 +1,15 @@
 // @flow
 
 import React, {Component} from 'react';
-import {View, Animated, Easing} from 'react-native';
+import {View} from 'react-native';
 import {connect} from 'react-redux';
 
 import {styles} from "../styling/Style";
 import {window} from "../styling/Layout";
 import FieldSquare from "./FieldSquare";
 import PlayerSquare from "./PlayerSquare";
-import {getAsset} from "../styling/Assets";
-import {Accelerometer} from "expo";
-
-const turnStrength = 2;
-const turnSlowness = 7;
 
 class GameField extends Component<any, void> {
-    animatedPos: any;
-    prevPos: any;
-    _subscription: any;
-
-    constructor(props : any) {
-        super(props);
-
-        this.animatedPos = new Animated.ValueXY({x: -2 * window.width, y: -2 * window.width});
-        this.prevPos = {x: -2 * window.width, y: -2 * window.width};
-    }
-
-    componentDidMount() {
-        Accelerometer.setUpdateInterval(25);
-
-        this._subscription = Accelerometer.addListener((result) => {
-            let nextPos = {
-                x: -result.x * window.width / 2 * turnStrength - 2 * window.width,
-                y: result.y * window.width / 2 * turnStrength - 2 * window.width,
-            };
-
-            nextPos.x = (nextPos.x + this.prevPos.x * turnSlowness) / (turnSlowness + 1);
-            nextPos.y = (nextPos.y + this.prevPos.y * turnSlowness) / (turnSlowness + 1);
-
-            this.prevPos = nextPos;
-
-            Animated.timing(this.animatedPos, {
-                toValue: nextPos,
-                duration: 25,
-                easing: Easing.linear,
-                useNativeDriver: true,
-            }).start();
-        });
-    }
-
-    componentWillUnmount() {
-        this._subscription.remove();
-    }
-
     render() {
         let x = -1, y = -1;
         const w = this.props.grid.width();
@@ -62,7 +19,7 @@ class GameField extends Component<any, void> {
         const height = squareSize * h;
 
         return (
-            <PlayerSquare style={styles.gameFieldBorder} squareSize={squareSize}>
+            <PlayerSquare style={[styles.gameFieldBorder, {borderColor: 'black'}]} squareSize={squareSize}>
 
                 <View style={{ width: width, height: height}}>
                     {this.props.grid._data.map( row => {
@@ -81,21 +38,6 @@ class GameField extends Component<any, void> {
                         }
                     )}
                 </View>
-
-                <Animated.Image
-                    fadeDuration={0}
-                    style={{
-                        position: 'absolute',
-                        bottom: 0,
-                        top: 0,
-                        width: '500%',
-                        height: '500%',
-                        transform: [
-                            {translateX: this.animatedPos.x},
-                            {translateY: this.animatedPos.y},
-                        ]
-                    }}
-                    source={getAsset('Mask')}/>
 
             </PlayerSquare>
         );

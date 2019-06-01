@@ -36,3 +36,7 @@ export function idToTab(id) {
 export function idToDifficulty(id) {
     return parseInt(id.split("#")[1]);
 }
+
+export function isBlackoutLevel(id) {
+    return parseInt(id.split('#')[2]) === 3;
+}

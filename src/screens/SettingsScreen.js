@@ -15,7 +15,7 @@ class SettingsScreen extends Component<any, void> {
     render() {
         return (
             <ImageBackground  source={this.props.background} style={styles.container}>
-                <BackButton onPress={() => this.props.navigation.navigate('Home')}/>
+                <BackButton onPress={() => this.props.navigation.navigate('Home')} color={this.props.color}/>
 
                 <View style={[styles.container, styles.centered]}>
 

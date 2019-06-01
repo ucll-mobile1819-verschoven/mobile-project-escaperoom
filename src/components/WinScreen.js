@@ -28,7 +28,7 @@ class WinScreen extends Component<WinScreenProps, void> {
         }
 
         return <View style={styles.winscreenBackground}>
-                    <BackButton onPress={this.props.restart} forceColor={'white'}/>
+                    <BackButton onPress={this.props.restart} color={'white'}/>
 
                     <ImageBackground source={this.props.background} style={[styles.winScreen]}>
                         <ImageBackground source={this.props.win} style={{flex: 1, marginTop: 32}} imageStyle={{resizeMode: 'stretch'}}>

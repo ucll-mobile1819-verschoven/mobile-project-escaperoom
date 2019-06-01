@@ -18,7 +18,6 @@ export const styles = StyleSheet.create({
     gameFieldBorder: {
         borderTopWidth: 4,
         borderBottomWidth : 4,
-        borderColor: colors.Wall,
         overflow: 'hidden',
     },
     playerSquare : {

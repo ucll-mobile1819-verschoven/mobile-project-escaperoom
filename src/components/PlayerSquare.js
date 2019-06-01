@@ -61,7 +61,7 @@ class PlayerSquare extends Component<any, void> {
                 hitSlop={{top: 1000, bottom: 1000, left: 1000, right: 1000}}
                 onHandlerStateChange={ev => this._moveSquare(ev)}>
 
-                <View style={this.props.style}>
+                <View style={[this.props.style, {zIndex: 1}]}>
                     {this.props.children}
 
                     <Animated.Image
