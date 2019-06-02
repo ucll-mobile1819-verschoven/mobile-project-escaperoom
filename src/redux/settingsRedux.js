@@ -12,7 +12,7 @@ const options = {
 };
 
 export const initialState = {
-    theme: options['theme'][0],
+    theme: options['theme'][1],
     highlight: options['highlight'][0],
     carSpeed: '2.5',
 };
