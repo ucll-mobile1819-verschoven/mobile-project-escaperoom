@@ -33,7 +33,7 @@ class LevelScreen extends Component<any, any> {
             <View style={{borderColor: this.props.color, borderWidth: borderSize}} key={tabName}>
                 <ImageButton
                     style={[{width: 80, margin: margin}]}
-                    textStyle={{color: this.props.color, fontSize: 22}}
+                    textStyle={{color: 'white', fontSize: 22}}
                     source={this.props.button}
                     title={tabName}
                     onPress={() => {this.setState({tab: tabName});}}/>
@@ -48,17 +48,21 @@ class LevelScreen extends Component<any, any> {
         let backgroundSize = 64 - 2 * borderSize;
         let imageMargin = 5 - borderSize;
 
+        let levelImage = isBlackoutLevel(id) ?
+            (score === parseInt(difficulty) ? getAsset('FlashlightRed') : score ? getAsset('FlashlightYellow') : getAsset('Flashlight') ) :
+            (score === parseInt(difficulty) ? getAsset('StarRed')       : score ? getAsset('StarYellow')       : getAsset('Star') );
+
         return (
             <View style={{borderColor: this.props.color, borderWidth: borderSize}} key={nr}>
                 <ImageBackground
-                    source={isBlackoutLevel(id) ? this.props.lightButton :  this.props.button}
+                    source={this.props.button}
                     style={{width: backgroundSize, height: backgroundSize, margin: 5}}
                     imageStyle={{resizeMode: 'stretch'}}>
 
                     <ImageButton
                         style={{width: 54, height: 54, margin: imageMargin}}
-                        textStyle={{color: this.props.color, fontSize: 22}}
-                        source={score === parseInt(difficulty) ? getAsset('StarRed') : score ? getAsset('StarYellow') : getAsset('Star')}
+                        textStyle={{color: 'white', fontSize: 22}}
+                        source={levelImage}
                         title={nr + 1}
                         onPress={() => {
                             if(this.props.navigation.isFocused()){

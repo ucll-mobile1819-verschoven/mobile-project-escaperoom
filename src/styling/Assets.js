@@ -11,13 +11,17 @@ export const getThemeAsset = (key : string, theme : string) => {
 const assets = {
     Back : require('../../assets/images/back.png'),
     Hand : require('../../assets/images/hand-icon.png'),
-    Star : require('../../assets/images/star.png'),
-    StarYellow : require('../../assets/images/yellow-star.png'),
-    StarRed : require('../../assets/images/red-star.png'),
     Mask : require('../../assets/images/mask.png'),
     Center : require('../../assets/images/center.png'),
     Exit : require('../../assets/images/exit.png'),
-    Info : require('../../assets/images/information.png')
+    Info : require('../../assets/images/information.png'),
+
+    Star : require('../../assets/images/star.png'),
+    StarYellow : require('../../assets/images/yellow-star.png'),
+    StarRed : require('../../assets/images/red-star.png'),
+    Flashlight : require('../../assets/images/flashlight.png'),
+    FlashlightYellow : require('../../assets/images/flashlightYellow.png'),
+    FlashlightRed : require('../../assets/images/flashlightRed.png'),
 };
 
 const themes = {
@@ -33,7 +37,6 @@ const themes = {
         DownArrow : require('../../assets/images/Minimalistic/down-arrow.png'),
 
         Button : require('../../assets/images/Minimalistic/uniformBlue.jpg'),
-        LightButton : require('../../assets/images/Minimalistic/uniformGreen.png'),
         win : require('../../assets/images/Minimalistic/SimpleWin.png'),
         winBackground : require('../../assets/images/Minimalistic/winbackground.png'),
         ContrastColor: 'black',
@@ -51,7 +54,6 @@ const themes = {
 
         Background : require('../../assets/images/Car/background.png'),
         Button : require('../../assets/images/Car/redbutton.png'),
-        LightButton : require('../../assets/images/Car/greenButton.png'),
         win : require('../../assets/images/Car/Win.png'),
         winBackground : require('../../assets/images/Car/winbackground.png'),
         ContrastColor: 'black',
@@ -69,7 +71,6 @@ const themes = {
 
         Background : require('../../assets/images/Wood/WoodenBackground.png'),
         Button : require('../../assets/images/Wood/button.png'),
-        LightButton : require('../../assets/images/Wood/greenButton.png'),
         win : require('../../assets/images/Wood/Win.png'),
         winBackground : require('../../assets/images/Wood/woodwinbackground.png'),
         ContrastColor: 'white',
