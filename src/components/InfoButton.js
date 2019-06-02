@@ -2,7 +2,7 @@
 
 import React, {Component} from 'react';
 import {getAsset} from "../styling/Assets";
-import {Image, ImageBackground, Text, View} from 'react-native';
+import {Image, ImageBackground, Text, View, BackHandler} from 'react-native';
 import {window} from "../styling/Layout";
 import ImageButton from "../components/ImageButton";
 import {styles} from "../styling/Style";
@@ -10,16 +10,33 @@ import {styles} from "../styling/Style";
 type InfoButtonProps= {
     color: string;
     background : any;
+    isFocused : any;
 }
 type InfoButtonState ={
     active : boolean
 }
 
 export default class InfoButton extends Component<InfoButtonProps, InfoButtonState> {
+    backHandler : any;
 
     constructor(props){
         super(props);
         this.state = {active : false};
+    }
+
+    componentDidMount() {
+        this.backHandler = BackHandler.addEventListener('hardwareBackPress', () => {
+            if(this.state.active && this.props.isFocused()) {
+                this.setState({active : false});
+                return true;
+            }
+
+            return false;
+        });
+    }
+
+    componentWillUnmount() {
+        this.backHandler.remove()
     }
 
     render() {
