@@ -36,9 +36,10 @@ const themes = {
         UpArrow : require('../../assets/images/Minimalistic/up-arrow.png'),
         DownArrow : require('../../assets/images/Minimalistic/down-arrow.png'),
 
+        Background : require('../../assets/images/Minimalistic/background.png'),
         Button : require('../../assets/images/Minimalistic/uniformBlue.jpg'),
         win : require('../../assets/images/Minimalistic/SimpleWin.png'),
-        winBackground : require('../../assets/images/Minimalistic/winbackground.png'),
+        winBackground : require('../../assets/images/Minimalistic/background.png'),
         ContrastColor: 'black',
     },
     Car : {
