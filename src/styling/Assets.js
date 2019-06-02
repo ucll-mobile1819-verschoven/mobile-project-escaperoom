@@ -11,6 +11,7 @@ export const getThemeAsset = (key : string, theme : string) => {
 const assets = {
     Back : require('../../assets/images/back.png'),
     Hand : require('../../assets/images/hand-icon.png'),
+    Swipe : require('../../assets/images/swipe-icon.png'),
     Mask : require('../../assets/images/mask.png'),
     Center : require('../../assets/images/center.png'),
     Exit : require('../../assets/images/exit.png'),

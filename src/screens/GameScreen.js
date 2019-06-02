@@ -97,11 +97,7 @@ class GameScreen extends Component<any, GameScreenState> {
                     <GameField/>
                 }
 
-                <View style={[{flexDirection: 'row', backgroundColor: backgroundColor, flex: 1}, styles.centered]}>
-                    <Image style={{width: 64, height: 64}} source={this.props.player}/>
-                    <Text style={{fontSize: 30, color: this.props.color}}> ====> </Text>
-                    <Image style={{width: 64, height: 64}} source={this.props.finish}/>
-                </View>
+                <View style={{backgroundColor: backgroundColor, flex: 1}}/>
 
                 <WinScreen nextGame={nextGame}
                            restart={resetGame}
@@ -118,8 +114,6 @@ const mapStateToProps = state => ({
     background : getThemeAsset('Background', state.settings.theme),
     button: getThemeAsset('Button', state.settings.theme),
     color: isBlackoutLevel(state.game.levelId) ? 'white' : getThemeAsset('ContrastColor', state.settings.theme),
-    player: getThemeAsset('Player', state.settings.theme),
-    finish: getThemeAsset('Finish', state.settings.theme),
 
     gameFinished : state.game.gameData.isGameFinished,
     moving : state.game.moving,

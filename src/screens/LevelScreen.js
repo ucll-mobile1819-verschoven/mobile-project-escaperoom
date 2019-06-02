@@ -85,7 +85,6 @@ class LevelScreen extends Component<any, any> {
                 <InfoButton color={this.props.color} background={this.props.background} isFocused={this.props.navigation.isFocused}/>
 
                 <Text style={[styles.title, {color: this.props.color, flex: 0.11, padding: 10}]}>Select a level</Text>
-                
 
                 <View styles={[{flex: 0.05}]}>
                     <View style={[styles.rowFlex, {flexWrap: 'wrap', marginTop: 20}]}>

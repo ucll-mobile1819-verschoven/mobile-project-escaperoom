@@ -36,6 +36,7 @@ class HomeScreen extends Component<any, void> {
                 <View style={[styles.container, styles.centered, {marginTop: -100}]}>
                     <StatusBar hidden/>
 
+                    {this.createMenuButton("How to play", "Tutorial")}
                     {this.createMenuButton("Select Level", "Level")}
                     {/*this.createMenuButton("Speedrun", "Speedrun")*/}
                     {this.createMenuButton("Settings", "Settings")}
