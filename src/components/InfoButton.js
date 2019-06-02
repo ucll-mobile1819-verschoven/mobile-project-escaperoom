@@ -66,7 +66,7 @@ export default class InfoButton extends Component<InfoButtonProps, InfoButtonSta
                             source={this.props.background}
                             imageStyle = {{
                                 borderRadius: 20,
-                                resizeMode:'stretch',
+                                resizeMode:'cover',
                             }}
                             style ={{
                                 alignItems: 'flex-start',
