@@ -1,4 +1,4 @@
-import {chainMove, isChainMove, levelToGame, movePlayer, resetGame} from "../game/GameMechanics";
+import {chainMove, extractGame, isChainMove, levelToGame, movePlayer, resetGame} from "../game/GameMechanics";
 import {copy, copyAndSet} from "./utilRedux";
 import {idToLevel, nextLevelId} from "../game/GameLevel";
 
@@ -8,6 +8,7 @@ const actions = {
     next_game: 'NEXT_GAME',
     move: 'MOVE',
     moveEnded: 'MOVE_ENDED',
+    force_game_state: 'FORCE_GAME_STATE',
     delete_data: 'DELETE_DATA',
 };
 
@@ -48,6 +49,14 @@ export const gameReducer = (state = initialState, action) => {
             }
         }
 
+        case actions.force_game_state: {
+            return {
+                moving: action.payload.moving,
+                levelId: action.payload.levelId,
+                gameData: extractGame(action.payload.gameData),
+            };
+        }
+
         case actions.delete_data : {
             return copy(initialState);
         }
@@ -79,4 +88,9 @@ export const move = dir => ({
 export const moveEnded = () => ({
     type: actions.moveEnded,
     payload: '',
+});
+
+export const forceGameState = gameState => ({
+    type: actions.force_game_state,
+    payload: gameState,
 });

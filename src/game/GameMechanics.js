@@ -100,6 +100,20 @@ export function levelToGame(level) : Game {
     };
 }
 
+export function extractGame(game) {
+    let grid = new Grid<Square>(0, 0, "Empty");
+    grid._data = game.grid._data;
+
+    return {
+        grid : grid,
+        player : new Vec2(game.player.x, game.player.y),
+        start : new Vec2(game.start.x, game.start.y),
+        moveDir : game.moveDir,
+        isGameFinished : game.isGameFinished,
+        moveCounter : game.moveCounter,
+    };
+}
+
 function char_to_square(char) : Square {
     switch (char) {
         case 'W': return "Wall";

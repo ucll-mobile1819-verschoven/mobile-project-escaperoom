@@ -73,7 +73,7 @@ class GameFieldBlackout extends Component<any, void> {
         const height = squareSize * h;
 
         return (
-            <PlayerSquare style={[styles.gameFieldBorder, {borderColor: 'white'}]} squareSize={squareSize}>
+            <PlayerSquare multiDevice={this.props.multiDevice} style={[styles.gameFieldBorder, {borderColor: 'white'}]} squareSize={squareSize}>
 
                 <View style={{ width: width, height: height}}>
                     {this.props.grid._data.map( row => {

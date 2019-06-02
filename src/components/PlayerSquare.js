@@ -8,18 +8,26 @@ import {connect} from 'react-redux';
 import {styles} from "../styling/Style";
 import {getThemeAsset} from "../styling/Assets";
 import AngleAnimation from "../utilities/AngleAnimation";
-import {move, moveEnded} from "../redux/gameRedux";
+import {forceGameState, move, moveEnded} from "../redux/gameRedux";
 import ConstantSpeedAnimation from "../utilities/ConstantSpeedAnimation";
 
 const panSpeed = 1;
 const turnSpeed = 50;
 
 class PlayerSquare extends Component<any, void> {
+    connection : any;
+    isMaster: boolean;
+    isSlave: boolean;
+
     position: ConstantSpeedAnimation;
     angle: AngleAnimation;
 
     constructor(props : any){
         super(props);
+
+        this.connection = null;
+        this.isMaster = false;
+        this.isSlave = false;
 
         this.resetAnimations();
     }
@@ -32,25 +40,80 @@ class PlayerSquare extends Component<any, void> {
 
     componentWillUpdate(nextProps, nextState){
         if(nextProps.moving){
-            if(this.props.moving && this.props.position.equals(nextProps.position)) return;
+            if(this.props.moving && this.props.position.equals(nextProps.position)) {}
+            else {
+                let animations = [];
 
-            let animations = [];
+                if(nextProps.rotation) animations.push(this.angle.turnTo(nextProps.moveDir));
+                animations.push(this.position.moveTo(nextProps.position.mul(nextProps.squareSize)));
 
-            if(nextProps.rotation) animations.push(this.angle.turnTo(nextProps.moveDir));
-            animations.push(this.position.moveTo(nextProps.position.mul(nextProps.squareSize)));
+                Animated.sequence(animations).start(nextProps.onMoveEnded);
+            }
+        }
 
-            Animated.sequence(animations).start(nextProps.onMoveEnded);
+        if(!this.props.multiDevice && nextProps.multiDevice) {
+            this.connection = new WebSocket('ws://192.168.0.121:9898');
+            this.connection.onopen = () => {
+                this.connection.send('OPEN');
+            };
+            this.connection.onmessage = (data) => {
+                data = JSON.parse(data.data);
+
+                if(data.type){
+                    alert(data.type);
+                    if(data.type === 'MASTER') this.isMaster = true;
+                    if(data.type === 'SLAVE') this.isSlave = true;
+                } else if(data.action){
+                    if(data.action === 'CLOSE') this.connection.close();
+                    if(data.action === 'REFRESH') this.connection.send('GAME\n' + JSON.stringify(this.props.game));
+                } else if(data.move) {
+                    this.props.onMove(data.move);
+                } else if(data.gameData) {
+                    this.props.setGameState(data);
+                }
+            };
+            this.connection.onClose = () => {
+                this.isMaster = false;
+                this.isSlave = false;
+            };
+        }
+
+        if(this.props.multiDevice && !nextProps.multiDevice && this.connection){
+            this.connection.close();
+        }
+
+        if(this.props.multiDevice && this.isMaster) {
+            this.connection.send('GAME\n' + JSON.stringify(nextProps.game));
+        }
+    }
+
+    componentWillUnmount() {
+        if(this.connection){
+            this.connection.close();
+        }
+    }
+
+    move(dir) {
+        if(this.props.multiDevice){
+            if(this.isMaster) {
+                this.props.onMove(dir);
+            }
+            if(this.isSlave){
+                this.connection.send('MOVE\n' + JSON.stringify({move: dir}));
+            }
+        } else {
+            this.props.onMove(dir);
         }
     }
 
     _moveSquare({nativeEvent} : any) {
         if (nativeEvent.oldState === State.ACTIVE) {
             if(Math.abs(nativeEvent.velocityX) > Math.abs(nativeEvent.velocityY)){
-                if(nativeEvent.velocityX > panSpeed)    this.props.onMove("Right");
-                if(nativeEvent.velocityX < -panSpeed)   this.props.onMove("Left");
+                if(nativeEvent.velocityX > panSpeed)    this.move("Right");
+                if(nativeEvent.velocityX < -panSpeed)   this.move("Left");
             } else {
-                if(nativeEvent.velocityY > panSpeed)    this.props.onMove("Down");
-                if(nativeEvent.velocityY < -panSpeed)   this.props.onMove("Up");
+                if(nativeEvent.velocityY > panSpeed)    this.move("Down");
+                if(nativeEvent.velocityY < -panSpeed)   this.move("Up");
             }
         }
     }
@@ -127,7 +190,9 @@ class PlayerSquare extends Component<any, void> {
 const mapStateToProps = state => ({
     position: state.game.gameData.player,
     moveDir: state.game.gameData.moveDir,
+    levelId : state.game.levelId,
     moving: state.game.moving,
+    game: state.game,
 
     highlight: state.settings.highlight === 'Enabled',
     rotation: getThemeAsset('PlayerRotation', state.settings.theme),
@@ -138,6 +203,7 @@ const mapStateToProps = state => ({
 const mapDispatchToProps = dispatch => ({
     onMove: dir => dispatch(move(dir)),
     onMoveEnded: () => dispatch(moveEnded()),
+    setGameState: game => dispatch(forceGameState(game)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(PlayerSquare);

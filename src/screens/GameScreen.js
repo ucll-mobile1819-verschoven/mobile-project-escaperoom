@@ -1,7 +1,7 @@
 // @flow
 
 import React, {Component} from 'react';
-import {View, ImageBackground, Text, Image} from 'react-native';
+import {View, ImageBackground, Text} from 'react-native';
 import {connect} from 'react-redux';
 
 import {styles} from "../styling/Style";
@@ -10,20 +10,24 @@ import GameField from "../components/GameField";
 import GameFieldBlackout from "../components/GameFieldBlackout";
 import ImageButton from "../components/ImageButton";
 import WinScreen from "../components/WinScreen";
-import {nextGame, gameReset} from "../redux/gameRedux";
+import {nextGame, gameReset, move} from "../redux/gameRedux";
 import {updateHighscore} from "../redux/playerDataRedux";
 import {idToDifficulty, isBlackoutLevel} from "../game/GameLevel";
 import BackButton from "../components/BackButton";
 
 type GameScreenState = {
     shouldResetReferenceAngle : boolean;
+    multiDevice : boolean,
 }
 
 class GameScreen extends Component<any, GameScreenState> {
     constructor(props : any) {
         super(props);
 
-        this.state = {shouldResetReferenceAngle : false};
+        this.state = {
+            shouldResetReferenceAngle : false,
+            multiDevice : false,
+        };
     }
 
     componentWillUnmount() {
@@ -93,11 +97,18 @@ class GameScreen extends Component<any, GameScreenState> {
                 </View>
 
                 { this.props.isBlackoutLevel ?
-                    <GameFieldBlackout shouldResetReferenceAngle={this.state.shouldResetReferenceAngle}/> :
-                    <GameField/>
+                    <GameFieldBlackout multiDevice={this.state.multiDevice} shouldResetReferenceAngle={this.state.shouldResetReferenceAngle}/> :
+                    <GameField multiDevice={this.state.multiDevice}/>
                 }
 
-                <View style={{backgroundColor: backgroundColor, flex: 1}}/>
+                <View style={{backgroundColor: backgroundColor, flex: 1, justifyContent: 'center', alignItems: 'center'}}>
+                    <ImageButton
+                        style={{margin: 7, width: '66%'}}
+                        textStyle={styles.buttonText}
+                        title={this.state.multiDevice ? 'Disconnect' : 'Play multi-device'}
+                        source={this.props.button}
+                        onPress={() => this.setState({multiDevice : !this.state.multiDevice})}/>
+                </View>
 
                 <WinScreen nextGame={nextGame}
                            restart={resetGame}

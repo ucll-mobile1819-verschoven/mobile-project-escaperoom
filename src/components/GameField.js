@@ -19,7 +19,7 @@ class GameField extends Component<any, void> {
         const height = squareSize * h;
 
         return (
-            <PlayerSquare style={[styles.gameFieldBorder, {borderColor: 'black'}]} squareSize={squareSize}>
+            <PlayerSquare multiDevice={this.props.multiDevice} style={[styles.gameFieldBorder, {borderColor: 'black'}]} squareSize={squareSize}>
 
                 <View style={{ width: width, height: height}}>
                     {this.props.grid._data.map( row => {
