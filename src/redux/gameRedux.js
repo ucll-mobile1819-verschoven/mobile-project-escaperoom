@@ -1,5 +1,5 @@
 import {chainMove, isChainMove, levelToGame, movePlayer, resetGame} from "../game/GameMechanics";
-import {copyAndSet} from "./utilRedux";
+import {copy, copyAndSet} from "./utilRedux";
 import {idToLevel, nextLevelId} from "../game/GameLevel";
 
 const actions = {
@@ -8,6 +8,7 @@ const actions = {
     next_game: 'NEXT_GAME',
     move: 'MOVE',
     moveEnded: 'MOVE_ENDED',
+    delete_data: 'DELETE_DATA',
 };
 
 const initialState = {
@@ -21,26 +22,34 @@ export const gameReducer = (state = initialState, action) => {
         case actions.reset_game: {
             return copyAndSet(state, {moving: false, gameData: resetGame(state.gameData)});
         }
+
         case actions.set_game: {
             let new_id = action.payload;
             if(new_id === state.levelId) return state;
             return copyAndSet(state, {moving: false, levelId: new_id, gameData: levelToGame(idToLevel(new_id))});
         }
+
         case actions.next_game: {
             let new_id = nextLevelId(state.levelId);
             return copyAndSet(state, {moving: false, levelId: new_id, gameData: levelToGame(idToLevel(new_id))});
         }
+
         case actions.move: {
             if(state.moving || state.gameData.isGameFinished) return state;
 
             return copyAndSet(state, {moving: true, gameData: movePlayer(state.gameData, action.payload)});
         }
+
         case actions.moveEnded: {
             if(isChainMove(state.gameData)){
                 return copyAndSet(state, {gameData: chainMove(state.gameData)});
             } else {
                 return copyAndSet(state, {moving: false});
             }
+        }
+
+        case actions.delete_data : {
+            return copy(initialState);
         }
 
         default: return state;

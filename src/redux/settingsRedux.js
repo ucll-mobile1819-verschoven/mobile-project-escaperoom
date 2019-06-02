@@ -1,9 +1,10 @@
-import {saveData} from "../utilities/storage";
-import {copyAndSet} from "./utilRedux";
+import {deleteStorageData, saveData} from "../utilities/storage";
+import {copy, copyAndSet} from "./utilRedux";
 
 const actions = {
     toggle_setting: 'TOGGLE_SETTING',
     set_setting: 'SET_SETTING',
+    delete_data: 'DELETE_DATA',
 };
 
 const options = {
@@ -43,6 +44,11 @@ export const settingsReducer = (state = initialState, action) => {
             return next;
         }
 
+        case actions.delete_data : {
+            deleteStorageData(Object.keys(initialState));
+            return copy(initialState);
+        }
+
         default: return state;
     }
 };
@@ -55,4 +61,9 @@ export const toggleSetting = key => ({
 export const setSetting = (key, value) => ({
     type: actions.set_setting,
     payload: {key: key, value: value},
+});
+
+export const deleteAllData = () => ({
+    type: actions.delete_data,
+    payload: '',
 });

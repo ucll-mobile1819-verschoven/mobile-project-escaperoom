@@ -1,9 +1,10 @@
-import {mergeData} from "../utilities/storage";
-import {copyAndSet} from "./utilRedux";
+import {deleteStorageData, mergeData} from "../utilities/storage";
+import {copy, copyAndSet} from "./utilRedux";
 
 const actions = {
     set_player_data: 'SET_PLAYER_DATA',
     update_highscore: 'UPDATE_HIGHSCORE',
+    delete_data: 'DELETE_DATA',
 };
 
 export const initialState = {
@@ -42,6 +43,11 @@ export const playerDataReducer = (state = initialState, action) => {
                     }
                 )
             });
+        }
+
+        case actions.delete_data : {
+            deleteStorageData(Object.keys(initialState));
+            return copy(initialState);
         }
 
         default: return state;

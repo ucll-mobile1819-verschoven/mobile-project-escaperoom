@@ -6,13 +6,38 @@ import {connect} from 'react-redux';
 
 import {styles} from "../styling/Style";
 import {getThemeAsset} from "../styling/Assets";
-import {setSetting, toggleSetting} from "../redux/settingsRedux";
+import {deleteAllData, setSetting, toggleSetting} from "../redux/settingsRedux";
 import ImageButton from "../components/ImageButton";
 import ImageSlider from "../components/ImageSlider";
 import BackButton from "../components/BackButton";
 
-class SettingsScreen extends Component<any, void> {
+type SettingsScreenState = {
+    deleteState : number,
+}
+
+class SettingsScreen extends Component<any, SettingsScreenState> {
+    constructor(props) {
+        super(props);
+
+        this.state = {deleteState : 0};
+    }
+
+    onPressDeleteData() {
+        if(this.state.deleteState === 1) {
+            this.props.deleteData();
+        }
+
+        this.setState({deleteState : (this.state.deleteState + 1) % 3});
+    }
+
     render() {
+        let deleteDataText = '';
+        switch (this.state.deleteState) {
+            case 0 : deleteDataText = 'DANGER:\nDelete all data'; break;
+            case 1 : deleteDataText = 'DANGER:\nAre you sure?'; break;
+            case 2 : deleteDataText = 'Data deleted'; break;
+        }
+
         return (
             <ImageBackground  source={this.props.background} style={styles.container}>
                 <BackButton onPress={() => this.props.navigation.navigate('Home')} color={this.props.color}/>
@@ -49,6 +74,12 @@ class SettingsScreen extends Component<any, void> {
                         onValueChange={this.props.changeCarSpeed}
                         value={this.props.carSpeed}/>
 
+                    <ImageButton
+                        style={[styles.m10, styles.menuButton]}
+                        textStyle={styles.buttonText}
+                        title={deleteDataText}
+                        source={this.props.button}
+                        onPress={() => this.onPressDeleteData()}/>
                 </View>
             </ImageBackground>
         );
@@ -68,7 +99,8 @@ const mapStateToProps = state => ({
 const mapDispatchToProps = dispatch => ({
     changeTheme: () => dispatch(toggleSetting('theme')),
     changeHighlight: () => dispatch(toggleSetting('highlight')),
-    changeCarSpeed : value => dispatch(setSetting('carSpeed', (10 - value).toString()))
+    changeCarSpeed : value => dispatch(setSetting('carSpeed', (10 - value).toString())),
+    deleteData : () => dispatch(deleteAllData()),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(SettingsScreen);
