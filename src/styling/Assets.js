@@ -9,6 +9,8 @@ export const getThemeAsset = (key : string, theme : string) => {
 };
 
 const assets = {
+    Loading : require('../../assets/images/splash.png'),
+
     Back : require('../../assets/images/back.png'),
     Hand : require('../../assets/images/hand-icon.png'),
     Swipe : require('../../assets/images/swipe-icon.png'),
