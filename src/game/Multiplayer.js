@@ -29,6 +29,11 @@ export function startMultiplayer(onMove) {
         }
     };
 
+    connection.onError = () => {
+        isConnectionOpen = false;
+        isMaster = false;
+    };
+
     connection.onClose = () => {
         isConnectionOpen = false;
         isMaster = false;
