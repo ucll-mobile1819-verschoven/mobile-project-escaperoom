@@ -10,23 +10,32 @@ import GameField from "../components/GameField";
 import GameFieldBlackout from "../components/GameFieldBlackout";
 import ImageButton from "../components/ImageButton";
 import WinScreen from "../components/WinScreen";
-import {nextGame, gameReset, move} from "../redux/gameRedux";
+import {nextGame, gameReset} from "../redux/gameRedux";
 import {updateHighscore} from "../redux/playerDataRedux";
 import {idToDifficulty, isBlackoutLevel} from "../game/GameLevel";
 import BackButton from "../components/BackButton";
+import {isConnectionOpen, isMaster} from "../game/Multiplayer";
 
 type GameScreenState = {
     shouldResetReferenceAngle : boolean;
     multiDevice : boolean,
+    serverText : string,
+    peerText : string,
 }
 
 class GameScreen extends Component<any, GameScreenState> {
+    timer : any;
+
     constructor(props : any) {
         super(props);
+
+        this.timer = null;
 
         this.state = {
             shouldResetReferenceAngle : false,
             multiDevice : false,
+            serverText : '',
+            peerText : '',
         };
     }
 
@@ -34,11 +43,33 @@ class GameScreen extends Component<any, GameScreenState> {
         if(this.props.gameFinished && !this.props.moving) {
             this.props.resetGame();
         }
+
+        if(this.timer) {
+            clearInterval(this.timer);
+        }
     }
 
     componentDidUpdate(prevProps, prevState) {
         if (!prevProps.gameFinished && this.props.gameFinished){
             this.props.updateHighscore(this.props.levelId, this.props.moveCounter);
+        }
+
+        if (!prevState.multiDevice && this.state.multiDevice) {
+            this.timer = setInterval(() => {
+                this.setState({
+                    serverText : isConnectionOpen ? 'Connected' : 'Not connected',
+                    peerText : isMaster ? 'Role : master' : 'Role : slave',
+                });
+            }, 500);
+        }
+
+        if(prevState.multiDevice && !this.state.multiDevice) {
+            clearInterval(this.timer);
+
+            this.setState({
+                serverText : '',
+                peerText : '',
+            });
         }
     }
 
@@ -102,6 +133,9 @@ class GameScreen extends Component<any, GameScreenState> {
                 }
 
                 <View style={{backgroundColor: backgroundColor, flex: 1, justifyContent: 'center', alignItems: 'center'}}>
+                    <Text style={{fontSize: 22, color: this.props.color}}>
+                        {this.state.serverText + '\n' + this.state.peerText}
+                    </Text>
                     <ImageButton
                         style={{margin: 7, width: '66%'}}
                         textStyle={styles.buttonText}

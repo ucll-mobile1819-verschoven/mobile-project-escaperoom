@@ -2,7 +2,7 @@ import store from "../redux/store";
 import {forceGameState} from "../redux/gameRedux";
 
 let connection = null;
-let isConnectionOpen = false;
+export let isConnectionOpen = false;
 let unsubscribe = null;
 export let isMaster = false;
 
@@ -18,7 +18,6 @@ export function startMultiplayer(onMove) {
         data = JSON.parse(data.data);
 
         if(data.type){
-            alert(data.type);
             isMaster = data.type === 'MASTER';
             if(isMaster)                    connection.send('GAME\n' + JSON.stringify(store.getState().game));
         } else if(data.action){
@@ -61,6 +60,7 @@ export function stopMultiplayer() {
 
     if(connection){
         isConnectionOpen = false;
+        isMaster = false;
         connection.close();
         connection = null;
     }
