@@ -40,7 +40,9 @@ export function startMultiplayer(onMove) {
     };
 
     unsubscribe = store.subscribe(() => {
-        if(isMaster) connection.send('GAME\n' + JSON.stringify(store.getState().game));
+        if(isConnectionOpen && connection) {
+            if(isMaster) connection.send('GAME\n' + JSON.stringify(store.getState().game));
+        }
     });
 }
 
@@ -67,6 +69,5 @@ export function stopMultiplayer() {
         isConnectionOpen = false;
         isMaster = false;
         connection.close();
-        connection = null;
     }
 }
