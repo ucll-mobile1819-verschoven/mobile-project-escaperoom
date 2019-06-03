@@ -8,24 +8,19 @@ import {connect} from 'react-redux';
 import {styles} from "../styling/Style";
 import {getThemeAsset} from "../styling/Assets";
 import AngleAnimation from "../utilities/AngleAnimation";
-import {forceGameState, move, moveEnded} from "../redux/gameRedux";
+import {move, moveEnded} from "../redux/gameRedux";
 import ConstantSpeedAnimation from "../utilities/ConstantSpeedAnimation";
+import {multiplayerConsumesMove, startMultiplayer, stopMultiplayer} from "../game/Multiplayer";
 
 const panSpeed = 1;
 const turnSpeed = 50;
 
 class PlayerSquare extends Component<any, void> {
-    connection : any;
-    isMaster: boolean;
-
     position: ConstantSpeedAnimation;
     angle: AngleAnimation;
 
     constructor(props : any){
         super(props);
-
-        this.connection = null;
-        this.isMaster = false;
 
         this.resetAnimations();
     }
@@ -39,7 +34,7 @@ class PlayerSquare extends Component<any, void> {
     doAnimations(nextProps) {
         if(nextProps.moving){
             if(this.props.moving && this.props.position.equals(nextProps.position)) return;
-            
+
             let animations = [];
 
             if(nextProps.rotation) animations.push(this.angle.turnTo(nextProps.moveDir));
@@ -52,53 +47,16 @@ class PlayerSquare extends Component<any, void> {
     componentWillUpdate(nextProps, nextState){
         this.doAnimations(nextProps);
 
-        if(!this.props.multiDevice && nextProps.multiDevice) {
-            this.connection = new WebSocket('ws://192.168.25.25:9898');
-            this.connection.onopen = () => {
-                this.connection.send('OPEN');
-            };
-            this.connection.onmessage = (data) => {
-                data = JSON.parse(data.data);
-
-                if(data.type){
-                    alert(data.type);
-                    this.isMaster = data.type === 'MASTER';
-                } else if(data.action){
-                    if(data.action === 'REFRESH') this.connection.send('GAME\n' + JSON.stringify(nextProps.game));
-                } else if(data.move) {
-                    this.props.onMove(data.move);
-                } else if(data.gameData) {
-                    this.props.setGameState(data);
-                }
-            };
-            this.connection.onClose = () => {
-                this.isMaster = false;
-            };
-        }
-
-        if(this.props.multiDevice && !nextProps.multiDevice && this.connection){
-            this.connection.close();
-        }
-
-        if(this.props.multiDevice && this.isMaster) {
-            this.connection.send('GAME\n' + JSON.stringify(nextProps.game));
-        }
+        if(!this.props.multiDevice && nextProps.multiDevice) startMultiplayer(dir => this.props.onMove(dir));
+        if(this.props.multiDevice && !nextProps.multiDevice) stopMultiplayer();
     }
 
     componentWillUnmount() {
-        if(this.connection){
-            this.connection.close();
-        }
+        stopMultiplayer();
     }
 
     move(dir) {
-        if(this.props.multiDevice){
-            if(this.isMaster) {
-                this.props.onMove(dir);
-            } else {
-                this.connection.send('MOVE\n' + JSON.stringify({move: dir}));
-            }
-        } else {
+        if(!multiplayerConsumesMove(dir)){
             this.props.onMove(dir);
         }
     }
@@ -200,7 +158,6 @@ const mapStateToProps = state => ({
 const mapDispatchToProps = dispatch => ({
     onMove: dir => dispatch(move(dir)),
     onMoveEnded: () => dispatch(moveEnded()),
-    setGameState: game => dispatch(forceGameState(game)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(PlayerSquare);
