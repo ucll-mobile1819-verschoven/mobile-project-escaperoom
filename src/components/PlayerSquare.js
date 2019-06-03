@@ -17,7 +17,6 @@ const turnSpeed = 50;
 class PlayerSquare extends Component<any, void> {
     connection : any;
     isMaster: boolean;
-    isSlave: boolean;
 
     position: ConstantSpeedAnimation;
     angle: AngleAnimation;
@@ -27,7 +26,6 @@ class PlayerSquare extends Component<any, void> {
 
         this.connection = null;
         this.isMaster = false;
-        this.isSlave = false;
 
         this.resetAnimations();
     }
@@ -52,7 +50,7 @@ class PlayerSquare extends Component<any, void> {
         }
 
         if(!this.props.multiDevice && nextProps.multiDevice) {
-            this.connection = new WebSocket('ws://192.168.0.121:9898');
+            this.connection = new WebSocket('ws://192.168.25.25:9898');
             this.connection.onopen = () => {
                 this.connection.send('OPEN');
             };
@@ -61,11 +59,9 @@ class PlayerSquare extends Component<any, void> {
 
                 if(data.type){
                     alert(data.type);
-                    if(data.type === 'MASTER') this.isMaster = true;
-                    if(data.type === 'SLAVE') this.isSlave = true;
+                    this.isMaster = data.type === 'MASTER';
                 } else if(data.action){
-                    if(data.action === 'CLOSE') this.connection.close();
-                    if(data.action === 'REFRESH') this.connection.send('GAME\n' + JSON.stringify(this.props.game));
+                    if(data.action === 'REFRESH') this.connection.send('GAME\n' + JSON.stringify(nextProps.game));
                 } else if(data.move) {
                     this.props.onMove(data.move);
                 } else if(data.gameData) {
@@ -74,7 +70,6 @@ class PlayerSquare extends Component<any, void> {
             };
             this.connection.onClose = () => {
                 this.isMaster = false;
-                this.isSlave = false;
             };
         }
 
@@ -97,8 +92,7 @@ class PlayerSquare extends Component<any, void> {
         if(this.props.multiDevice){
             if(this.isMaster) {
                 this.props.onMove(dir);
-            }
-            if(this.isSlave){
+            } else {
                 this.connection.send('MOVE\n' + JSON.stringify({move: dir}));
             }
         } else {

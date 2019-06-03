@@ -1,41 +1,51 @@
-import socketserver
+import asyncio
+import websockets
 
 master = None
 slave = None
 
-class MyTCPHandler(socketserver.StreamRequestHandler):
+async def server(websocket, path):
+    global master
+    global slave
 
-    def handle(self):
-        action = self.rfile.readline().strip()
-        print(action)
-        
-        if action == 'OPEN':
-            if not master:
-                master = self.wfile
-                master.write('{"type" : "MASTER"}')
-            elif not slave:
-                slave = self.wfile
-                slave.write('{"type" : "SLAVE"}')
-                master.write('{"action" : "REFRESH"}')
+    isSlave = False
+    isMaster = False
+    
+    try:
+        while(True):
+            x = (await websocket.recv()).split()
+            action = x[0]
+            
+            print(action)
+            
+            if action == 'OPEN' and not isMaster and not isSlave:
+                if not master:
+                    print('Master is assigned')
+                    isMaster = True
+                    master = websocket
+                    await master.send('{"type" : "MASTER"}')
+                elif not slave:
+                    print('Slave is assigned')
+                    isSlave = True
+                    slave = websocket
+                    await slave.send('{"type" : "SLAVE"}')
+                    await master.send('{"action" : "REFRESH"}')
+
+            elif action == 'MOVE' and master:
+                await master.send(x[1])
                 
-        elif action == 'CLOSE':
-            if master:
-                master.write('{"action" : "CLOSE"}')
-                master = None
-            if slave:
-                slave.write('{"action" : "CLOSE"}')
-                slave = None
+            elif action == 'GAME' and slave:
+                await slave.send(x[1])
+    finally:
+        if isMaster:
+            print('Master disconnected')
+            master = None
+        if isSlave:
+            print('Slave disconnected')
+            slave = None
 
-        elif action == 'MOVE' and master:
-            master.write(self.rfile.readline().strip())
-            
-        elif action == 'GAME' and slave:
-            slave.write(self.rfile.readline().strip())
-            
 
-if __name__ == "__main__":
-    HOST, PORT = "192.168.0.121", 9898
+start_server = websockets.serve(server, '192.168.25.25', 9898)
 
-    server = socketserver.TCPServer((HOST, PORT), MyTCPHandler)
-
-    server.serve_forever()
+asyncio.get_event_loop().run_until_complete(start_server)
+asyncio.get_event_loop().run_forever()
