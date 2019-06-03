@@ -36,18 +36,21 @@ class PlayerSquare extends Component<any, void> {
         this.angle.setDir(this.props.moveDir);
     }
 
-    componentWillUpdate(nextProps, nextState){
+    doAnimations(nextProps) {
         if(nextProps.moving){
-            if(this.props.moving && this.props.position.equals(nextProps.position)) {}
-            else {
-                let animations = [];
+            if(this.props.moving && this.props.position.equals(nextProps.position)) return;
+            
+            let animations = [];
 
-                if(nextProps.rotation) animations.push(this.angle.turnTo(nextProps.moveDir));
-                animations.push(this.position.moveTo(nextProps.position.mul(nextProps.squareSize)));
+            if(nextProps.rotation) animations.push(this.angle.turnTo(nextProps.moveDir));
+            animations.push(this.position.moveTo(nextProps.position.mul(nextProps.squareSize)));
 
-                Animated.sequence(animations).start(nextProps.onMoveEnded);
-            }
+            Animated.sequence(animations).start(nextProps.onMoveEnded);
         }
+    }
+
+    componentWillUpdate(nextProps, nextState){
+        this.doAnimations(nextProps);
 
         if(!this.props.multiDevice && nextProps.multiDevice) {
             this.connection = new WebSocket('ws://192.168.25.25:9898');
