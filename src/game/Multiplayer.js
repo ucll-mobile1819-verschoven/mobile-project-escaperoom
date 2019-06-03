@@ -20,6 +20,9 @@ export function startMultiplayer(onMove) {
         if(data.type){
             alert(data.type);
             isMaster = data.type === 'MASTER';
+            if(isMaster)                    connection.send('GAME\n' + JSON.stringify(store.getState().game));
+        } else if(data.action){
+            if(data.action === 'REFRESH')   connection.send('GAME\n' + JSON.stringify(store.getState().game));
         } else if(data.move) {
             onMove(data.move);
         } else if(data.gameData) {

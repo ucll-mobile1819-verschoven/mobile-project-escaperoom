@@ -29,6 +29,7 @@ async def server(websocket, path):
                     isSlave = True
                     slave = websocket
                     await slave.send('{"type" : "SLAVE"}')
+                    await master.send('{"action" : "REFRESH"}')
 
             elif action == 'MOVE' and master:
                 await master.send(x[1])
